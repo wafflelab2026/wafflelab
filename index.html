@@ -4,76 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WaffleLab</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to WaffleLab!</h1>
+        <img src="/path/to/logo.png" alt="WaffleLab Logo">
+        <h1>Welcome to WaffleLab</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="#ordering">Ordering</a></li>
-            <li><a href="#sauces">Sauce Selection</a></li>
-            <li><a href="#toppings">Toppings Selection</a></li>
-            <li><a href="#extras">Extras</a></li>
-            <li><a href="#total">Total</a></li>
+            <li>Sauces:
+                <ul>
+                    <li>Chocolate sauce</li>
+                    <li>Pistachio spread</li>
+                    <li>Mrs molly white chocolate</li>
+                </ul>
+            </li>
+            <li>Toppings:
+                <ul>
+                    <li>Oreo</li>
+                    <li>Marshmallow</li>
+                    <li>Kinder</li>
+                    <li>Biscoff</li>
+                    <li>Strawberry</li>
+                </ul>
+            </li>
+            <li>Extras:
+                <ul>
+                    <li>Vanilla ice cream</li>
+                    <li>Extra topping</li>
+                </ul>
+            </li>
         </ul>
     </nav>
-    <section id="ordering">
-        <h2>Ordering Page</h2>
-        <form id="order-form">
-            <label for="waffle-type">Choose your waffle type:</label>
-            <select id="waffle-type" name="waffle-type">
-                <option value="classic">Classic</option>
-                <option value="chocolate">Chocolate</option>
-                <option value="vanilla">Vanilla</option>
-            </select>
-            <button type="submit">Order Now</button>
+    <section>
+        <h2>Pricing</h2>
+        <p>£4.50 per waffle</p>
+        <p>£8 for 2 waffles</p>
+        <p>£17.50 for 5 waffles</p>
+    </section>
+    <section>
+        <h2>Order Your Waffle</h2>
+        <form id="waffleForm">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1">
+            <button type="submit">Calculate Price</button>
         </form>
+        <p id="totalPrice"></p>
     </section>
-    <section id="sauces">
-        <h2>Sauce Selection</h2>
-        <input type="checkbox" id="sauce-maple" name="sauce" value="maple">
-        <label for="sauce-maple">Maple Syrup</label><br>
-        <input type="checkbox" id="sauce-chocolate" name="sauce" value="chocolate">
-        <label for="sauce-chocolate">Chocolate Sauce</label><br>
-        <input type="checkbox" id="sauce-strawberry" name="sauce" value="strawberry">
-        <label for="sauce-strawberry">Strawberry Sauce</label><br>
-    </section>
-    <section id="toppings">
-        <h2>Toppings Selection</h2>
-        <input type="checkbox" id="topping-nuts" name="topping" value="nuts">
-        <label for="topping-nuts">Nuts</label><br>
-        <input type="checkbox" id="topping-fruits" name="topping" value="fruits">
-        <label for="topping-fruits">Fresh Fruits</label><br>
-        <input type="checkbox" id="topping-cream" name="topping" value="cream">
-        <label for="topping-cream">Whipped Cream</label><br>
-    </section>
-    <section id="extras">
-        <h2>Extras</h2>
-        <input type="checkbox" id="extra-icecream" name="extra" value="icecream">
-        <label for="extra-icecream">Ice Cream</label><br>
-        <input type="checkbox" id="extra-syrup" name="extra" value="extra_syrup">
-        <label for="extra-syrup">Extra Syrup</label><br>
-    </section>
-    <section id="total">
-        <h2>Total Calculation</h2>
-        <button id="calculate-total">Calculate Total</button>
-        <div id="total-amount"></div>
-    </section>
-    <footer>
-        <p>&copy; 2026 WaffleLab</p>
-    </footer>
     <script>
-        document.getElementById('order-form').addEventListener('submit', function(event) {
+        document.getElementById('waffleForm').onsubmit = function(event) {
             event.preventDefault();
-            // Logic to process the order and calculate total
-        });
-
-        document.getElementById('calculate-total').addEventListener('click', function() {
-            // Logic to calculate the total based on selections
-            let total = 10; // Placeholder for total calculation
-            document.getElementById('total-amount').innerText = 'Total: $' + total;
-        });
+            const quantity = document.getElementById('quantity').value;
+            let price = 4.5;
+            let total;
+            if (quantity == 2) total = 8;
+            else if (quantity >= 5) total = 17.5;
+            else total = quantity * price;
+            document.getElementById('totalPrice').innerText = `Total Price: £${total.toFixed(2)}`;
+        }
     </script>
+    <footer>
+        <p>&copy; 2026 WaffleLab. All rights reserved.</p>
+    </footer>
 </body>
 </html>
