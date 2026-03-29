@@ -3,69 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WaffleLab</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Order Details</title>
 </head>
 <body>
-    <header>
-        <img src="/path/to/logo.png" alt="WaffleLab Logo">
-        <h1>Welcome to WaffleLab</h1>
-    </header>
-    <nav>
-        <ul>
-            <li>Sauces:
-                <ul>
-                    <li>Chocolate sauce</li>
-                    <li>Pistachio spread</li>
-                    <li>Mrs molly white chocolate</li>
-                </ul>
-            </li>
-            <li>Toppings:
-                <ul>
-                    <li>Oreo</li>
-                    <li>Marshmallow</li>
-                    <li>Kinder</li>
-                    <li>Biscoff</li>
-                    <li>Strawberry</li>
-                </ul>
-            </li>
-            <li>Extras:
-                <ul>
-                    <li>Vanilla ice cream</li>
-                    <li>Extra topping</li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <section>
-        <h2>Pricing</h2>
-        <p>£4.50 per waffle</p>
-        <p>£8 for 2 waffles</p>
-        <p>£17.50 for 5 waffles</p>
-    </section>
-    <section>
-        <h2>Order Your Waffle</h2>
-        <form id="waffleForm">
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" min="1" value="1">
-            <button type="submit">Calculate Price</button>
-        </form>
-        <p id="totalPrice"></p>
-    </section>
+    <h1>Order Details</h1>
+    <form id="order-form">
+        <label for="customer-name">Customer Name:</label>
+        <input type="text" id="customer-name" name="customer-name" required><br>
+        <label for="customer-phone">Customer Phone:</label>
+        <input type="tel" id="customer-phone" name="customer-phone" required><br>
+        <label for="sauce">Sauce:</label>
+        <input type="text" id="sauce" name="sauce" required><br>
+        <label for="toppings">Toppings:</label>
+        <input type="text" id="toppings" name="toppings" required><br>
+        <label for="extras">Extras:</label>
+        <input type="text" id="extras" name="extras"><br>
+        <label for="total-price">Total Price:</label>
+        <input type="number" id="total-price" name="total-price" required><br>
+        <label for="payment-info">Payment/Collection Info:</label>
+        <input type="text" id="payment-info" name="payment-info" required><br>
+        <input type="submit" value="Submit Order">
+    </form>
+
     <script>
-        document.getElementById('waffleForm').onsubmit = function(event) {
-            event.preventDefault();
-            const quantity = document.getElementById('quantity').value;
-            let price = 4.5;
-            let total;
-            if (quantity == 2) total = 8;
-            else if (quantity >= 5) total = 17.5;
-            else total = quantity * price;
-            document.getElementById('totalPrice').innerText = `Total Price: £${total.toFixed(2)}`;
-        }
+        document.getElementById('order-form').onsubmit = function(event) {
+            event.preventDefault();  // Prevent actual form submission
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const sauce = document.getElementById('sauce').value;
+            const toppings = document.getElementById('toppings').value;
+            const extras = document.getElementById('extras').value;
+            const totalPrice = document.getElementById('total-price').value;
+            const paymentInfo = document.getElementById('payment-info').value;
+
+            const orderDetails = `Order Details:
+Customer Name: ${name}
+Customer Phone: ${phone}
+Sauce: ${sauce}
+Toppings: ${toppings}
+Extras: ${extras}
+Total Price: ${totalPrice}
+Payment/Collection Info: ${paymentInfo}`;
+
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(orderDetails)}`);
+        };
     </script>
-    <footer>
-        <p>&copy; 2026 WaffleLab. All rights reserved.</p>
-    </footer>
 </body>
 </html>
