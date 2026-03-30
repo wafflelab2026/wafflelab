@@ -1,45 +1,30 @@
-/* 1. Reset & Global Styles */
+/* 1. THE COLORS & RESET */
+:root {
+    --waffle-yellow: #ffeba1;
+    --chocolate-brown: #8b4513;
+    --chocolate-orange: #d2691e;
+    --cream: #fff8dc;
+    --white: #ffffff;
+}
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
 body, html {
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffeba1; /* Signature Waffle Yellow */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--waffle-yellow);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--chocolate-brown);
+    overflow-x: hidden; /* Prevents side-scrolling on phones */
 }
 
-/* 2. Main Background Container */
-.waffle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* 3. The Spinning Logo */
-.waffle-icon {
-    width: 120px; /* Fixed professional size */
-    height: auto;
-    border-radius: 50%;
-    margin-top: 20px;
-    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
-    /* This makes it spin */
-    animation: spin 8s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* 4. Navigation Bar */
+/* 2. NAVIGATION BAR (Chocolate Brown) */
 .main-nav {
-    background: #8b4513; /* Dark Chocolate */
+    background: var(--chocolate-brown);
     padding: 15px 0;
     text-align: center;
     width: 100%;
@@ -55,43 +40,66 @@ body, html {
     margin: 0 15px;
     font-weight: bold;
     font-size: 1.1em;
-    transition: 0.3s;
+    display: inline-block;
 }
 
-.main-nav a:hover {
-    color: #ffeba1;
+/* 3. MAIN CONTAINER (Fills Phone Screen) */
+.waffle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px; /* Keeps it neat on tablets/PCs */
+    margin: 0 auto;
 }
 
-/* 5. Typography */
-h1 {
-    color: #8b4513;
-    font-size: 2.2em;
+/* 4. THE SPINNING LOGO (120px) */
+.waffle-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    animation: spin 10s linear infinite;
+    object-fit: cover;
 }
 
-p {
-    color: #5d2e0a;
-    font-size: 1.1em;
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* 6. Chocolate Buttons (Order/Next) */
+/* 5. CONTENT CARDS (Order, Menu, Contact) */
+.order-card, .contact-card, .menu-card {
+    background: var(--white);
+    width: 100%;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-top: 10px;
+}
+
+/* 6. BUTTONS (Chocolate Orange) */
 .btn {
-    background-color: #d2691e; /* Chocolate Orange */
+    background-color: var(--chocolate-orange);
     color: white;
     border: none;
-    padding: 15px 35px;
+    padding: 16px 20px;
+    width: 100%;
     font-size: 1.1em;
     font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
-    transition: 0.3s ease;
-    display: inline-block;
     margin-top: 15px;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    display: block;
 }
 
 .btn:hover {
-    background-color: #a0522d;
-    transform: scale(1.05);
+    background-color: var(--chocolate-brown);
 }
 
 .btn:disabled {
@@ -99,37 +107,33 @@ p {
     cursor: not-allowed;
 }
 
-/* 7. Grid for Toppings & Sizes */
-.option-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 20px 0;
-}
-
-.choice-btn {
+/* 7. OPENING TIMES BOX */
+.opening-times, .opening-box {
+    background: var(--cream);
     padding: 15px;
-    background: #fff8dc;
-    border: 2px solid #d2691e;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #8b4513;
-    transition: 0.2s;
-}
-
-.choice-btn.selected {
-    background: #d2691e;
-    color: white;
-}
-
-/* 8. Order Summary Card */
-.order-card {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    margin: 15px 0;
+    font-size: 0.95em;
+    border: 1px dashed var(--chocolate-orange);
+    line-height: 1.5;
     width: 100%;
-    max-width: 450px;
-    margin-top: 20px;
+}
+
+/* 8. FORM ELEMENTS */
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px; /* Prevents auto-zoom on iPhone */
+}
+
+/* 9. FOOTER STYLING */
+footer {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--chocolate-brown);
 }
