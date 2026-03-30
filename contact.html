@@ -2,40 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Contact - Waffle Lab Luton</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .contact-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 450px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        .contact-item {
-            margin: 20px 0;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .contact-item:last-child { border-bottom: none; }
-        .social-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background: #8b4513;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
+        .contact-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 450px; margin-top: 10px; }
+        .info-section { margin: 15px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .info-section:last-child { border-bottom: none; }
+        .social-link { display: inline-block; margin-top: 10px; padding: 15px 30px; background: #25D366; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; width: 100%; box-sizing: border-box; }
     </style>
 </head>
 <body>
-
     <nav class="main-nav">
         <a href="index.html">Order</a>
         <a href="menu.html">Menu</a>
@@ -43,36 +20,32 @@
     </nav>
 
     <div class="waffle-container">
-        
-        <header>
-            <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
-            <h1 style="color: #8B4513; margin: 10px 0;">Get in Touch</h1>
-        </header>
+        <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
+        <h1 style="color: #8B4513;">Contact the Lab</h1>
 
         <div class="contact-card">
-            <div class="contact-item">
-                <h3 style="color: #D2691E;">📍 Location</h3>
-                <p>Luton, United Kingdom</p>
-                <p><small>(Collection Only)</small></p>
+            <div class="info-section">
+                <h3 style="color: #d2691e;">🕒 Opening Times</h3>
+                <p>Weekdays: <strong>4pm - 9pm</strong></p>
+                <p>Weekends: <strong>3pm - 10pm</strong></p>
+            </div>
+            
+            <div class="info-section">
+                <h3 style="color: #d2691e;">📍 Location</h3>
+                <p>Luton, UK</p>
+                <p><small>Collection Only - Address via WhatsApp</small></p>
             </div>
 
-            <div class="contact-item">
-                <h3 style="color: #D2691E;">📱 WhatsApp</h3>
-                <p>Order or inquire directly:</p>
-                <a href="https://wa.me/447364135785" class="social-link">Message Us</a>
-            </div>
-
-            <div class="contact-item">
-                <h3 style="color: #D2691E;">✨ Follow the Lab</h3>
-                <p>See our latest waffles on TikTok!</p>
-                <a href="#" class="social-link" style="background: #000;">TikTok</a>
+            <div class="info-section">
+                <h3 style="color: #d2691e;">📱 Order Support</h3>
+                <p>Need help? Message our team:</p>
+                <a href="https://wa.me/447364135785" class="social-link">WhatsApp Support</a>
             </div>
         </div>
 
-        <footer style="margin-top: 30px; font-size: 0.9em; color: #8B4513;">
-            🧪 Experimenting with sweetness since 2026
+        <footer style="margin-top: 30px; font-weight: bold; color: #8B4513;">
+            🧪 Freshness Guaranteed
         </footer>
     </div>
-
 </body>
 </html>
