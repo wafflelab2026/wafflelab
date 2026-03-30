@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Extras - Waffle Lab Luton</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; max-width: 450px; margin-top: 20px; }
+        .menu-card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            text-align: left; 
+            border-left: 8px solid #ffeba1; /* Different accent color for extras */
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .menu-card:active { transform: scale(0.98); }
+        .menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .price { background: #8b4513; padding: 5px 10px; border-radius: 5px; font-weight: bold; color: white; }
+        .total-box { 
+            background: #fdf5e6; 
+            border: 2px dashed #8b4513; 
+            padding: 15px; 
+            border-radius: 15px; 
+            margin-top: 20px; 
+            width: 100%; 
+            max-width: 450px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="index.html">Order</a>
+        <a href="menu.html">Menu</a>
+        <a href="extras.html" style="border-bottom: 2px solid #ffeba1;">Extras</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="waffle-container">
+        <header>
+            <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
+            <h1 style="color: #8B4513;">Lab Upgrades</h1>
+            <p>Add a little extra science to your waffle</p>
+        </header>
+
+        <div class="menu-grid">
+            <div class="menu-card" onclick="alert('Added to order!')">
+                <div class="menu-header">
+                    <h3>Extra Topping</h3>
+                    <span class="price">+£0.50</span>
+                </div>
+                <p>Choose from our selection of crumbles and sweets.</p>
+            </div>
+
+            <div class="menu-card" onclick="alert('Added to order!')">
+                <div class="menu-header">
+                    <h3>Extra Sauce</h3>
+                    <span class="price">+£0.50</span>
+                </div>
+                <p>An additional drizzle of your favorite chocolate.</p>
+            </div>
+
+            <div class="menu-card" onclick="alert('Added to order!')">
+                <div class="menu-header">
+                    <h3>Whipped Cream</h3>
+                    <span class="price">+£0.50</span>
+                </div>
+                <p>A fresh, fluffy cloud on top of your waffle.</p>
+            </div>
+        </div>
+
+        <button class="btn" onclick="location.href='index.html'" style="margin-top: 25px; width: 100%; max-width: 450px;">Confirm Extras →</button>
+    </div>
+</body>
+</html>
