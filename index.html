@@ -2,80 +2,172 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WaffleLab Luton - Order</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Waffle Lab Luton | Order Now</title>
+    
     <style>
-        /* Interactive Step Styles */
-        .step { display: none; width: 100%; max-width: 450px; margin: 0 auto; }
-        .step.active { display: block; animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .order-card { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        /* 1. THE COLORS & THEME */
+        :root {
+            --waffle-yellow: #ffeba1;
+            --chocolate-brown: #8b4513;
+            --chocolate-orange: #d2691e;
+            --cream: #fff8dc;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background-color: var(--waffle-yellow);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: var(--chocolate-brown);
+            overflow-x: hidden;
+        }
+
+        /* 2. NAVIGATION BAR */
+        .main-nav {
+            background: var(--chocolate-brown);
+            padding: 15px 0;
             text-align: center;
-            margin-top: 20px;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .option-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 10px; 
-            margin: 20px 0; 
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1em;
         }
-        .choice-btn { 
-            padding: 15px; 
-            background: #FFF8DC; 
-            border: 2px solid #D2691E; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            color: #8B4513; 
-            transition: 0.2s;
+        .main-nav a.active { border-bottom: 2px solid var(--waffle-yellow); }
+
+        /* 3. LAYOUT CONTAINER */
+        .waffle-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            width: 100%;
         }
-        .choice-btn.selected { background: #D2691E; color: white; }
-        .summary-box { background: #fdf5e6; padding: 15px; border-radius: 10px; text-align: left; margin-bottom: 20px; border-left: 5px solid #D2691E; }
-        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #D2691E; border-radius: 8px; box-sizing: border-box; }
-        
-        /* Navigation Styles */
-        .main-nav { background: #8b4513; padding: 15px 0; text-align: center; width: 100%; position: sticky; top: 0; z-index: 1000; }
-        .main-nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 1.1em; }
-        .main-nav a:hover { color: #ffeba1; }
+
+        /* 4. THE SPINNING LOGO */
+        .waffle-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: spin 10s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 5. INTERACTIVE STEPS & CARD */
+        .order-card {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 6. BUTTONS & INPUTS */
+        .btn {
+            background-color: var(--chocolate-orange);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .choice-btn {
+            padding: 15px;
+            background: var(--cream);
+            border: 2px solid var(--chocolate-orange);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--chocolate-brown);
+        }
+        .choice-btn.selected {
+            background: var(--chocolate-orange);
+            color: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .summary {
+            background: var(--cream);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            margin: 15px 0;
+            border-left: 5px solid var(--chocolate-orange);
+        }
     </style>
 </head>
 <body>
 
     <nav class="main-nav">
-        <a href="index.html" style="border-bottom: 2px solid #ffeba1;">Order</a>
+        <a href="index.html" class="active">Order</a>
         <a href="menu.html">Menu</a>
         <a href="contact.html">Contact</a>
     </nav>
 
     <div class="waffle-container">
+        <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
         
-        <header>
-            <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
-            <h1 style="color: #8B4513; margin: 10px 0;">Waffle Lab</h1>
-        </header>
-
         <div class="order-card">
             <div class="step active" id="step1">
-                <h2 style="color: #D2691E;">Luton's Fresh Waffles</h2>
-                <p>Build your custom order and collect in person!</p>
-                <button class="btn" onclick="nextStep(2)" style="margin-top: 20px; width: 100%;">Start My Order →</button>
+                <h1 style="font-size: 1.8em;">Waffle Lab Luton</h1>
+                <p>Welcome! Ready to build your fresh waffle?</p>
+                <button class="btn" onclick="nextStep(2)">Start My Order →</button>
             </div>
 
             <div class="step" id="step2">
-                <h3>1. Choose Size</h3>
+                <h3>1. Choose Your Size</h3>
                 <div class="option-grid">
                     <button class="choice-btn" onclick="selectSize('1/4 Waffle', 2.00, this)">1/4 (£2)</button>
                     <button class="choice-btn" onclick="selectSize('Single', 4.50, this)">Single (£4.50)</button>
                     <button class="choice-btn" onclick="selectSize('2 Waffles', 8.00, this)">2 Pack (£8)</button>
                     <button class="choice-btn" onclick="selectSize('5 Waffles', 17.50, this)">Family (£17.50)</button>
                 </div>
-                <button class="btn" id="next2" disabled onclick="nextStep(3)" style="width: 100%;">Next Step</button>
+                <button class="btn" id="next2" disabled onclick="nextStep(3)">Next Step</button>
             </div>
 
             <div class="step" id="step3">
@@ -86,19 +178,20 @@
                     <button class="choice-btn" onclick="selectTopping('Biscoff', this)">Biscoff</button>
                     <button class="choice-btn" onclick="selectTopping('Marshmallows', this)">Marshmallows</button>
                 </div>
-                <button class="btn" onclick="nextStep(4)" style="width: 100%;">Finalize Order</button>
+                <button class="btn" onclick="nextStep(4)">Review Order</button>
             </div>
 
             <div class="step" id="step4">
-                <h3>Final Check</h3>
-                <div class="summary-box" id="orderSummary"></div>
-                <input type="text" id="userName" placeholder="Enter Your Name">
-                <button class="btn" onclick="sendWhatsApp()" style="width: 100%; background: #25D366; border: none;">Order via WhatsApp 📱</button>
+                <h3>Your Masterpiece</h3>
+                <div class="summary" id="orderSummary"></div>
+                <input type="text" id="custName" placeholder="Enter Your Name">
+                <button class="btn" onclick="sendWhatsApp()" style="background: #25D366;">Send Order via WhatsApp 📱</button>
+                <button onclick="nextStep(1)" style="background:none; border:none; color:grey; margin-top:10px; cursor:pointer;">Restart</button>
             </div>
         </div>
 
-        <footer style="margin-top: 30px; font-size: 0.9em; color: #8B4513;">
-            📍 Collection Only | 💵 Cash Only
+        <footer style="margin-top: 30px; font-size: 0.9em; font-weight: bold;">
+            📍 Luton | 💵 Cash on Collection
         </footer>
     </div>
 
@@ -131,14 +224,14 @@
             document.getElementById('orderSummary').innerHTML = `
                 <p><strong>Size:</strong> ${selection.size}</p>
                 <p><strong>Topping:</strong> ${selection.topping}</p>
-                <p><strong>Total:</strong> £${selection.price.toFixed(2)}</p>
+                <p><strong>Total Price:</strong> £${selection.price.toFixed(2)}</p>
             `;
         }
 
         function sendWhatsApp() {
-            const name = document.getElementById('userName').value;
+            const name = document.getElementById('custName').value;
             if(!name) return alert("Please enter your name!");
-            const text = `WaffleLab Order:%0A- Name: ${name}%0A- Size: ${selection.size}%0A- Topping: ${selection.topping}%0A- Total: £${selection.price.toFixed(2)}`;
+            const text = `WAFFLE LAB ORDER%0A--------------------%0AName: ${name}%0ASize: ${selection.size}%0ATopping: ${selection.topping}%0ATotal: £${selection.price.toFixed(2)}`;
             window.open(`https://wa.me/447364135785?text=${text}`, '_blank');
         }
     </script>
