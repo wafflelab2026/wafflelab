@@ -1,52 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Details</title>
+    <title>Waffle Lab</title>
 </head>
 <body>
-    <h1>Order Details</h1>
-    <form id="order-form">
-        <label for="customer-name">Customer Name:</label>
-        <input type="text" id="customer-name" name="customer-name" required><br>
-        <label for="customer-phone">Customer Phone:</label>
-        <input type="tel" id="customer-phone" name="customer-phone" required><br>
-        <label for="sauce">Sauce:</label>
-        <input type="text" id="sauce" name="sauce" required><br>
-        <label for="toppings">Toppings:</label>
-        <input type="text" id="toppings" name="toppings" required><br>
-        <label for="extras">Extras:</label>
-        <input type="text" id="extras" name="extras"><br>
-        <label for="total-price">Total Price:</label>
-        <input type="number" id="total-price" name="total-price" required><br>
-        <label for="payment-info">Payment/Collection Info:</label>
-        <input type="text" id="payment-info" name="payment-info" required><br>
-        <input type="submit" value="Submit Order">
-    </form>
-
-    <script>
-        document.getElementById('order-form').onsubmit = function(event) {
-            event.preventDefault();  // Prevent actual form submission
-            const name = document.getElementById('customer-name').value;
-            const phone = document.getElementById('customer-phone').value;
-            const sauce = document.getElementById('sauce').value;
-            const toppings = document.getElementById('toppings').value;
-            const extras = document.getElementById('extras').value;
-            const totalPrice = document.getElementById('total-price').value;
-            const paymentInfo = document.getElementById('payment-info').value;
-
-            const orderDetails = `Order Details:
-Customer Name: ${name}
-Customer Phone: ${phone}
-Sauce: ${sauce}
-Toppings: ${toppings}
-Extras: ${extras}
-Total Price: ${totalPrice}
-Payment/Collection Info: ${paymentInfo}`;
-
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(orderDetails)}`);
-        };
-    </script>
+    <h1>Welcome to Waffle Lab</h1>
+    <h2>Toppings</h2>
+    <ul>
+        <li>Chocolate Chips</li>
+        <li>Sprinkles</li>
+        <li>Whipped Cream</li>
+        <li>Banana</li>
+        <li>Caramel</li>
+        <li>Peanut Butter</li>
+        <li>Hazelnut Spread</li>
+        <li>Blueberry</li>
+        <li>Raspberry</li>
+        <li>Cherry</li>
+        <li>Mint Leaves</li>
+        <li>Coconut Flakes</li>
+    </ul>
+    <h2>Sauces</h2>
+    <ul>
+        <li>Chocolate Sauce</li>
+        <li>White Chocolate</li>
+        <li>Caramel Sauce</li>
+        <li>Strawberry Sauce</li>
+        <li>Maple Syrup</li>
+    </ul>
+    <h2>Contact Us</h2>
+    <p>Email: contact@wafflelab.com</p>
 </body>
 </html>
