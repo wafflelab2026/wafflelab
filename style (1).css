@@ -1,0 +1,135 @@
+/* 1. Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffeba1; /* Signature Waffle Yellow */
+}
+
+/* 2. Main Background Container */
+.waffle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* 3. The Spinning Logo */
+.waffle-icon {
+    width: 120px; /* Fixed professional size */
+    height: auto;
+    border-radius: 50%;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+    /* This makes it spin */
+    animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 4. Navigation Bar */
+.main-nav {
+    background: #8b4513; /* Dark Chocolate */
+    padding: 15px 0;
+    text-align: center;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+.main-nav a:hover {
+    color: #ffeba1;
+}
+
+/* 5. Typography */
+h1 {
+    color: #8b4513;
+    font-size: 2.2em;
+    margin: 15px 0;
+}
+
+p {
+    color: #5d2e0a;
+    font-size: 1.1em;
+}
+
+/* 6. Chocolate Buttons (Order/Next) */
+.btn {
+    background-color: #d2691e; /* Chocolate Orange */
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background-color: #a0522d;
+    transform: scale(1.05);
+}
+
+.btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* 7. Grid for Toppings & Sizes */
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.choice-btn {
+    padding: 15px;
+    background: #fff8dc;
+    border: 2px solid #d2691e;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #8b4513;
+    transition: 0.2s;
+}
+
+.choice-btn.selected {
+    background: #d2691e;
+    color: white;
+}
+
+/* 8. Order Summary Card */
+.order-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    margin-top: 20px;
+}
