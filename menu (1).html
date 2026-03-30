@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Waffle Lab Luton</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+        .menu-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: left;
+            border-left: 8px solid #d2691e;
+        }
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .price {
+            background: #ffeba1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #8b4513;
+        }
+        .topping-list {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="index.html">Order</a>
+        <a href="menu.html" style="border-bottom: 2px solid #ffeba1;">Menu</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="waffle-container">
+        
+        <header>
+            <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
+            <h1 style="color: #8B4513;">The Lab Menu</h1>
+        </header>
+
+        <div class="menu-grid">
+            <div class="menu-card">
+                <div class="menu-header">
+                    <h3>Single Waffle</h3>
+                    <span class="price">£4.50</span>
+                </div>
+                <p>A fresh, fluffy Belgian waffle made to order.</p>
+                <p class="topping-list">Includes 1 sauce & 1 topping of your choice.</p>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-header">
+                    <h3>The 2-Pack</h3>
+                    <span class="price">£8.00</span>
+                </div>
+                <p>Double the waffles, double the flavor.</p>
+                <p class="topping-list">Perfect for sharing (or not!).</p>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-header">
+                    <h3>Family Lab Box</h3>
+                    <span class="price">£17.50</span>
+                </div>
+                <p>5 fresh waffles with a variety of toppings.</p>
+                <p class="topping-list">The ultimate party treat.</p>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-header">
+                    <h3>1/4 Waffle Snack</h3>
+                    <span class="price">£2.00</span>
+                </div>
+                <p>A quick chocolatey bite on the go.</p>
+            </div>
+        </div>
+
+        <button class="btn" onclick="location.href='index.html'" style="margin-top: 30px;">
+            Go to Order Page →
+        </button>
+
+        <footer style="margin-top: 30px; font-size: 0.9em; color: #8B4513;">
+            🧪 Freshly made in Luton
+        </footer>
+    </div>
+
+</body>
+</html>
