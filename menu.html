@@ -4,50 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Menu - Waffle Lab Luton</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <style>
-        body, html { background-color: #ffeba1; }
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; max-width: 450px; margin-top: 20px; }
-        .menu-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left; border-left: 8px solid #d2691e; }
-        .menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .price { background: #ffeba1; padding: 5px 10px; border-radius: 5px; font-weight: bold; color: #8b4513; }
-        .opening-box { background: #8b4513; color: white; padding: 15px; border-radius: 15px; margin-top: 20px; font-size: 0.9em; width: 100%; max-width: 450px; }
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 15px; 
+            width: 100%; 
+            max-width: 450px; 
+            margin-top: 10px; 
+        }
+        .menu-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 5px; 
+        }
+        .price { 
+            background: var(--waffle-yellow); 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            color: var(--chocolate-brown); 
+        }
+        .opening-box { 
+            background: var(--chocolate-brown); 
+            color: white; 
+            padding: 15px; 
+            border-radius: 15px; 
+            margin-top: 10px; 
+            font-size: 0.9em; 
+            width: 100%; 
+            max-width: 450px; 
+        }
     </style>
 </head>
 <body>
+
     <nav class="main-nav">
         <a href="index.html">Order</a>
         <a href="menu.html" style="border-bottom: 2px solid #ffeba1;">Menu</a>
         <a href="contact.html">Contact</a>
     </nav>
+
     <div class="waffle-container">
-        <header>
-            <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
-            <h1 style="color: #8B4513;">The Lab Menu</h1>
-        </header>
+        <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
+        <h1 style="margin-top: 5px;">The Lab Menu</h1>
+
         <div class="menu-grid">
             <div class="menu-card">
-                <div class="menu-header"><h3>1/4 Waffle Snack</h3><span class="price">£2.00</span></div>
+                <div class="menu-header">
+                    <h3>1/4 Waffle Snack</h3>
+                    <span class="price">£2.00</span>
+                </div>
                 <p>Quick chocolatey bite.</p>
             </div>
+
             <div class="menu-card">
-                <div class="menu-header"><h3>Single Waffle</h3><span class="price">£4.50</span></div>
+                <div class="menu-header">
+                    <h3>Single Waffle</h3>
+                    <span class="price">£4.50</span>
+                </div>
                 <p>1 Sauce & 1 Topping included.</p>
             </div>
+
             <div class="menu-card">
-                <div class="menu-header"><h3>2 Waffles</h3><span class="price">£8.00</span></div>
+                <div class="menu-header">
+                    <h3>2 Waffles</h3>
+                    <span class="price">£8.00</span>
+                </div>
                 <p>Perfect for sharing (2 of everything).</p>
             </div>
+
             <div class="menu-card">
-                <div class="menu-header"><h3>5 Family Pack</h3><span class="price">£17.50</span></div>
-                <p>5 fresh waffles with custom toppings.</p>
+                <div class="menu-header">
+                    <h3>5 Family Waffle</h3>
+                    <span class="price">£17.50</span>
+                </div>
+                <p>The ultimate lab box for the whole family.</p>
             </div>
         </div>
+
         <div class="opening-box">
             <strong>🕒 Lab Opening Hours</strong><br>
             Weekdays: 4pm - 9pm | Weekends: 3pm - 10pm
         </div>
-        <button class="btn" onclick="location.href='index.html'" style="margin-top: 25px; width: 100%; max-width: 450px;">Order Now →</button>
+
+        <button class="btn" onclick="location.href='index.html'" style="max-width: 450px; margin-bottom: 40px;">
+            Go to Order Page →
+        </button>
     </div>
+
 </body>
 </html>
