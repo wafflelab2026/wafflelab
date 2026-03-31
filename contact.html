@@ -4,15 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Contact - Waffle Lab Luton</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <style>
-        .contact-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 450px; margin-top: 10px; }
-        .info-section { margin: 15px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
-        .info-section:last-child { border-bottom: none; }
-        .social-link { display: inline-block; margin-top: 10px; padding: 15px 30px; background: #25D366; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; width: 100%; box-sizing: border-box; }
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        .contact-info {
+            text-align: left;
+            background: var(--cream);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 8px solid var(--chocolate-orange);
+        }
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        h1 { color: var(--chocolate-brown); }
     </style>
 </head>
 <body>
+
     <nav class="main-nav">
         <a href="index.html">Order</a>
         <a href="menu.html">Menu</a>
@@ -21,31 +40,20 @@
 
     <div class="waffle-container">
         <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
-        <h1 style="color: #8B4513;">Contact the Lab</h1>
-
+        
         <div class="contact-card">
-            <div class="info-section">
-                <h3 style="color: #d2691e;">🕒 Opening Times</h3>
-                <p>Weekdays: <strong>4pm - 9pm</strong></p>
-                <p>Weekends: <strong>3pm - 10pm</strong></p>
-            </div>
+            <h1>Contact the Lab</h1>
+            <p>Questions? Experiments? Get in touch!</p>
             
-            <div class="info-section">
-                <h3 style="color: #d2691e;">📍 Location</h3>
-                <p>Luton, UK</p>
-                <p><small>Collection Only - Address via WhatsApp</small></p>
+            <div class="contact-info">
+                <p><strong>📱 WhatsApp:</strong> 07364 135785</p>
+                <p><strong>📸 Instagram:</strong> @WaffleLabLuton</p>
+                <p><strong>📍 Location:</strong> Luton, UK</p>
             </div>
 
-            <div class="info-section">
-                <h3 style="color: #d2691e;">📱 Order Support</h3>
-                <p>Need help? Message our team:</p>
-                <a href="https://wa.me/447364135785" class="social-link">WhatsApp Support</a>
-            </div>
+            <button class="btn" onclick="location.href='index.html'">Back to Ordering</button>
         </div>
-
-        <footer style="margin-top: 30px; font-weight: bold; color: #8B4513;">
-            🧪 Freshness Guaranteed
-        </footer>
     </div>
+
 </body>
 </html>
