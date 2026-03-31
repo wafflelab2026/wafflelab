@@ -1,67 +1,56 @@
-/* 1. THE COLORS & RESET */
+/* WAFFLE LAB - MASTER STYLESHEET */
 :root {
     --waffle-yellow: #ffeba1;
     --chocolate-brown: #8b4513;
     --chocolate-orange: #d2691e;
     --cream: #fff8dc;
-    --white: #ffffff;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
+    margin: 0; padding: 0; width: 100%; min-height: 100%;
     background-color: var(--waffle-yellow);
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     color: var(--chocolate-brown);
-    overflow-x: hidden; /* Prevents side-scrolling on phones */
+    overflow-x: hidden;
 }
 
-/* 2. NAVIGATION BAR (Chocolate Brown) */
-.main-nav {
-    background: var(--chocolate-brown);
-    padding: 15px 0;
-    text-align: center;
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+/* NAVIGATION */
+.main-nav { 
+    background: var(--chocolate-brown); 
+    padding: 15px 0; 
+    text-align: center; 
+    width: 100%; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.main-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
+.main-nav a { 
+    color: white; 
+    text-decoration: none; 
+    margin: 0 15px; 
+    font-weight: bold; 
     font-size: 1.1em;
-    display: inline-block;
 }
 
-/* 3. MAIN CONTAINER (Fills Phone Screen) */
+/* LOGO FIX - This makes it 120px and spinning */
 .waffle-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     text-align: center;
-    width: 100%;
-    max-width: 500px; /* Keeps it neat on tablets/PCs */
-    margin: 0 auto;
 }
 
-/* 4. THE SPINNING LOGO (120px) */
 .waffle-icon {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    margin: 15px 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 4px solid var(--chocolate-brown);
+    margin-bottom: 15px;
     animation: spin 10s linear infinite;
     object-fit: cover;
 }
@@ -71,69 +60,34 @@ body, html {
     to { transform: rotate(360deg); }
 }
 
-/* 5. CONTENT CARDS (Order, Menu, Contact) */
-.order-card, .contact-card, .menu-card {
-    background: var(--white);
-    width: 100%;
-    padding: 25px;
+/* CARDS & BUTTONS */
+.order-card, .menu-card {
+    background: white;
+    padding: 30px;
     border-radius: 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-top: 10px;
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 20px;
 }
 
-/* 6. BUTTONS (Chocolate Orange) */
+.menu-card {
+    text-align: left;
+    border-left: 8px solid var(--chocolate-orange);
+}
+
 .btn {
-    background-color: var(--chocolate-orange);
+    background: var(--chocolate-orange);
     color: white;
     border: none;
-    padding: 16px 20px;
+    padding: 18px;
     width: 100%;
-    font-size: 1.1em;
-    font-weight: bold;
     border-radius: 50px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background 0.3s ease;
-    text-decoration: none;
-    display: block;
-}
-
-.btn:hover {
-    background-color: var(--chocolate-brown);
-}
-
-.btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-/* 7. OPENING TIMES BOX */
-.opening-times, .opening-box {
-    background: var(--cream);
-    padding: 15px;
-    border-radius: 12px;
-    margin: 15px 0;
-    font-size: 0.95em;
-    border: 1px dashed var(--chocolate-orange);
-    line-height: 1.5;
-    width: 100%;
-}
-
-/* 8. FORM ELEMENTS */
-input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px; /* Prevents auto-zoom on iPhone */
-}
-
-/* 9. FOOTER STYLING */
-footer {
-    margin-top: 40px;
-    margin-bottom: 20px;
-    font-size: 0.9em;
     font-weight: bold;
-    color: var(--chocolate-brown);
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
 }
+
+.btn:hover { background: var(--chocolate-brown); }
