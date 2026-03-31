@@ -10,7 +10,7 @@
         .step.active { display: block; animation: fadeIn 0.4s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        /* The Lovely Button Design Re-applied */
+        /* Premium Button Designs */
         .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
         
         .choice-btn { 
@@ -22,12 +22,14 @@
             font-weight: bold; 
             color: #8b4513;
             font-size: 1em;
-            transition: 0.2s;
+            transition: transform 0.1s, background 0.2s;
         }
 
         .choice-btn.selected { 
             background: #d2691e; 
             color: white; 
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(210, 105, 30, 0.3);
         }
 
         .summary-box {
@@ -37,12 +39,32 @@
             text-align: left;
             margin: 15px 0;
             border-left: 8px solid #d2691e;
+            font-size: 0.95em;
+            line-height: 1.6;
         }
 
         .waffle-entry {
-            margin-bottom: 10px;
-            padding-bottom: 5px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 1px dashed #d2691e;
+        }
+
+        .tiktok-note {
+            font-size: 0.85em;
+            color: #8b4513;
+            margin-top: 10px;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #eee;
+            font-size: 1em;
+            margin-bottom: 15px;
+            outline: none;
         }
     </style>
 </head>
@@ -60,7 +82,8 @@
         <div class="order-card">
             <div class="step active" id="step1">
                 <h1>Waffle Lab Luton</h1>
-                <p>Ready to start the experiment?</p>
+                <p>Ready to start your experiment?</p>
+                <p class="tiktok-note">People without WhatsApp order on TikTok or iMessage</p>
                 <button class="btn" onclick="nextStep(2)">Start My Order →</button>
             </div>
 
@@ -101,9 +124,9 @@
                 <h3 id="extraTitle">Waffle 1: Extras?</h3>
                 <p>+£0.50 each (Pick multiple or none)</p>
                 <div class="option-grid">
-                    <button class="choice-btn extra-opt" onclick="toggleExtra('Extra Sauce', this)">Extra Sauce</button>
-                    <button class="choice-btn extra-opt" onclick="toggleExtra('Extra Topping', this)">Extra Topping</button>
-                    <button class="choice-btn extra-opt" onclick="toggleExtra('Whipped Cream', this)">Whipped Cream</button>
+                    <button class="choice-btn extra-btn" onclick="toggleExtra('Extra Sauce', this)">Extra Sauce</button>
+                    <button class="choice-btn extra-btn" onclick="toggleExtra('Extra Topping', this)">Extra Topping</button>
+                    <button class="choice-btn extra-btn" onclick="toggleExtra('Whipped Cream', this)">Whipped Cream</button>
                 </div>
                 <button class="btn" onclick="finishWaffle()">Confirm Waffle & Next →</button>
             </div>
@@ -111,8 +134,9 @@
             <div class="step" id="step6">
                 <h3>Order Review</h3>
                 <div id="orderSummary" class="summary-box"></div>
-                <input type="text" id="custName" placeholder="Your Name" style="width:100%; padding:15px; border-radius:10px; border:2px solid #eee; margin-bottom:10px;">
+                <input type="text" id="custName" placeholder="Enter Your Name">
                 <button class="btn" onclick="sendWhatsApp()" style="background:#25D366;">Send to WhatsApp 📱</button>
+                <p style="font-size: 0.7em; margin-top: 15px; color: #999;">Order total includes base price + all chosen extras.</p>
             </div>
         </div>
     </div>
@@ -163,9 +187,72 @@
 
         function toggleExtra(name, btn) {
             const index = tempExtras.indexOf(name);
-            if (index > -1) { tempExtras.splice(index, 1); btn.classList.remove('selected'); } 
-            else { tempExtras.push(name); btn.classList.add('selected'); }
+            if (index > -1) { 
+                tempExtras.splice(index, 1); 
+                btn.classList.remove('selected'); 
+            } else { 
+                tempExtras.push(name); 
+                btn.classList.add('selected'); 
+            }
         }
 
         function finishWaffle() {
-            waffleDetails.push({
+            waffleDetails.push({ 
+                sauce: tempSauce, 
+                topping: tempTopping, 
+                extras: [...tempExtras] 
+            });
+            
+            if (currentWaffleNum < totalWaffles) {
+                currentWaffleNum++;
+                setupWaffleStep();
+                nextStep(3); // Go back to sauce for the next waffle
+            } else {
+                nextStep(6); // All waffles done, show summary
+            }
+        }
+
+        function showSummary() {
+            let extraTotal = 0;
+            let html = `<strong>Size:</strong> ${orderSizeName}<br><br>`;
+            
+            waffleDetails.forEach((w, i) => {
+                let extrasDisplay = w.extras.length > 0 ? w.extras.join(', ') : "None";
+                extraTotal += (w.extras.length * 0.50);
+                html += `<div class="waffle-entry">
+                            <strong>Waffle ${i+1}</strong><br>
+                            Sauce: ${w.sauce}<br>
+                            Topping: ${w.topping}<br>
+                            Extras: ${extrasDisplay}
+                         </div>`;
+            });
+            
+            let finalTotal = basePrice + extraTotal;
+            html += `<p style="font-size:1.2em; color:#d2691e; margin-top: 10px;">
+                        <strong>Total: £${finalTotal.toFixed(2)}</strong>
+                     </p>`;
+            document.getElementById('orderSummary').innerHTML = html;
+        }
+
+        function sendWhatsApp() {
+            const name = document.getElementById('custName').value;
+            if(!name) return alert("Please enter your name!");
+            
+            let extraTotal = 0;
+            let details = "";
+            
+            waffleDetails.forEach((w, i) => {
+                extraTotal += (w.extras.length * 0.50);
+                let ex = w.extras.length > 0 ? w.extras.join(', ') : "None";
+                details += `%0A🧪 *Waffle ${i+1}*:%0A- Sauce: ${w.sauce}%0A- Topping: ${w.topping}%0A- Extras: ${ex}`;
+            });
+            
+            const total = (basePrice + extraTotal).toFixed(2);
+            const text = `*NEW WAFFLE LAB ORDER*%0A*Name:* ${name}%0A*Size:* ${orderSizeName}${details}%0A%0A*TOTAL: £${total}*`;
+            
+            // This opens WhatsApp with your pre-filled number
+            window.open(`https://wa.me/447364135785?text=${text}`, '_blank');
+        }
+    </script>
+</body>
+</html>
