@@ -4,107 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Waffle Lab Luton | Order Now</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="stylesheet" href="style.css">
+    
     <style>
+        /* Essential styles to guarantee the 'Look' matches exactly */
         :root {
             --waffle-yellow: #ffeba1;
             --chocolate-brown: #8b4513;
             --chocolate-orange: #d2691e;
             --cream: #fff8dc;
         }
+
         body, html {
             margin: 0; padding: 0; width: 100%; min-height: 100%;
             background-color: var(--waffle-yellow);
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             color: var(--chocolate-brown);
             overflow-x: hidden;
         }
-        .main-nav { 
-            background: var(--chocolate-brown); 
-            padding: 15px 0; text-align: center; width: 100%; 
-            position: sticky; top: 0; z-index: 1000; 
+
+        .waffle-container {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 20px; text-align: center;
         }
-        .main-nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
-        .waffle-container { 
-            display: flex; flex-direction: column; align-items: center; 
-            padding: 20px; text-align: center; width: 100%; 
+
+        .waffle-icon {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 4px solid var(--chocolate-brown);
+            margin-bottom: 15px;
+            animation: spin 10s linear infinite;
+            object-fit: cover;
         }
-        .waffle-icon { 
-            width: 120px; height: 120px; border-radius: 50%; 
-            margin: 10px 0; animation: spin 10s linear infinite; 
-        }
+
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .order-card { 
-            background: white; width: 100%; max-width: 450px; 
-            padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+
+        .order-card {
+            background: white; padding: 30px; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%; max-width: 450px;
         }
+
         .step { display: none; }
         .step.active { display: block; animation: fadeIn 0.4s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .btn { 
-            background-color: var(--chocolate-orange); color: white; border: none; 
-            padding: 16px; width: 100%; font-size: 1.1em; font-weight: bold; 
-            border-radius: 50px; cursor: pointer; margin-top: 15px; 
-        }
-        .btn:disabled { background-color: #ccc; }
-        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+
         .choice-btn { 
-            padding: 15px; background: var(--cream); border: 2px solid var(--chocolate-orange); 
-            border-radius: 12px; cursor: pointer; font-weight: bold; color: var(--chocolate-brown); 
+            padding: 18px 10px; background: var(--cream); 
+            border: 2px solid var(--chocolate-orange); border-radius: 15px; 
+            cursor: pointer; font-weight: bold; color: var(--chocolate-brown);
+            transition: all 0.2s; font-size: 0.95em;
         }
-        .choice-btn.selected { background: var(--chocolate-orange); color: white; }
-        input[type="text"] { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; }
+
+        .choice-btn.selected { background: var(--chocolate-orange); color: white; transform: scale(1.05); }
+
         .summary { 
-            background: var(--cream); padding: 15px; border-radius: 10px; text-align: left; 
-            margin: 15px 0; border-left: 5px solid var(--chocolate-orange); 
+            background: var(--cream); padding: 20px; border-radius: 15px; 
+            text-align: left; margin: 20px 0; border-left: 6px solid var(--chocolate-orange);
         }
-        .waffle-entry { margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px dashed #ccc; }
+
+        .waffle-entry { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #ccc; font-size: 0.9em; }
+
+        input[type="text"] {
+            width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee;
+            border-radius: 10px; font-size: 1em; box-sizing: border-box;
+        }
+
+        .btn {
+            background: var(--chocolate-orange); color: white; border: none;
+            padding: 18px; width: 100%; border-radius: 50px;
+            font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 10px;
+        }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
+
     <nav class="main-nav">
         <a href="index.html">Order</a>
         <a href="menu.html">Menu</a>
         <a href="contact.html">Contact</a>
     </nav>
+
     <div class="waffle-container">
         <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
+        
         <div class="order-card">
             <div class="step active" id="step1">
-                <h1>Waffle Lab Luton</h1>
+                <h1>Waffle Lab</h1>
                 <p>Ready to customize your order?</p>
                 <button class="btn" onclick="nextStep(2)">Start My Order →</button>
             </div>
+
             <div class="step" id="step2">
                 <h3>Choose Your Size</h3>
                 <div class="option-grid">
-                    <button class="choice-btn" onclick="selectSize('1/4 Waffle', 2.00, 1, this)">1/4 (£2)</button>
-                    <button class="choice-btn" onclick="selectSize('Single', 4.50, 1, this)">Single (£4.50)</button>
+                    <button class="choice-btn" onclick="selectSize('1/4 Waffle', 2.00, 1, this)">1/4 Waffle (£2)</button>
+                    <button class="choice-btn" onclick="selectSize('Single Waffle', 4.50, 1, this)">Single (£4.50)</button>
                     <button class="choice-btn" onclick="selectSize('2 Waffles', 8.00, 2, this)">2 Waffles (£8)</button>
-                    <button class="choice-btn" onclick="selectSize('5 Family Pack', 17.50, 5, this)">5 Family (£17.50)</button>
+                    <button class="choice-btn" onclick="selectSize('5 Family Waffle', 17.50, 5, this)">5 Family Waffle (£17.50)</button>
                 </div>
-                <button class="btn" id="next2" disabled onclick="startBuilding()">Next Step</button>
+                <button class="btn" id="next2" disabled onclick="startBuilding()">Next: Choose Sauces</button>
             </div>
+
             <div class="step" id="step3">
-                <h3 id="sauceTitle">Sauce</h3>
+                <h3 id="sauceTitle">Waffle 1: Sauce</h3>
                 <div class="option-grid">
-                    <button class="choice-btn" onclick="recordSauce('Milk Choc', this)">Milk Choc</button>
-                    <button class="choice-btn" onclick="recordSauce('White Choc', this)">White Choc</button>
+                    <button class="choice-btn" onclick="recordSauce('Milk Chocolate', this)">Milk Choc</button>
+                    <button class="choice-btn" onclick="recordSauce('White Chocolate', this)">White Choc</button>
                     <button class="choice-btn" onclick="recordSauce('Pistachio', this)">Pistachio</button>
-                    <button class="choice-btn" onclick="recordSauce('None', this)">None</button>
+                    <button class="choice-btn" onclick="recordSauce('None', this)">No Sauce</button>
                 </div>
-                <button class="btn" id="next3" disabled onclick="nextStep(4)">Next</button>
+                <button class="btn" id="next3" disabled onclick="nextStep(4)">Next: Choose Topping</button>
             </div>
+
             <div class="step" id="step4">
-                <h3 id="toppingTitle">Topping</h3>
+                <h3 id="toppingTitle">Waffle 1: Topping</h3>
                 <div class="option-grid">
                     <button class="choice-btn" onclick="recordTopping('Oreo', this)">Oreo</button>
                     <button class="choice-btn" onclick="recordTopping('Kinder', this)">Kinder</button>
                     <button class="choice-btn" onclick="recordTopping('Biscoff', this)">Biscoff</button>
                     <button class="choice-btn" onclick="recordTopping('Marshmallows', this)">Marshmallows</button>
                 </div>
-                <button class="btn" id="next4" disabled onclick="finishWaffle()">Next</button>
+                <button class="btn" id="next4" disabled onclick="finishWaffle()">Confirm Waffle</button>
             </div>
+
             <div class="step" id="step5">
                 <h3>Lab Upgrades</h3>
                 <p>Add extras for +£0.50 each</p>
@@ -115,74 +141,89 @@
                 </div>
                 <button class="btn" onclick="nextStep(6)">Review Summary →</button>
             </div>
+
             <div class="step" id="step6">
-                <h3>Final Order Summary</h3>
+                <h3>Order Summary</h3>
                 <div class="summary" id="orderSummary"></div>
                 <input type="text" id="custName" placeholder="Enter Your Name">
                 <button class="btn" onclick="sendWhatsApp()" style="background: #25D366;">Confirm & Send 📱</button>
+                <button onclick="location.reload()" style="background:none; border:none; color:grey; margin-top:15px; cursor:pointer; font-size:0.8em;">Start Over</button>
             </div>
         </div>
     </div>
+
     <script>
         let totalWaffles = 0, currentWaffleNum = 1, orderPrice = 0, orderSizeName = '';
         let waffleDetails = [], tempSauce = '', tempTopping = '';
         let selectedExtras = [];
+
         function nextStep(n) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + n).classList.add('active');
+            window.scrollTo(0,0);
             if(n === 6) showSummary();
         }
+
         function selectSize(name, price, count, btn) {
             orderSizeName = name; orderPrice = price; totalWaffles = count;
             document.querySelectorAll('#step2 .choice-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected'); document.getElementById('next2').disabled = false;
+            btn.classList.add('selected');
+            document.getElementById('next2').disabled = false;
         }
+
         function startBuilding() {
             currentWaffleNum = 1; waffleDetails = []; selectedExtras = [];
-            setupWaffleStep(); nextStep(3);
+            setupWaffleStep();
+            nextStep(3);
         }
+
         function setupWaffleStep() {
-            document.getElementById('sauceTitle').innerText = `Sauce for Waffle ${currentWaffleNum}`;
-            document.getElementById('toppingTitle').innerText = `Topping for Waffle ${currentWaffleNum}`;
-            document.getElementById('next3').disabled = true; document.getElementById('next4').disabled = true;
+            document.getElementById('sauceTitle').innerText = `Waffle ${currentWaffleNum}: Sauce`;
+            document.getElementById('toppingTitle').innerText = `Waffle ${currentWaffleNum}: Topping`;
+            document.getElementById('next3').disabled = true;
+            document.getElementById('next4').disabled = true;
             document.querySelectorAll('#step3 .choice-btn, #step4 .choice-btn').forEach(b => b.classList.remove('selected'));
         }
+
         function recordSauce(name, btn) {
-            tempSauce = name; document.querySelectorAll('#step3 .choice-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected'); document.getElementById('next3').disabled = false;
+            tempSauce = name;
+            document.querySelectorAll('#step3 .choice-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('next3').disabled = false;
         }
+
         function recordTopping(name, btn) {
-            tempTopping = name; document.querySelectorAll('#step4 .choice-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected'); document.getElementById('next4').disabled = false;
+            tempTopping = name;
+            document.querySelectorAll('#step4 .choice-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('next4').disabled = false;
         }
+
         function finishWaffle() {
             waffleDetails.push({ sauce: tempSauce, topping: tempTopping });
-            if (currentWaffleNum < totalWaffles) { currentWaffleNum++; setupWaffleStep(); nextStep(3); } 
-            else { nextStep(5); }
+            if (currentWaffleNum < totalWaffles) {
+                currentWaffleNum++;
+                setupWaffleStep();
+                nextStep(3);
+            } else {
+                nextStep(5);
+            }
         }
+
         function toggleExtra(name, btn) {
             const index = selectedExtras.indexOf(name);
-            if (index > -1) { selectedExtras.splice(index, 1); btn.classList.remove('selected'); } 
-            else { selectedExtras.push(name); btn.classList.add('selected'); }
+            if (index > -1) {
+                selectedExtras.splice(index, 1);
+                btn.classList.remove('selected');
+            } else {
+                selectedExtras.push(name);
+                btn.classList.add('selected');
+            }
         }
+
         function showSummary() {
-            let finalPrice = orderPrice + (selectedExtras.length * 0.50);
+            let extraCost = selectedExtras.length * 0.50;
+            let finalPrice = orderPrice + extraCost;
             let html = `<p><strong>Size:</strong> ${orderSizeName}</p>`;
-            waffleDetails.forEach((w, i) => { html += `<div class="waffle-entry"><strong>Waffle ${i+1}:</strong> ${w.sauce} & ${w.topping}</div>`; });
-            if(selectedExtras.length > 0) html += `<p><strong>Extras:</strong> ${selectedExtras.join(', ')}</p>`;
-            html += `<p><strong>Total: £${finalPrice.toFixed(2)}</strong></p>`;
-            document.getElementById('orderSummary').innerHTML = html;
-        }
-        function sendWhatsApp() {
-            const name = document.getElementById('custName').value;
-            if(!name) return alert("Please enter your name!");
-            let finalPrice = orderPrice + (selectedExtras.length * 0.50);
-            let detailsText = "";
-            waffleDetails.forEach((w, i) => { detailsText += `%0A- Waffle ${i+1}: ${w.sauce}/${w.topping}`; });
-            let extrasText = selectedExtras.length > 0 ? `%0AExtras: ${selectedExtras.join(', ')}` : "";
-            const text = `WAFFLE LAB ORDER%0AName: ${name}%0ASize: ${orderSizeName}${detailsText}${extrasText}%0ATotal: £${finalPrice.toFixed(2)}`;
-            window.open(`https://wa.me/447364135785?text=${text}`, '_blank');
-        }
-    </script>
-</body>
-</html>
+            waffleDetails.forEach((w, i) => {
+                html += `<div class="
