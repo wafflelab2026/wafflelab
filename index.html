@@ -2,16 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Waffle Lab | Order</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .step { display: none; }
         .step.active { display: block; animation: fadeIn 0.4s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* The Lovely Button Design Re-applied */
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        
+        .choice-btn { 
+            padding: 20px 10px;
+            background: #fff8dc; 
+            border: 2px solid #d2691e; 
+            border-radius: 15px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: #8b4513;
+            font-size: 1em;
+            transition: 0.2s;
+        }
+
+        .choice-btn.selected { 
+            background: #d2691e; 
+            color: white; 
+        }
+
+        .summary-box {
+            background: #fff8dc;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: left;
+            margin: 15px 0;
+            border-left: 8px solid #d2691e;
+        }
+
+        .waffle-entry {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #d2691e;
+        }
     </style>
 </head>
 <body>
+
     <nav class="main-nav">
         <a href="index.html">Order</a>
         <a href="menu.html">Menu</a>
@@ -19,123 +55,117 @@
     </nav>
 
     <div class="waffle-container">
-        <img src="logo.png" alt="Logo" class="waffle-icon">
+        <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
+        
         <div class="order-card">
             <div class="step active" id="step1">
-                <h1>Waffle Lab</h1>
-                <p>Build your experiment.</p>
+                <h1>Waffle Lab Luton</h1>
+                <p>Ready to start the experiment?</p>
                 <button class="btn" onclick="nextStep(2)">Start My Order →</button>
             </div>
 
             <div class="step" id="step2">
-                <h3>Select Size</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
-                    <button class="choice-btn" onclick="selectSize('1/4 Waffle', 2.00, 1, this)">1/4 (£2)</button>
+                <h3>1. Choose Size</h3>
+                <div class="option-grid">
+                    <button class="choice-btn" onclick="selectSize('1/4 Waffle', 2.00, 1, this)">1/4 Waffle (£2)</button>
                     <button class="choice-btn" onclick="selectSize('Single', 4.50, 1, this)">Single (£4.50)</button>
                     <button class="choice-btn" onclick="selectSize('2 Waffles', 8.00, 2, this)">2 Waffles (£8)</button>
                     <button class="choice-btn" onclick="selectSize('5 Family Waffle', 17.50, 5, this)">5 Family (£17.50)</button>
                 </div>
-                <button class="btn" id="next2" disabled onclick="startBuilding()">Next Step</button>
+                <button class="btn" id="next2" disabled onclick="startBuilding()">Next: Customise</button>
             </div>
 
             <div class="step" id="step3">
-                <h3 id="sauceTitle">Sauce</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+                <h3 id="sauceTitle">Waffle 1: Sauce</h3>
+                <div class="option-grid">
                     <button class="choice-btn" onclick="recordSauce('Milk Choc', this)">Milk Choc</button>
                     <button class="choice-btn" onclick="recordSauce('White Choc', this)">White Choc</button>
                     <button class="choice-btn" onclick="recordSauce('Pistachio', this)">Pistachio</button>
-                    <button class="choice-btn" onclick="recordSauce('None', this)">None</button>
+                    <button class="choice-btn" onclick="recordSauce('None', this)">No Sauce</button>
                 </div>
-                <button class="btn" id="next3" disabled onclick="nextStep(4)">Next</button>
+                <button class="btn" id="next3" disabled onclick="nextStep(4)">Next: Topping</button>
             </div>
 
             <div class="step" id="step4">
-                <h3 id="toppingTitle">Topping</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+                <h3 id="toppingTitle">Waffle 1: Topping</h3>
+                <div class="option-grid">
                     <button class="choice-btn" onclick="recordTopping('Oreo', this)">Oreo</button>
                     <button class="choice-btn" onclick="recordTopping('Kinder', this)">Kinder</button>
                     <button class="choice-btn" onclick="recordTopping('Biscoff', this)">Biscoff</button>
                     <button class="choice-btn" onclick="recordTopping('Marshmallows', this)">Marshmallows</button>
                 </div>
-                <button class="btn" id="next4" disabled onclick="finishWaffle()">Confirm Waffle</button>
+                <button class="btn" id="next4" disabled onclick="nextStep(5)">Next: Extras</button>
             </div>
 
             <div class="step" id="step5">
-                <h3>Extras (+£0.50)</h3>
-                <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin: 20px 0;">
-                    <button class="choice-btn" onclick="toggleExtra('Extra Topping', this)">Extra Topping</button>
-                    <button class="choice-btn" onclick="toggleExtra('Extra Sauce', this)">Extra Sauce</button>
-                    <button class="choice-btn" onclick="toggleExtra('Whipped Cream', this)">Whipped Cream</button>
+                <h3 id="extraTitle">Waffle 1: Extras?</h3>
+                <p>+£0.50 each (Pick multiple or none)</p>
+                <div class="option-grid">
+                    <button class="choice-btn extra-opt" onclick="toggleExtra('Extra Sauce', this)">Extra Sauce</button>
+                    <button class="choice-btn extra-opt" onclick="toggleExtra('Extra Topping', this)">Extra Topping</button>
+                    <button class="choice-btn extra-opt" onclick="toggleExtra('Whipped Cream', this)">Whipped Cream</button>
                 </div>
-                <button class="btn" onclick="nextStep(6)">Summary →</button>
+                <button class="btn" onclick="finishWaffle()">Confirm Waffle & Next →</button>
             </div>
 
             <div class="step" id="step6">
-                <h3>Summary</h3>
-                <div id="orderSummary" style="text-align:left; background:#fff8dc; padding:15px; border-radius:15px; margin-bottom:10px;"></div>
-                <input type="text" id="custName" placeholder="Your Name" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:10px;">
-                <button class="btn" onclick="sendWhatsApp()" style="background:#25D366;">WhatsApp Order 📱</button>
+                <h3>Order Review</h3>
+                <div id="orderSummary" class="summary-box"></div>
+                <input type="text" id="custName" placeholder="Your Name" style="width:100%; padding:15px; border-radius:10px; border:2px solid #eee; margin-bottom:10px;">
+                <button class="btn" onclick="sendWhatsApp()" style="background:#25D366;">Send to WhatsApp 📱</button>
             </div>
         </div>
     </div>
 
     <script>
-        let totalWaffles = 0, currentWaffleNum = 1, orderPrice = 0, orderSizeName = '';
-        let waffleDetails = [], tempSauce = '', tempTopping = '', selectedExtras = [];
+        let totalWaffles = 0, currentWaffleNum = 1, basePrice = 0, orderSizeName = '';
+        let waffleDetails = [], tempSauce = '', tempTopping = '', tempExtras = [];
 
         function nextStep(n) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + n).classList.add('active');
+            window.scrollTo(0,0);
             if(n === 6) showSummary();
         }
+
         function selectSize(name, price, count, btn) {
-            orderSizeName = name; orderPrice = price; totalWaffles = count;
+            orderSizeName = name; basePrice = price; totalWaffles = count;
             document.querySelectorAll('#step2 .choice-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected'); document.getElementById('next2').disabled = false;
         }
+
         function startBuilding() {
-            currentWaffleNum = 1; waffleDetails = []; selectedExtras = [];
+            currentWaffleNum = 1; waffleDetails = [];
             setupWaffleStep(); nextStep(3);
         }
+
         function setupWaffleStep() {
             document.getElementById('sauceTitle').innerText = `Waffle ${currentWaffleNum}: Sauce`;
             document.getElementById('toppingTitle').innerText = `Waffle ${currentWaffleNum}: Topping`;
-            document.getElementById('next3').disabled = true; document.getElementById('next4').disabled = true;
-            document.querySelectorAll('#step3 .choice-btn, #step4 .choice-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById('extraTitle').innerText = `Waffle ${currentWaffleNum}: Extras?`;
+            tempExtras = [];
+            document.getElementById('next3').disabled = true;
+            document.getElementById('next4').disabled = true;
+            document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
         }
+
         function recordSauce(name, btn) {
-            tempSauce = name; document.querySelectorAll('#step3 .choice-btn').forEach(b => b.classList.remove('selected'));
+            tempSauce = name;
+            document.querySelectorAll('#step3 .choice-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected'); document.getElementById('next3').disabled = false;
         }
+
         function recordTopping(name, btn) {
-            tempTopping = name; document.querySelectorAll('#step4 .choice-btn').forEach(b => b.classList.remove('selected'));
+            tempTopping = name;
+            document.querySelectorAll('#step4 .choice-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected'); document.getElementById('next4').disabled = false;
         }
-        function finishWaffle() {
-            waffleDetails.push({ sauce: tempSauce, topping: tempTopping });
-            if (currentWaffleNum < totalWaffles) { currentWaffleNum++; setupWaffleStep(); nextStep(3); } 
-            else { nextStep(5); }
-        }
+
         function toggleExtra(name, btn) {
-            const index = selectedExtras.indexOf(name);
-            if (index > -1) { selectedExtras.splice(index, 1); btn.classList.remove('selected'); } 
-            else { selectedExtras.push(name); btn.classList.add('selected'); }
+            const index = tempExtras.indexOf(name);
+            if (index > -1) { tempExtras.splice(index, 1); btn.classList.remove('selected'); } 
+            else { tempExtras.push(name); btn.classList.add('selected'); }
         }
-        function showSummary() {
-            let finalPrice = orderPrice + (selectedExtras.length * 0.50);
-            let html = `<b>Size:</b> ${orderSizeName}<br>`;
-            waffleDetails.forEach((w, i) => { html += `Waffle ${i+1}: ${w.sauce} + ${w.topping}<br>`; });
-            if(selectedExtras.length > 0) html += `Extras: ${selectedExtras.join(', ')}<br>`;
-            html += `<b>Total: £${finalPrice.toFixed(2)}</b>`;
-            document.getElementById('orderSummary').innerHTML = html;
-        }
-        function sendWhatsApp() {
-            const name = document.getElementById('custName').value;
-            if(!name) return alert("Please enter name");
-            let finalPrice = orderPrice + (selectedExtras.length * 0.50);
-            let text = `WAFFLE LAB ORDER%0AName: ${name}%0ASize: ${orderSizeName}%0ATotal: £${finalPrice.toFixed(2)}`;
-            window.open(`https://wa.me/447364135785?text=${text}`, '_blank');
-        }
-    </script>
-</body>
-</html>
+
+        function finishWaffle() {
+            waffleDetails.push({
