@@ -1,92 +1,120 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waffle Lab | Order</title>
+<link rel="stylesheet" href="style.css">
 
-let basePrice = 0;
-let sizeName = '';
-let waffles = 0;
+<style>
+.step { display:none; }
+.step.active { display:block; }
 
-let sauce = '';
-let topping = '';
-let extras = [];
-
-function nextStep(n){
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step' + n).classList.add('active');
-    if(n === 6) showSummary();
+.option-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
-function selectSize(name, price, count, btn){
-    sizeName = name;
-    basePrice = price;
-    waffles = count;
-
-    document.querySelectorAll('#step2 .choice-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-
-    document.getElementById('next2').disabled = false;
-    updateTotal();
+.choice-btn {
+  padding:15px;
+  border:2px solid #d2691e;
+  background:#fff8dc;
+  border-radius:10px;
+  font-weight:bold;
 }
 
-function start(){
-    nextStep(3);
+.choice-btn.selected {
+  background:#d2691e;
+  color:white;
 }
 
-function setSauce(s){
-    sauce = s;
-    updateTotal();
+#liveTotal {
+  background:#d2691e;
+  color:white;
+  padding:10px;
+  text-align:center;
+  font-weight:bold;
+  margin-bottom:10px;
+  border-radius:10px;
 }
+</style>
+</head>
 
-function setTopping(t){
-    topping = t;
-    updateTotal();
-}
+<body>
 
-function toggleExtra(e){
-    if(extras.includes(e)){
-        extras = extras.filter(x => x !== e);
-    } else {
-        extras.push(e);
-    }
-    updateTotal();
-}
+<div id="liveTotal">Live Total: £0.00</div>
 
-function calcTotal(){
-    let total = basePrice;
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+<h1>Waffle Lab Luton</h1>
+<button onclick="nextStep(2)">Start My Order</button>
+</div>
 
-    extras.forEach(e => {
-        total += (e === "Extra Sauce") ? 0.75 : 0.50;
-    });
+<!-- STEP 2 -->
+<div class="step" id="step2">
+<h3>Choose Size</h3>
 
-    return total;
-}
+<div class="option-grid">
+<button class="choice-btn" onclick="selectSize('1/4',2,1,this)">1/4 (£2)</button>
+<button class="choice-btn" onclick="selectSize('Single',5,1,this)">Single (£5)</button>
+<button class="choice-btn" onclick="selectSize('2 Waffles',9,2,this)">2 (£9)</button>
+<button class="choice-btn" onclick="selectSize('5 Deal',20,5,this)">5 (£20)</button>
+</div>
 
-function updateTotal(){
-    document.getElementById("liveTotal").innerText =
-        "Live Total: £" + calcTotal().toFixed(2);
-}
+<button id="next2" disabled onclick="nextStep(3)">Next</button>
+</div>
 
-function finish(){
-    nextStep(6);
-}
+<!-- STEP 3 -->
+<div class="step" id="step3">
+<h3>Sauce</h3>
 
-function showSummary(){
-    document.getElementById("summary").innerHTML =
-        `<b>Size:</b> ${sizeName}<br>
-        <b>Sauce:</b> ${sauce}<br>
-        <b>Topping:</b> ${topping}<br>
-        <b>Extras:</b> ${extras.join(", ") || "None"}<br>
-        <h3>Total: £${calcTotal().toFixed(2)}</h3>`;
-}
+<div class="option-grid">
+<button class="choice-btn" onclick="setSauce('Milk')">Milk</button>
+<button class="choice-btn" onclick="setSauce('White')">White</button>
+<button class="choice-btn" onclick="setSauce('Pistachio')">Pistachio</button>
+<button class="choice-btn" onclick="setSauce('None')">None</button>
+</div>
 
-function send(){
-    let name = document.getElementById("name").value;
+<button onclick="nextStep(4)">Next</button>
+</div>
 
-    let text =
-    "*NEW ORDER*%0A" +
-    "Name: " + name + "%0A" +
-    "Size: " + sizeName + "%0A" +
-    "Total: £" + calcTotal().toFixed(2);
+<!-- STEP 4 -->
+<div class="step" id="step4">
+<h3>Toppings</h3>
 
-    window.open("https://wa.me/447364135785?text=" + text);
-}
+<div class="option-grid">
+<button class="choice-btn" onclick="setTopping('Oreo')">Oreo</button>
+<button class="choice-btn" onclick="setTopping('Kinder')">Kinder</button>
+<button class="choice-btn" onclick="setTopping('Biscoff')">Biscoff</button>
+<button class="choice-btn" onclick="setTopping('Marsh')">Marsh</button>
+</div>
 
-</script>
+<button onclick="nextStep(5)">Next</button>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" id="step5">
+<h3>Extras</h3>
+
+<p>£0.50 each (Extra Sauce £0.75)</p>
+
+<button onclick="toggleExtra('Extra Sauce')">Extra Sauce</button>
+<button onclick="toggleExtra('Extra Topping')">Extra Topping</button>
+<button onclick="toggleExtra('Cream')">Cream</button>
+
+<br><br>
+<button onclick="nextStep(6)">Finish</button>
+</div>
+
+<!-- STEP 6 -->
+<div class="step" id="step6">
+<h3>Summary</h3>
+
+<div id="summary"></div>
+
+<input id="name" placeholder="Name">
+<button onclick="send()">WhatsApp</button>
+</div>
+
+<script
