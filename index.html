@@ -1,205 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Waffle Lab | Order</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Waffle Lab | Order</title>
+<link rel="stylesheet" href="style.css">
 
-    <style>
-        .step { display: none; }
-        .step.active {
-            display: block;
-            animation: fadeIn 0.4s ease-in;
-        }
+<style>
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease-in; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-        .option-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 20px 0;
-        }
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
 
-        .choice-btn {
-            padding: 20px 10px;
-            background: #fff8dc;
-            border: 2px solid #d2691e;
-            border-radius: 15px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #8b4513;
-            font-size: 1em;
-            transition: 0.2s;
-        }
+.choice-btn {
+    padding: 18px;
+    background: #fff8dc;
+    border: 2px solid #d2691e;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .choice-btn.selected {
-            background: #d2691e;
-            color: white;
-        }
+.choice-btn.selected {
+    background: #d2691e;
+    color: white;
+}
 
-        .summary-box {
-            background: #fff8dc;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: left;
-            margin: 15px 0;
-            border-left: 8px solid #d2691e;
-        }
+#liveTotal {
+    background: #d2691e;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 
-        .waffle-entry {
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed #d2691e;
-        }
-
-        .tiktok-note {
-            font-size: 0.85em;
-            color: #8b4513;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid #eee;
-            margin-bottom: 15px;
-        }
-
-        /* 🔥 LIVE TOTAL BAR */
-        #liveTotal {
-            background: #d2691e;
-            color: white;
-            padding: 10px;
-            border-radius: 12px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-    </style>
+.summary-box {
+    background: #fff8dc;
+    padding: 15px;
+    border-radius: 15px;
+}
+</style>
 </head>
 
 <body>
 
-<nav class="main-nav">
-    <a href="index.html">Order</a>
-    <a href="menu.html">Menu</a>
-    <a href="contact.html">Contact</a>
-</nav>
+<div id="liveTotal">Live Total: £0.00</div>
 
-<div class="waffle-container">
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+    <h1>Waffle Lab Luton</h1>
+    <button onclick="nextStep(2)">Start Order</button>
+</div>
 
-    <img src="logo.png" class="waffle-icon">
+<!-- STEP 2 -->
+<div class="step" id="step2">
+<h3>Choose Size</h3>
 
-    <div class="order-card">
+<div class="option-grid">
+<button class="choice-btn" onclick="selectSize('1/4',2,1,this)">1/4 (£2)</button>
+<button class="choice-btn" onclick="selectSize('Single',5,1,this)">Single (£5)</button>
+<button class="choice-btn" onclick="selectSize('2 Waffles',9,2,this)">2 (£9)</button>
+<button class="choice-btn" onclick="selectSize('5 Deal',20,5,this)">5 (£20)</button>
+</div>
 
-        <!-- 🔥 LIVE TOTAL -->
-        <div id="liveTotal">Live Total: £0.00</div>
+<button id="next2" disabled onclick="start()">Next</button>
+</div>
 
-        <!-- STEP 1 -->
-        <div class="step active" id="step1">
-            <h1>Waffle Lab Luton</h1>
-            <p>Ready to start your experiment?</p>
+<!-- STEP 3 -->
+<div class="step" id="step3">
+<h3>Sauce</h3>
 
-            <p class="tiktok-note">
-                People without WhatsApp order on TikTok or iMessage
-            </p>
+<div class="option-grid">
+<button class="choice-btn" onclick="setSauce('Milk')">Milk</button>
+<button class="choice-btn" onclick="setSauce('White')">White</button>
+<button class="choice-btn" onclick="setSauce('Pistachio')">Pistachio</button>
+<button class="choice-btn" onclick="setSauce('None')">None</button>
+</div>
 
-            <button class="btn" onclick="nextStep(2)">
-                Start My Order →
-            </button>
-        </div>
+<button onclick="nextStep(4)">Next</button>
+</div>
 
-        <!-- STEP 2 -->
-        <div class="step" id="step2">
-            <h3>1. Choose Size</h3>
+<!-- STEP 4 -->
+<div class="step" id="step4">
+<h3>Toppings</h3>
 
-            <div class="option-grid">
+<div class="option-grid">
+<button class="choice-btn" onclick="setTopping('Oreo')">Oreo</button>
+<button class="choice-btn" onclick="setTopping('Kinder')">Kinder</button>
+<button class="choice-btn" onclick="setTopping('Biscoff')">Biscoff</button>
+<button class="choice-btn" onclick="setTopping('Marsh')">Marsh</button>
+</div>
 
-                <button class="choice-btn" onclick="selectSize('1/4 Waffle', 2, 1, this)">
-                    1/4 Waffle (£2)
-                </button>
+<button onclick="nextStep(5)">Next</button>
+</div>
 
-                <button class="choice-btn" onclick="selectSize('Single', 5, 1, this)">
-                    Single (£5)
-                </button>
+<!-- STEP 5 -->
+<div class="step" id="step5">
+<h3>Extras</h3>
 
-                <button class="choice-btn" onclick="selectSize('2 Waffles', 9, 2, this)">
-                    2 Waffles (£9)
-                </button>
+<p>£0.50 each (Extra Sauce £0.75)</p>
 
-                <button class="choice-btn" onclick="selectSize('5 Waffle Deal', 20, 5, this)">
-                    5 Waffle Deal (£20)
-                </button>
+<button onclick="toggleExtra('Extra Sauce')">Extra Sauce</button>
+<button onclick="toggleExtra('Extra Topping')">Extra Topping</button>
+<button onclick="toggleExtra('Cream')">Cream</button>
 
-            </div>
+<br><br>
+<button onclick="finish()">Finish</button>
+</div>
 
-            <button class="btn" id="next2" disabled onclick="startBuilding()">
-                Next: Customise
-            </button>
-        </div>
+<!-- STEP 6 -->
+<div class="step" id="step6">
+<h3>Summary</h3>
+<div id="summary" class="summary-box"></div>
 
-        <!-- STEP 3 -->
-        <div class="step" id="step3">
-            <h3 id="sauceTitle">Waffle 1: Sauce</h3>
+<input id="name" placeholder="Name">
+<button onclick="send()">WhatsApp</button>
+</div>
 
-            <div class="option-grid">
+<script>
 
-                <button class="choice-btn" onclick="recordSauce('Milk Choc', this)">Milk Choc</button>
-                <button class="choice-btn" onclick="recordSauce('White Choc', this)">White Choc</button>
-                <button class="choice-btn" onclick="recordSauce('Pistachio', this)">Pistachio</button>
-                <button class="choice-btn" onclick="recordSauce('None', this)">No Sauce</button>
+let basePrice = 0;
+let sizeName = '';
+let waffles = 0;
 
-            </div>
-
-            <button class="btn" id="next3" disabled onclick="handleSauceFlow()">Next</button>
-        </div>
-
-        <!-- STEP 4 -->
-        <div class="step" id="step4">
-            <h3 id="toppingTitle">Waffle 1: Topping</h3>
-
-            <div class="option-grid">
-
-                <button class="choice-btn" onclick="recordTopping('Oreo', this)">Oreo</button>
-                <button class="choice-btn" onclick="recordTopping('Kinder', this)">Kinder</button>
-                <button class="choice-btn" onclick="recordTopping('Biscoff', this)">Biscoff</button>
-                <button class="choice-btn" onclick="recordTopping('Marshmallows', this)">Marshmallows</button>
-
-            </div>
-
-            <button class="btn" id="next4" disabled onclick="handleToppingFlow()">Next</button>
-        </div>
-
-        <!-- STEP 5 -->
-        <div class="step" id="step5">
-            <h3 id="extraTitle">Waffle 1: Extras?</h3>
-
-            <p>Extras: £0.50 each (Extra Sauce £0.75)</p>
-
-            <div class="option-grid">
-
-                <button class="choice-btn extra-btn" onclick="toggleExtra('Extra Sauce', this)">Extra Sauce</button>
-                <button class="choice-btn extra-btn" onclick="toggleExtra('Extra Topping', this)">Extra Topping</button>
-                <button class="choice-btn extra-btn" onclick="toggleExtra('Whipped Cream', this)">Whipped Cream</button>
-
-            </div>
-
-            <button class="btn" onclick="processExtras()">Confirm Waffle & Next →</button>
-        </div>
-
-        <!-- STEP 6 -->
-        <div class="step" id="step6">
-            <h3>Order Review</h3>
-
-            <div id="orderSummary" class="summary-box"></div>
-
-            <input type="text" id="custName" placeholder="Enter Your Name">
-
-            <button class="btn" onclick="sendWhatsApp()" style="background:#25D
+let sauce = '';
+let topping = '';
+let extras =
