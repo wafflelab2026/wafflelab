@@ -11,44 +11,33 @@
 .step.active { display:block; }
 
 .option-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 .choice-btn {
-  padding:15px;
-  border:2px solid #d2691e;
-  background:#fff8dc;
-  border-radius:10px;
-  font-weight:bold;
+    padding:15px;
+    border:2px solid #d2691e;
+    background:#fff8dc;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .choice-btn.selected {
-  background:#d2691e;
-  color:white;
-}
-
-#liveTotal {
-  background:#d2691e;
-  color:white;
-  padding:10px;
-  text-align:center;
-  font-weight:bold;
-  margin-bottom:10px;
-  border-radius:10px;
+    background:#d2691e;
+    color:white;
 }
 </style>
 </head>
 
 <body>
 
-<div id="liveTotal">Live Total: £0.00</div>
-
 <!-- STEP 1 -->
 <div class="step active" id="step1">
-<h1>Waffle Lab Luton</h1>
-<button onclick="nextStep(2)">Start My Order</button>
+    <h1>Waffle Lab Luton</h1>
+    <button onclick="nextStep(2)">Start My Order</button>
 </div>
 
 <!-- STEP 2 -->
@@ -56,10 +45,10 @@
 <h3>Choose Size</h3>
 
 <div class="option-grid">
-<button class="choice-btn" onclick="selectSize('1/4',2,1,this)">1/4 (£2)</button>
-<button class="choice-btn" onclick="selectSize('Single',5,1,this)">Single (£5)</button>
-<button class="choice-btn" onclick="selectSize('2 Waffles',9,2,this)">2 (£9)</button>
-<button class="choice-btn" onclick="selectSize('5 Deal',20,5,this)">5 (£20)</button>
+<button class="choice-btn" onclick="selectSize('1/4',2,this)">1/4 (£2)</button>
+<button class="choice-btn" onclick="selectSize('Single',5,this)">Single (£5)</button>
+<button class="choice-btn" onclick="selectSize('2 Waffles',9,this)">2 (£9)</button>
+<button class="choice-btn" onclick="selectSize('5 Deal',20,this)">5 (£20)</button>
 </div>
 
 <button id="next2" disabled onclick="nextStep(3)">Next</button>
@@ -97,8 +86,6 @@
 <div class="step" id="step5">
 <h3>Extras</h3>
 
-<p>£0.50 each (Extra Sauce £0.75)</p>
-
 <button onclick="toggleExtra('Extra Sauce')">Extra Sauce</button>
 <button onclick="toggleExtra('Extra Topping')">Extra Topping</button>
 <button onclick="toggleExtra('Cream')">Cream</button>
@@ -117,4 +104,73 @@
 <button onclick="send()">WhatsApp</button>
 </div>
 
-<script
+<script>
+
+let sizeName = '';
+let basePrice = 0;
+let sauce = '';
+let topping = '';
+let extras = [];
+
+function nextStep(n){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById('step'+n).classList.add('active');
+    if(n===6) showSummary();
+}
+
+function selectSize(name, price, btn){
+    sizeName = name;
+    basePrice = price;
+
+    document.querySelectorAll('.choice-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    document.getElementById('next2').disabled = false;
+}
+
+function setSauce(s){ sauce = s; }
+function setTopping(t){ topping = t; }
+
+function toggleExtra(e){
+    if(extras.includes(e)){
+        extras = extras.filter(x=>x!==e);
+    } else {
+        extras.push(e);
+    }
+}
+
+function calcTotal(){
+    let total = basePrice;
+
+    extras.forEach(e=>{
+        total += (e === "Extra Sauce") ? 0.75 : 0.50;
+    });
+
+    return total;
+}
+
+function showSummary(){
+    document.getElementById('summary').innerHTML =
+    `<b>Size:</b> ${sizeName}<br>
+    <b>Sauce:</b> ${sauce}<br>
+    <b>Topping:</b> ${topping}<br>
+    <b>Extras:</b> ${extras.join(", ") || "None"}<br>
+    <h3>Total: £${calcTotal().toFixed(2)}</h3>`;
+}
+
+function send(){
+    let name = document.getElementById('name').value;
+
+    let text =
+    "*WAFFLE ORDER*%0A" +
+    "Name: " + name + "%0A" +
+    "Size: " + sizeName + "%0A" +
+    "Total: £" + calcTotal().toFixed(2);
+
+    window.open("https://wa.me/447364135785?text=" + text);
+}
+
+</script>
+
+</body>
+</html>
