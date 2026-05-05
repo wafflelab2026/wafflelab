@@ -10,102 +10,142 @@
 <body>
 
 <nav class="main-nav">
-    <a href="index.html">Order</a>
-    <a href="menu.html">Menu</a>
-    <a href="extras.html">Extras</a>
-    <a href="contact.html">Contact</a>
+  <a href="index.html">Order</a>
+  <a href="menu.html">Menu</a>
+  <a href="extras.html">Extras</a>
+  <a href="contact.html">Contact</a>
 </nav>
 
-<div class="waffle-container">
+<div class="container">
 
+<!-- STEP 1 -->
 <div class="step active" id="step1">
-    <h1>Waffle Lab Luton</h1>
-    <button onclick="nextStep(2)">Start My Order</button>
+  <h1>Waffle Lab Luton</h1>
+  <button onclick="nextStep(2)">Start My Order</button>
 </div>
 
+<!-- STEP 2 -->
 <div class="step" id="step2">
-    <h3>Choose Size</h3>
+  <h2>Choose Size</h2>
 
-    <button onclick="selectSize('1/4',2,this)">1/4 (£2)</button>
-    <button onclick="selectSize('Single',5,this)">Single (£5)</button>
-    <button onclick="selectSize('2',9,this)">2 (£9)</button>
-    <button onclick="selectSize('5',20,this)">5 (£20)</button>
+  <button onclick="selectSize('1/4',2,this)">1/4 (£2)</button>
+  <button onclick="selectSize('Single',5,this)">Single (£5)</button>
+  <button onclick="selectSize('2 Waffles',9,this)">2 (£9)</button>
+  <button onclick="selectSize('5 Deal',20,this)">5 (£20)</button>
 
-    <button id="next2" onclick="nextStep(3)" disabled>Next</button>
+  <br><br>
+  <button id="next2" disabled onclick="nextStep(3)">Next</button>
 </div>
 
+<!-- STEP 3 -->
 <div class="step" id="step3">
-    <h3>Sauce</h3>
-    <button onclick="setSauce('Milk')">Milk</button>
-    <button onclick="setSauce('White')">White</button>
-    <button onclick="setSauce('Pistachio')">Pistachio</button>
-    <button onclick="setSauce('None')">None</button>
+  <h2>Sauce</h2>
 
-    <button onclick="nextStep(4)">Next</button>
+  <button onclick="setSauce('Milk')">Milk</button>
+  <button onclick="setSauce('White')">White</button>
+  <button onclick="setSauce('Pistachio')">Pistachio</button>
+  <button onclick="setSauce('None')">None</button>
+
+  <br><br>
+  <button onclick="nextStep(4)">Next</button>
 </div>
 
+<!-- STEP 4 -->
 <div class="step" id="step4">
-    <h3>Toppings</h3>
-    <button onclick="setTopping('Oreo')">Oreo</button>
-    <button onclick="setTopping('Kinder')">Kinder</button>
-    <button onclick="setTopping('Biscoff')">Biscoff</button>
-    <button onclick="setTopping('Marsh')">Marsh</button>
+  <h2>Toppings</h2>
 
-    <button onclick="nextStep(5)">Next</button>
+  <button onclick="setTopping('Oreo')">Oreo</button>
+  <button onclick="setTopping('Kinder')">Kinder</button>
+  <button onclick="setTopping('Biscoff')">Biscoff</button>
+  <button onclick="setTopping('Marsh')">Marsh</button>
+
+  <br><br>
+  <button onclick="nextStep(5)">Next</button>
 </div>
 
+<!-- STEP 5 -->
 <div class="step" id="step5">
-    <h3>Extras</h3>
-    <button onclick="toggleExtra('Extra Sauce')">Extra Sauce</button>
-    <button onclick="toggleExtra('Extra Topping')">Extra Topping</button>
-    <button onclick="toggleExtra('Cream')">Cream</button>
+  <h2>Extras</h2>
 
-    <button onclick="nextStep(6)">Finish</button>
+  <button onclick="toggleExtra('Extra Sauce')">Extra Sauce (£0.75)</button>
+  <button onclick="toggleExtra('Extra Topping')">Extra Topping (£0.50)</button>
+  <button onclick="toggleExtra('Cream')">Cream (£0.50)</button>
+
+  <br><br>
+  <button onclick="nextStep(6)">Finish</button>
 </div>
 
+<!-- STEP 6 -->
 <div class="step" id="step6">
-    <h3>Summary</h3>
-    <div id="summary"></div>
+  <h2>Summary</h2>
 
-    <input id="name" placeholder="Name">
-    <button onclick="send()">WhatsApp</button>
+  <div id="summary"></div>
+
+  <input id="name" placeholder="Your Name">
+  <button onclick="send()">Send to WhatsApp</button>
 </div>
 
 </div>
 
 <script>
+
 let size="", price=0, sauce="", topping="", extras=[];
 
 function nextStep(n){
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-    document.getElementById('step'+n).classList.add('active');
-    if(n===6) show();
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  if(n===6) show();
 }
 
 function selectSize(n,p,btn){
-    size=n; price=p;
-    document.getElementById('next2').disabled=false;
+  size=n;
+  price=p;
+  document.getElementById("next2").disabled=false;
+
+  document.querySelectorAll('#step2 button').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
 }
 
 function setSauce(s){ sauce=s; }
 function setTopping(t){ topping=t; }
 
 function toggleExtra(e){
-    if(extras.includes(e)) extras=extras.filter(x=>x!==e);
-    else extras.push(e);
+  if(extras.includes(e)){
+    extras = extras.filter(x=>x!==e);
+  } else {
+    extras.push(e);
+  }
+}
+
+function total(){
+  let t = price;
+  extras.forEach(e=>{
+    t += (e==="Extra Sauce") ? 0.75 : 0.50;
+  });
+  return t;
 }
 
 function show(){
-document.getElementById("summary").innerHTML =
-`Size: ${size}<br>Sauce: ${sauce}<br>Topping: ${topping}<br>Extras: ${extras.join(", ")||"None"}`;
+  document.getElementById("summary").innerHTML =
+  `<b>Size:</b> ${size}<br>
+   <b>Sauce:</b> ${sauce}<br>
+   <b>Topping:</b> ${topping}<br>
+   <b>Extras:</b> ${extras.join(", ") || "None"}<br>
+   <h3>Total: £${total().toFixed(2)}</h3>`;
 }
 
 function send(){
-let name=document.getElementById("name").value;
+  let name=document.getElementById("name").value;
 
-window.open("https://wa.me/447364135785?text=" +
-"*ORDER*%0AName: "+name+"%0ASize: "+size);
+  let msg =
+  "*WAFFLE ORDER*%0A" +
+  "Name: " + name + "%0A" +
+  "Size: " + size + "%0A" +
+  "Total: £" + total().toFixed(2);
+
+  window.open("https://wa.me/447364135785?text="+msg);
 }
+
 </script>
 
 </body>
