@@ -2,32 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Waffle Lab | Order</title>
 <link rel="stylesheet" href="style.css">
 
 <style>
-.step { display:none; }
-.step.active { display:block; }
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease-in; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .option-grid {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
 }
 
 .choice-btn {
-    padding:15px;
-    border:2px solid #d2691e;
-    background:#fff8dc;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
+    padding: 18px;
+    background: #fff8dc;
+    border: 2px solid #d2691e;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .choice-btn.selected {
-    background:#d2691e;
-    color:white;
+    background: #d2691e;
+    color: white;
+}
+
+.summary-box {
+    background: #fff8dc;
+    padding: 15px;
+    border-radius: 15px;
 }
 </style>
 </head>
@@ -45,13 +57,13 @@
 <h3>Choose Size</h3>
 
 <div class="option-grid">
-<button class="choice-btn" onclick="selectSize('1/4',2,this)">1/4 (£2)</button>
-<button class="choice-btn" onclick="selectSize('Single',5,this)">Single (£5)</button>
-<button class="choice-btn" onclick="selectSize('2 Waffles',9,this)">2 (£9)</button>
-<button class="choice-btn" onclick="selectSize('5 Deal',20,this)">5 (£20)</button>
+<button class="choice-btn" onclick="selectSize('1/4 Waffle',2,1,this)">1/4 (£2)</button>
+<button class="choice-btn" onclick="selectSize('Single',5,1,this)">Single (£5)</button>
+<button class="choice-btn" onclick="selectSize('2 Waffles',9,2,this)">2 (£9)</button>
+<button class="choice-btn" onclick="selectSize('5 Waffle Deal',20,5,this)">5 (£20)</button>
 </div>
 
-<button id="next2" disabled onclick="nextStep(3)">Next</button>
+<button id="next2" disabled onclick="startBuilding()">Next</button>
 </div>
 
 <!-- STEP 3 -->
@@ -59,13 +71,13 @@
 <h3>Sauce</h3>
 
 <div class="option-grid">
-<button class="choice-btn" onclick="setSauce('Milk')">Milk</button>
-<button class="choice-btn" onclick="setSauce('White')">White</button>
-<button class="choice-btn" onclick="setSauce('Pistachio')">Pistachio</button>
-<button class="choice-btn" onclick="setSauce('None')">None</button>
+<button class="choice-btn" onclick="recordSauce('Milk Choc', this)">Milk Choc</button>
+<button class="choice-btn" onclick="recordSauce('White Choc', this)">White Choc</button>
+<button class="choice-btn" onclick="recordSauce('Pistachio', this)">Pistachio</button>
+<button class="choice-btn" onclick="recordSauce('None', this)">None</button>
 </div>
 
-<button onclick="nextStep(4)">Next</button>
+<button onclick="handleSauceFlow()">Next</button>
 </div>
 
 <!-- STEP 4 -->
@@ -73,101 +85,146 @@
 <h3>Toppings</h3>
 
 <div class="option-grid">
-<button class="choice-btn" onclick="setTopping('Oreo')">Oreo</button>
-<button class="choice-btn" onclick="setTopping('Kinder')">Kinder</button>
-<button class="choice-btn" onclick="setTopping('Biscoff')">Biscoff</button>
-<button class="choice-btn" onclick="setTopping('Marsh')">Marsh</button>
+<button class="choice-btn" onclick="recordTopping('Oreo', this)">Oreo</button>
+<button class="choice-btn" onclick="recordTopping('Kinder', this)">Kinder</button>
+<button class="choice-btn" onclick="recordTopping('Biscoff', this)">Biscoff</button>
+<button class="choice-btn" onclick="recordTopping('Marshmallows', this)">Marshmallows</button>
 </div>
 
-<button onclick="nextStep(5)">Next</button>
+<button onclick="handleToppingFlow()">Next</button>
 </div>
 
 <!-- STEP 5 -->
 <div class="step" id="step5">
 <h3>Extras</h3>
 
-<button onclick="toggleExtra('Extra Sauce')">Extra Sauce</button>
-<button onclick="toggleExtra('Extra Topping')">Extra Topping</button>
-<button onclick="toggleExtra('Cream')">Cream</button>
+<p>+£0.50 each</p>
+
+<button onclick="toggleExtra('Extra Sauce', this)">Extra Sauce</button>
+<button onclick="toggleExtra('Extra Topping', this)">Extra Topping</button>
+<button onclick="toggleExtra('Whipped Cream', this)">Whipped Cream</button>
 
 <br><br>
-<button onclick="nextStep(6)">Finish</button>
+<button onclick="processExtras()">Confirm Waffle</button>
 </div>
 
 <!-- STEP 6 -->
 <div class="step" id="step6">
 <h3>Summary</h3>
 
-<div id="summary"></div>
+<div id="orderSummary" class="summary-box"></div>
 
-<input id="name" placeholder="Name">
-<button onclick="send()">WhatsApp</button>
+<input id="custName" placeholder="Name">
+<button onclick="sendWhatsApp()">WhatsApp</button>
 </div>
 
 <script>
 
-let sizeName = '';
 let basePrice = 0;
-let sauce = '';
-let topping = '';
-let extras = [];
+let orderSizeName = '';
+let totalWaffles = 0;
+
+let waffleDetails = [];
+
+let tempSauces = [];
+let tempToppings = [];
+let tempExtras = [];
+
+let currentWaffleNum = 1;
 
 function nextStep(n){
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById('step'+n).classList.add('active');
-    if(n===6) showSummary();
+    if(n === 6) showSummary();
 }
 
-function selectSize(name, price, btn){
-    sizeName = name;
+function selectSize(name, price, count, btn){
+    orderSizeName = name;
     basePrice = price;
+    totalWaffles = count;
 
-    document.querySelectorAll('.choice-btn').forEach(b=>b.classList.remove('selected'));
+    document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
 
     document.getElementById('next2').disabled = false;
 }
 
-function setSauce(s){ sauce = s; }
-function setTopping(t){ topping = t; }
+function startBuilding(){
+    currentWaffleNum = 1;
+    waffleDetails = [];
+    setupWaffle();
+    nextStep(3);
+}
 
-function toggleExtra(e){
-    if(extras.includes(e)){
-        extras = extras.filter(x=>x!==e);
+function setupWaffle(){
+    tempSauces = [];
+    tempToppings = [];
+    tempExtras = [];
+}
+
+function recordSauce(name, btn){
+    tempSauces = [name];
+    document.querySelectorAll('#step3 .choice-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function handleSauceFlow(){ nextStep(4); }
+
+function recordTopping(name, btn){
+    tempToppings = [name];
+    document.querySelectorAll('#step4 .choice-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function handleToppingFlow(){ nextStep(5); }
+
+function toggleExtra(name, btn){
+    if(tempExtras.includes(name)){
+        tempExtras = tempExtras.filter(x => x !== name);
+        btn.classList.remove('selected');
     } else {
-        extras.push(e);
+        tempExtras.push(name);
+        btn.classList.add('selected');
     }
 }
 
-function calcTotal(){
-    let total = basePrice;
-
-    extras.forEach(e=>{
-        total += (e === "Extra Sauce") ? 0.75 : 0.50;
+function processExtras(){
+    waffleDetails.push({
+        sauces: tempSauces,
+        toppings: tempToppings,
+        extras: tempExtras
     });
 
-    return total;
+    if(currentWaffleNum < totalWaffles){
+        currentWaffleNum++;
+        setupWaffle();
+        nextStep(3);
+    } else {
+        nextStep(6);
+    }
 }
 
 function showSummary(){
-    document.getElementById('summary').innerHTML =
-    `<b>Size:</b> ${sizeName}<br>
-    <b>Sauce:</b> ${sauce}<br>
-    <b>Topping:</b> ${topping}<br>
-    <b>Extras:</b> ${extras.join(", ") || "None"}<br>
-    <h3>Total: £${calcTotal().toFixed(2)}</h3>`;
+    let html = `<b>Size:</b> ${orderSizeName}<br><br>`;
+
+    waffleDetails.forEach((w,i)=>{
+        html += `
+        <b>Waffle ${i+1}</b><br>
+        Sauce: ${w.sauces.join(', ')}<br>
+        Topping: ${w.toppings.join(', ')}<br>
+        Extras: ${w.extras.join(', ') || "None"}<br><br>
+        `;
+    });
+
+    document.getElementById('orderSummary').innerHTML = html;
 }
 
-function send(){
-    let name = document.getElementById('name').value;
+function sendWhatsApp(){
+    let name = document.getElementById('custName').value;
 
-    let text =
-    "*WAFFLE ORDER*%0A" +
-    "Name: " + name + "%0A" +
-    "Size: " + sizeName + "%0A" +
-    "Total: £" + calcTotal().toFixed(2);
+    let msg = "*NEW ORDER*%0AName: " + name + "%0ASize: " + orderSizeName;
 
-    window.open("https://wa.me/447364135785?text=" + text);
+    window.open("https://wa.me/447364135785?text=" + msg);
 }
 
 </script>
