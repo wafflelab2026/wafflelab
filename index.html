@@ -12,74 +12,96 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-body{background:var(--bg);color:var(--text);}
+body{background:var(--bg);color:var(--text);} 
 
-/* START SCREEN */
-.start{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;width:100%;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:15px 20px;background:#3a2418;z-index:1000;
 }
-.start h1{font-size:2.5rem;margin-bottom:10px;}
-.start button{margin-top:20px;padding:15px 25px;border:none;border-radius:30px;background:var(--primary);cursor:pointer;font-size:1.1rem;}
+.logo-wrap{display:flex;align-items:center;gap:12px;}
+.logo{width:55px;height:55px;border-radius:50%;border:2px solid var(--primary);animation:spin 10s linear infinite;}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+nav h1{font-size:1.6rem;}
+.nav-links a{margin-left:15px;color:white;text-decoration:none;cursor:pointer;}
+
+/* START */
+.start{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-top:80px;}
+.start h1{font-size:3rem;}
+.start p{opacity:.8;margin-top:10px;}
+.start button{margin-top:25px;padding:15px 28px;border:none;border-radius:30px;background:var(--primary);cursor:pointer;font-size:1.2rem;}
 
 /* MAIN */
-.main{display:none;padding:20px;max-width:1100px;margin:auto;}
+.main{display:none;padding:100px 20px 20px;max-width:1100px;margin:auto;}
 .layout{display:flex;gap:20px;}
 .box{flex:2;background:var(--card);padding:20px;border-radius:16px;}
-.tracker{flex:1;background:#1f130c;padding:20px;border-radius:16px;position:sticky;top:20px;height:fit-content;}
+.tracker{flex:1;background:#1f130c;padding:20px;border-radius:16px;position:sticky;top:100px;height:fit-content;}
 
-.option{padding:12px;margin:8px 0;background:#4b2e1e;border-radius:12px;cursor:pointer;}
+.option{padding:12px;margin:8px 0;background:#4b2e1e;border-radius:12px;cursor:pointer;transition:.2s;}
 .option:hover{background:#5c3a25;}
+.option.selected{outline:2px solid var(--primary);} 
 
 .btn{background:var(--primary);border:none;padding:10px 15px;border-radius:20px;margin-top:10px;cursor:pointer;}
 
 .step{display:none;}
 .step.active{display:block;}
-
 </style></head>
-<body><!-- START SCREEN --><div class="start" id="start">
+<body><nav>
+  <div class="logo-wrap">
+    <img src="logo.png" class="logo">
+    <h1>Waffle Lab</h1>
+  </div>
+  <div class="nav-links">
+    <a href="#" onclick="goHome()">Home</a>
+    <a href="#" onclick="startOrder()">Menu</a>
+    <a href="#">Contact</a>
+  </div>
+</nav><!-- START --><div class="start" id="start">
   <h1>WAFFLE LAB</h1>
   <p>Fresh Chocolate Waffles 🍫</p>
   <button onclick="startOrder()">START ORDER</button>
-</div><!-- MAIN ORDER --><div class="main" id="main"><div class="layout"><div class="box"><div class="step active" id="step1">
+</div><!-- MAIN --><div class="main" id="main">
+<div class="layout"><div class="box"><div class="step active" id="step1">
 <h3>Choose Size</h3>
-<div class="option" onclick="chooseSize('1/4 waffle',2)">1/4 waffle - £2</div>
-<div class="option" onclick="chooseSize('1 waffle',5)">1 waffle - £5</div>
-<div class="option" onclick="chooseSize('2 waffles',9)">2 waffles - £9</div>
-<div class="option" onclick="chooseSize('5 waffles',20)">5 waffles - £20</div>
+<div class="option" onclick="chooseSize(this,'1/4 waffle',2)">1/4 waffle - £2</div>
+<div class="option" onclick="chooseSize(this,'1 waffle',5)">1 waffle - £5</div>
+<div class="option" onclick="chooseSize(this,'2 waffles',9)">2 waffles - £9</div>
+<div class="option" onclick="chooseSize(this,'5 waffles',20)">5 waffles - £20</div>
 </div><div class="step" id="step2">
 <h3>Choose Sauce (+£0.75)</h3>
-<div class="option" onclick="choose('sauce','Milk Chocolate',0.75)">Milk Chocolate</div>
-<div class="option" onclick="choose('sauce','White Chocolate',0.75)">White Chocolate</div>
-<div class="option" onclick="choose('sauce','Biscoff',0.75)">Biscoff</div>
-<div class="option" onclick="choose('sauce','None',0)">None</div>
+<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate',0.75)">Milk Chocolate</div>
+<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate',0.75)">White Chocolate</div>
+<div class="option" onclick="chooseSingle(this,'sauce','Biscoff',0.75)">Biscoff</div>
+<div class="option" onclick="chooseSingle(this,'sauce','None',0)">None</div>
 <button class="btn" onclick="next()">Next</button>
 </div><div class="step" id="step3">
 <h3>Choose Toppings (+£0.50)</h3>
-<div class="option" onclick="choose('topping','Oreo',0.5)">Oreo</div>
-<div class="option" onclick="choose('topping','Kinder',0.5)">Kinder</div>
-<div class="option" onclick="choose('topping','Biscoff',0.5)">Biscoff</div>
-<div class="option" onclick="choose('topping','None',0)">None</div>
+<div class="option" onclick="chooseSingle(this,'topping','Oreo',0.5)">Oreo</div>
+<div class="option" onclick="chooseSingle(this,'topping','Kinder',0.5)">Kinder</div>
+<div class="option" onclick="chooseSingle(this,'topping','Biscoff',0.5)">Biscoff</div>
+<div class="option" onclick="chooseSingle(this,'topping','None',0)">None</div>
 <button class="btn" onclick="next()">Next</button>
 </div><div class="step" id="step4">
 <h3>Extras</h3>
-<div class="option" onclick="toggleExtra('Whipped Cream',0.5)">Whipped Cream (+£0.50)</div>
-<div class="option" onclick="toggleExtra('Extra Sauce',0.75)">Extra Sauce (+£0.75)</div>
-<div class="option" onclick="toggleExtra('Extra Topping',0.5)">Extra Topping (+£0.50)</div>
+<div class="option" onclick="toggleExtra(this,'Whipped Cream',0.5)">Whipped Cream (+£0.50)</div>
+<div class="option" onclick="toggleExtra(this,'Extra Sauce',0.75)">Extra Sauce (+£0.75)</div>
+<div class="option" onclick="toggleExtra(this,'Extra Topping',0.5)">Extra Topping (+£0.50)</div>
 <div class="option" onclick="clearExtras()">None</div>
 <button class="btn" onclick="finish()">Finish</button>
+<button class="btn" onclick="restart()" style="background:#777">Restart</button>
 </div></div><div class="tracker">
 <h3>Live Order</h3>
 <div id="live"></div>
 <p><b>Total:</b> £<span id="total">0</span></p>
-</div></div></div><script>
+</div></div>
+</div><script>
 let order={size:"",sauce:"",topping:"",extras:[]};
 let total=0;
 let step=1;
+let prices={sauce:0,topping:0};
+
+function goHome(){location.reload();}
 
 function startOrder(){
   document.getElementById('start').style.display='none';
@@ -91,27 +113,41 @@ function showStep(n){
   document.getElementById('step'+n).classList.add('active');
 }
 
-function chooseSize(name,price){
+function clearSelected(parent){
+  parent.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+}
+
+function chooseSize(el,name,price){
+  clearSelected(el.parentElement);
+  el.classList.add('selected');
   order.size=name;
   total=price;
   update();
   showStep(2);
 }
 
-function choose(type,val,price){
-  order[type]=val;
+function chooseSingle(el,type,val,price){
+  clearSelected(el.parentElement);
+  el.classList.add('selected');
+
+  total-=prices[type]||0;
+  prices[type]=price;
   total+=price;
+
+  order[type]=val;
   update();
 }
 
-function toggleExtra(name,price){
+function toggleExtra(el,name,price){
   let exists=order.extras.find(e=>e.name===name);
   if(exists){
     order.extras=order.extras.filter(e=>e.name!==name);
     total-=price;
+    el.classList.remove('selected');
   }else{
     order.extras.push({name,price});
     total+=price;
+    el.classList.add('selected');
   }
   update();
 }
@@ -119,13 +155,13 @@ function toggleExtra(name,price){
 function clearExtras(){
   order.extras.forEach(e=>total-=e.price);
   order.extras=[];
+  document.querySelectorAll('#step4 .option').forEach(o=>o.classList.remove('selected'));
   update();
 }
 
-function next(){
-  step++;
-  showStep(step);
-}
+function next(){step++;showStep(step);} 
+
+function restart(){location.reload();}
 
 function finish(){
   alert("Order complete! Total £"+total.toFixed(2));
