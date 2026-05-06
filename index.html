@@ -1,190 +1,144 @@
 <!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Waffle Lab</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"><style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waffle Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"><style>
 :root{
-  --primary:#bd7211; /* darker caramel */
-  --bg:#de882c;
-  --card:#fa00e1;
-  --text:#010800;
-  --shadow:rgba(0,0,0,0.12);
+  --bg:#2b1b10;
+  --card:#3a2418;
+  --primary:#c47a3a;
+  --text:#ffffff;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-body{background:linear-gradient(180deg,var(--bg),#fff);color:var(--text);padding-top:80px;}
+body{background:var(--bg);color:var(--text);}
 
-nav{position:fixed;top:0;left:0;width:100%;height:70px;background:rgba(255,246,234,0.95);backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;padding:0 20px;box-shadow:0 2px 12px var(--shadow);z-index:1000;}
-.logo{width:40px;height:40px;border-radius:50%;border:2px solid var(--primary);animation:spin 8s linear infinite;}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.nav-links a{margin-left:15px;text-decoration:none;color:var(--text);font-weight:500;cursor:pointer;}
+/* START SCREEN */
+.start{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.start h1{font-size:2.5rem;margin-bottom:10px;}
+.start button{margin-top:20px;padding:15px 25px;border:none;border-radius:30px;background:var(--primary);cursor:pointer;font-size:1.1rem;}
 
-.hero{text-align:center;padding:70px 20px 30px;}
-.hero h2{font-size:2.2rem;}
-.hero p{opacity:.7;margin-top:8px;}
+/* MAIN */
+.main{display:none;padding:20px;max-width:1100px;margin:auto;}
+.layout{display:flex;gap:20px;}
+.box{flex:2;background:var(--card);padding:20px;border-radius:16px;}
+.tracker{flex:1;background:#1f130c;padding:20px;border-radius:16px;position:sticky;top:20px;height:fit-content;}
 
-.btn{background:var(--primary);color:#fff;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;transition:.2s;}
-.btn:hover{background:#7a3f17;}
-.btn:active{transform:scale(.97);}
+.option{padding:12px;margin:8px 0;background:#4b2e1e;border-radius:12px;cursor:pointer;}
+.option:hover{background:#5c3a25;}
 
-.container{display:flex;gap:20px;max-width:1100px;margin:auto;padding:20px;}
-.box{flex:2;background:var(--card);padding:20px;border-radius:16px;box-shadow:0 10px 25px var(--shadow);}
-.tracker{flex:1;background:#fff;padding:20px;border-radius:16px;box-shadow:0 10px 25px var(--shadow);position:sticky;top:90px;height:fit-content;}
+.btn{background:var(--primary);border:none;padding:10px 15px;border-radius:20px;margin-top:10px;cursor:pointer;}
 
 .step{display:none;}
 .step.active{display:block;}
-.option{padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:12px;cursor:pointer;background:#fff;transition:.2s;}
-.option:hover{border-color:var(--primary);transform:translateY(-2px);}
 
-input{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:1px solid #ddd;}
-
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:2000;}
-.modal-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:420px;}
-
-section{padding:60px 20px;text-align:center;}
 </style></head>
-<body><nav>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <img src="logo.png" class="logo">
-    <h1>Waffle Lab</h1>
-  </div>
-  <div class="nav-links">
-    <a href="#menu">Menu</a>
-    <a href="#contact">Contact</a>
-    <a href="#info">Info</a>
-    <a onclick="openAdmin()"><b>Admin</b></a>
-  </div>
-</nav><div class="hero">
-  <h2>WaffleLab</h2>
-  <p>Build your perfect waffle in seconds</p>
-  <button class="btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Start Order</button>
-</div><section id="menu" class="container"><div class="box"><div class="step active" id="step1">
-<h3>Select Amount</h3>
-<div class="option" onclick="setAmount('1/4',1,2)">1/4 waffle - £2</div>
-<div class="option" onclick="setAmount('1',1,5)">1 waffle - £5</div>
-<div class="option" onclick="setAmount('2',2,9)">2 waffles - £9</div>
-<div class="option" onclick="setAmount('5',5,20)">5 waffles - £20</div>
+<body><!-- START SCREEN --><div class="start" id="start">
+  <h1>WAFFLE LAB</h1>
+  <p>Fresh Chocolate Waffles 🍫</p>
+  <button onclick="startOrder()">START ORDER</button>
+</div><!-- MAIN ORDER --><div class="main" id="main"><div class="layout"><div class="box"><div class="step active" id="step1">
+<h3>Choose Size</h3>
+<div class="option" onclick="chooseSize('1/4 waffle',2)">1/4 waffle - £2</div>
+<div class="option" onclick="chooseSize('1 waffle',5)">1 waffle - £5</div>
+<div class="option" onclick="chooseSize('2 waffles',9)">2 waffles - £9</div>
+<div class="option" onclick="chooseSize('5 waffles',20)">5 waffles - £20</div>
 </div><div class="step" id="step2">
-<h3 id="title">Waffle 1</h3>
-<div id="options"></div>
-<button class="btn" onclick="nextStep()">Next</button>
-<button class="btn" onclick="restart()" style="background:#777">Restart</button>
+<h3>Choose Sauce (+£0.75)</h3>
+<div class="option" onclick="choose('sauce','Milk Chocolate',0.75)">Milk Chocolate</div>
+<div class="option" onclick="choose('sauce','White Chocolate',0.75)">White Chocolate</div>
+<div class="option" onclick="choose('sauce','Biscoff',0.75)">Biscoff</div>
+<div class="option" onclick="choose('sauce','None',0)">None</div>
+<button class="btn" onclick="next()">Next</button>
 </div><div class="step" id="step3">
-<h3>Details</h3>
-<input id="name" placeholder="Name">
-<input id="phone" placeholder="Phone">
-<button class="btn" onclick="confirm()">Review Order</button>
-<button class="btn" onclick="restart()" style="background:#777">Restart</button>
+<h3>Choose Toppings (+£0.50)</h3>
+<div class="option" onclick="choose('topping','Oreo',0.5)">Oreo</div>
+<div class="option" onclick="choose('topping','Kinder',0.5)">Kinder</div>
+<div class="option" onclick="choose('topping','Biscoff',0.5)">Biscoff</div>
+<div class="option" onclick="choose('topping','None',0)">None</div>
+<button class="btn" onclick="next()">Next</button>
+</div><div class="step" id="step4">
+<h3>Extras</h3>
+<div class="option" onclick="toggleExtra('Whipped Cream',0.5)">Whipped Cream (+£0.50)</div>
+<div class="option" onclick="toggleExtra('Extra Sauce',0.75)">Extra Sauce (+£0.75)</div>
+<div class="option" onclick="toggleExtra('Extra Topping',0.5)">Extra Topping (+£0.50)</div>
+<div class="option" onclick="clearExtras()">None</div>
+<button class="btn" onclick="finish()">Finish</button>
 </div></div><div class="tracker">
 <h3>Live Order</h3>
 <div id="live"></div>
 <p><b>Total:</b> £<span id="total">0</span></p>
-</div></section><section id="info">
-<h2>About Waffle Lab</h2>
-<p>Fresh made waffles with premium toppings. Order instantly via WhatsApp.</p>
-<p>If the custom Order feature isnt working please contact us on WhatsApp and we will take your order there</p>
-</section><section id="contact">
-<h2>Contact</h2>
-<p>WhatsApp: 07364 135785</p>
-</section><div class="modal" id="confirm">
-<div class="modal-content">
-<h3>Confirm Order</h3>
-<div id="summary"></div>
-<button class="btn" onclick="send()">Send</button>
-<button class="btn" onclick="closeConfirm()">Cancel</button>
-</div>
-</div><script>
-let waffles=[];
-let amount=0;
-let price=0;
-let current=0;
-let step=0;
+</div></div></div><script>
+let order={size:"",sauce:"",topping:"",extras:[]};
+let total=0;
+let step=1;
 
-function setAmount(label,n,p){
-  amount=n;
-  price=p;
-  waffles=Array.from({length:n},()=>({sauce:"",topping:"",extras:[]}));
-  show(2);
-  renderOptions();
-  render();
+function startOrder(){
+  document.getElementById('start').style.display='none';
+  document.getElementById('main').style.display='block';
 }
 
-function restart(){
-  waffles=[];
-  amount=0;
-  price=0;
-  current=0;
-  step=0;
-  show(1);
-  render();
-}
-
-function show(n){
+function showStep(n){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step'+n).classList.add('active');
 }
 
-function updateTitle(){
-  const t=["Sauce","Topping","Extras"];
-  document.getElementById('title').innerText=`Waffle ${current+1} - ${t[step]}`;
+function chooseSize(name,price){
+  order.size=name;
+  total=price;
+  update();
+  showStep(2);
 }
 
-function renderOptions(){
-  let html="";
-  if(step===0){html+=opt("Milk Choc","sauce");html+=opt("White Choc","sauce");html+=opt("Biscoff","sauce");}
-  if(step===1){html+=opt("Oreo","topping");html+=opt("Kinder","topping");html+=opt("Biscoff","topping");}
-  if(step===2){html+=opt("Extra Oreo","extra");html+=opt("Extra Biscoff","extra");html+=opt("None","extra");}
-  document.getElementById('options').innerHTML=html;
+function choose(type,val,price){
+  order[type]=val;
+  total+=price;
+  update();
 }
 
-function opt(v,t){return `<div class='option' onclick="select('${t}','${v}')">${v}</div>`}
-
-function select(type,val){
-  if(type==='extra'){
-    if(val==='None') waffles[current].extras=[];
-    else{
-      let e=waffles[current].extras;
-      e.includes(val)?e.splice(e.indexOf(val),1):e.push(val);
-    }
-  } else {
-    waffles[current][type]=val;
+function toggleExtra(name,price){
+  let exists=order.extras.find(e=>e.name===name);
+  if(exists){
+    order.extras=order.extras.filter(e=>e.name!==name);
+    total-=price;
+  }else{
+    order.extras.push({name,price});
+    total+=price;
   }
-  render();
+  update();
 }
 
-function nextStep(){
+function clearExtras(){
+  order.extras.forEach(e=>total-=e.price);
+  order.extras=[];
+  update();
+}
+
+function next(){
   step++;
-  if(step>2){step=0;current++;if(current>=amount){show(3);return;}}
-  updateTitle();renderOptions();render();
+  showStep(step);
 }
 
-function calcTotal(){
-  let extra=waffles.reduce((a,w)=>a+w.extras.length*0.75,0);
-  return price+extra;
+function finish(){
+  alert("Order complete! Total £"+total.toFixed(2));
 }
 
-function render(){
-  let html="";
-  waffles.forEach((w,i)=>html+=`W${i+1}: ${w.sauce||"-"}/${w.topping||"-"}/${w.extras?.join(',')||"-"}<br>`);
-  document.getElementById('live').innerHTML=html;
-  document.getElementById('total').innerText=calcTotal().toFixed(2);
-}
-
-function confirm(){
-  let s="";
-  waffles.forEach((w,i)=>s+=`W${i+1}: ${w.sauce},${w.topping},${w.extras}<br>`);
-  document.getElementById('summary').innerHTML=s;
-  document.getElementById('confirm').style.display='flex';
-}
-
-function closeConfirm(){document.getElementById('confirm').style.display='none';}
-
-function send(){
-  let name=document.getElementById('name').value;
-  let phone=document.getElementById('phone').value;
-  let msg=`${name}\n${phone}\n`;
-  waffles.forEach((w,i)=>msg+=`W${i+1}: ${w.sauce},${w.topping},${w.extras}\n`);
-  window.open(`https://wa.me/447364135785?text=${encodeURIComponent(msg)}`);
+function update(){
+  document.getElementById('live').innerHTML=`
+  Size: ${order.size || '-'}<br>
+  Sauce: ${order.sauce || '-'}<br>
+  Topping: ${order.topping || '-'}<br>
+  Extras: ${order.extras.map(e=>e.name).join(', ') || '-'}
+  `;
+  document.getElementById('total').innerText=total.toFixed(2);
 }
 </script></body>
 </html>
