@@ -1,72 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Order</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waffle Lab</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#ff8a3d;
+  --bg:#fff7ef;
+  --card:#fff;
+  --dark:#222;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+
+body{background:var(--bg);color:var(--dark);}
+
+/* NAV */
+nav{
+  position:sticky;top:0;
+  background:#fff;
+  display:flex;
+  justify-content:space-between;
+  padding:15px 20px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+nav h1{color:var(--primary);}
+nav a{margin-left:15px;text-decoration:none;color:#333;}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:80px 20px;
+  background:linear-gradient(135deg,#ffd6a5,#fff);
+}
+.hero h2{font-size:2.5rem;}
+.btn{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:12px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  margin-top:15px;
+}
+
+/* ORDER */
+.section{
+  padding:40px 20px;
+  text-align:center;
+}
+
+.box{
+  max-width:500px;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.step{display:none;}
+.step.active{display:block;}
+
+.option{
+  display:block;
+  margin:10px 0;
+  padding:10px;
+  border:1px solid #eee;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.option:hover{
+  border-color:var(--primary);
+}
+</style>
 </head>
 
 <body>
 
-<nav class="main-nav">
-<a href="index.html">Order</a>
-<a href="menu.html">Menu</a>
-<a href="extras.html">Extras</a>
-<a href="contact.html">Contact</a>
+<nav>
+<h1>Waffle Lab</h1>
+<div><a href="#order">Order</a></div>
 </nav>
 
-<div class="waffle-container">
+<section class="hero">
+<h2>Build Your Perfect Waffle</h2>
+<p>Fresh, custom waffles delivered via WhatsApp</p>
+<button class="btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">
+Start Order
+</button>
+</section>
 
-<img src="logo.png" class="waffle-icon">
+<section class="section" id="order">
+<h2>Order Builder</h2>
 
-<div class="order-card">
+<div class="box">
 
-<h1>Start Order</h1>
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+<h3>Amount</h3>
+<div class="option" onclick="select('amount','1/4 - £2')">1/4 - £2</div>
+<div class="option" onclick="select('amount','1 - £5')">1 - £5</div>
+<div class="option" onclick="select('amount','2 - £9')">2 - £9</div>
+<div class="option" onclick="select('amount','5 Family - £50')">5 Family - £50</div>
+<button class="btn" onclick="next(1)">Next</button>
+</div>
 
-<h3>Choose Size</h3>
-
-<button class="choice-btn" onclick="selectSize('1/4',2)">1/4 (£2)</button>
-<button class="choice-btn" onclick="selectSize('Single',5)">Single (£5)</button>
-<button class="choice-btn" onclick="selectSize('2',9)">2 (£9)</button>
-
-<h3>Sauce</h3>
-
-<button class="choice-btn" onclick="order.sauce='Milk'">Milk</button>
-<button class="choice-btn" onclick="order.sauce='White'">White</button>
-
+<!-- STEP 2 -->
+<div class="step" id="step2">
 <h3>Topping</h3>
+<div class="option" onclick="select('topping','Kinder')">Kinder</div>
+<div class="option" onclick="select('topping','Oreo')">Oreo</div>
+<div class="option" onclick="select('topping','Biscoff')">Biscoff</div>
+<div class="option" onclick="select('topping','None')">None</div>
+<button class="btn" onclick="next(2)">Next</button>
+</div>
 
-<button class="choice-btn" onclick="order.top='Oreo'">Oreo</button>
-<button class="choice-btn" onclick="order.top='Kinder'">Kinder</button>
+<!-- STEP 3 -->
+<div class="step" id="step3">
+<h3>Syrup</h3>
+<div class="option" onclick="select('syrup','Milk Choc')">Milk Choc</div>
+<div class="option" onclick="select('syrup','White Choc')">White Choc</div>
+<div class="option" onclick="select('syrup','Biscoff')">Biscoff</div>
+<div class="option" onclick="select('syrup','None')">None</div>
+<button class="btn" onclick="next(3)">Next</button>
+</div>
 
-<button class="btn" onclick="finish()">Finish</button>
+<!-- STEP 4 -->
+<div class="step" id="step4">
+<h3>Extras</h3>
+<div class="option" onclick="select('extra','Sauce')">Sauce</div>
+<div class="option" onclick="select('extra','None')">None</div>
+<button class="btn" onclick="next(4)">Next</button>
+</div>
 
-<div id="summary"></div>
-
-<input id="name" placeholder="Name">
-
-<button class="btn" onclick="send()">Send WhatsApp</button>
-
+<!-- STEP 5 -->
+<div class="step" id="step5">
+<h3>Your Details</h3>
+<input id="name" placeholder="Name" style="width:100%;padding:10px;margin:10px 0;">
+<input id="phone" placeholder="Phone" style="width:100%;padding:10px;margin:10px 0;">
+<button class="btn" onclick="send()">Send Order</button>
 </div>
 
 </div>
+</section>
 
 <script>
-let order={size:"",price:0,sauce:"",top:""};
+let order={};
 
-function selectSize(name,price){
-order.size=name;
-order.price=price;
+function select(type,value){
+  order[type]=value;
 }
 
-function finish(){
-document.getElementById("summary").innerHTML=
-`Size: ${order.size}<br>Sauce: ${order.sauce}<br>Topping: ${order.top}`;
+function next(n){
+  document.getElementById("step"+n).classList.remove("active");
+  document.getElementById("step"+(n+1)).classList.add("active");
 }
 
 function send(){
-let name=document.getElementById("name").value;
-let msg=`Order from ${name}%0A${JSON.stringify(order)}`;
-window.open(`https://wa.me/447364135785?text=${msg}`);
+  let name=document.getElementById("name").value;
+  let phone=document.getElementById("phone").value;
+
+  let msg=
+`New Order:
+Name: ${name}
+Phone: ${phone}
+Amount: ${order.amount}
+Topping: ${order.topping}
+Syrup: ${order.syrup}
+Extra: ${order.extra}`;
+
+  let number="447000000000"; // CHANGE THIS
+  let url=`https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+
+  window.open(url,"_blank");
 }
 </script>
 
