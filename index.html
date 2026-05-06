@@ -5,7 +5,6 @@
 <title>Waffle Lab</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"><style>
 :root{
   --primary:#c47a3a;
-  --secondary:#e6b07a;
   --bg:#fff3e3;
   --card:#fffaf3;
   --dark:#2b1b10;
@@ -13,175 +12,146 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-
-body{
-  background:linear-gradient(180deg,var(--bg),#fff);
-  color:var(--dark);
-}
+body{background:linear-gradient(180deg,var(--bg),#fff);color:var(--dark);}
 
 nav{
   position:sticky;top:0;
   background:rgba(255,250,243,0.9);
   backdrop-filter:blur(10px);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display:flex;justify-content:space-between;align-items:center;
   padding:10px 20px;
-  box-shadow:0 2px 12px rgba(0,0,0,0.06);
 }
 
-.nav-left{display:flex;align-items:center;gap:10px;}
-
-.logo{
-  width:45px;height:45px;border-radius:50%;object-fit:cover;
-  animation:spin 7s linear infinite;
-  border:2px solid var(--primary);
-}
-
+.logo{width:45px;height:45px;border-radius:50%;animation:spin 7s linear infinite;border:2px solid var(--primary);}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-nav h1{color:var(--primary);font-size:1.3rem;}
-nav a{margin-left:15px;text-decoration:none;color:var(--dark);font-weight:500;cursor:pointer;}
+.hero{text-align:center;padding:60px 20px;}
+.btn{background:var(--primary);color:white;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;}
 
-.hero{text-align:center;padding:80px 20px;background:radial-gradient(circle at top,#ffe3c2,#fff3e3);}
-.hero h2{font-size:2.6rem;}
-.hero p{opacity:0.8;margin-top:10px;}
-
-.btn{background:var(--primary);color:white;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;margin-top:15px;transition:all 0.15s ease;}
-.btn:active{transform:scale(0.96);background:var(--accent);}
-
-.section{padding:40px 20px;text-align:center;}
-
-.container{display:flex;gap:20px;max-width:1100px;margin:auto;align-items:flex-start;}
-
-.box{flex:2;background:var(--card);padding:22px;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,0.08);border:1px solid rgba(196,122,58,0.15);}
-
-.tracker{flex:1;background:#fff;padding:20px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,0.08);position:sticky;top:100px;text-align:left;}
+.container{display:flex;gap:20px;max-width:1100px;margin:auto;}
+.box{flex:2;background:var(--card);padding:20px;border-radius:16px;}
+.tracker{flex:1;background:white;padding:20px;border-radius:16px;}
 
 .step{display:none;}
 .step.active{display:block;}
-
-.option{display:block;margin:10px 0;padding:12px;border:1px solid rgba(196,122,58,0.2);border-radius:12px;cursor:pointer;background:#fff;}
-.option:hover{transform:translateY(-2px);border-color:var(--primary);}
-.option:active{transform:scale(0.98);background:#fff1e3;}
+.option{padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:10px;cursor:pointer;}
+.option:hover{border-color:var(--primary);}
 
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
-.modal-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:420px;}
-.admin-list{max-height:300px;overflow:auto;font-size:0.9rem;margin-top:10px;}
-.admin-item{border-bottom:1px solid #eee;padding:8px 0;}
+.modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:420px;}
+
 </style></head>
 <body><nav>
-  <div class="nav-left">
-    <img src="logo.png" class="logo">
-    <h1>Waffle Lab</h1>
-  </div>
-  <div>
-    <a href="#order">Order</a>
-    <a onclick="openAdmin()">Admin</a>
-  </div>
+  <img src="logo.png" class="logo">
+  <h1>Waffle Lab</h1>
 </nav><section class="hero">
-<h2>Warm, Fresh Waffles</h2>
-<p>Custom caramel waffles made to order</p>
-<button class="btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Start Order</button>
-</section><section class="section" id="order">
-<h2>Order Builder</h2><div class="container"><div class="box"><div class="step active" id="step1">
-<h3>Amount</h3>
-<div class="option" onclick="select('amount','1/4 - £2')">1/4 - £2</div>
-<div class="option" onclick="select('amount','1 - £5')">1 - £5</div>
-<div class="option" onclick="select('amount','2 - £9')">2 - £9</div>
-<div class="option" onclick="select('amount','5 Family - £20')">5 Family - £20</div>
-<button class="btn" onclick="next(1)">Next</button>
-</div><div class="step" id="step2">
-<h3>Topping</h3>
-<div class="option" onclick="select('topping','Kinder')">Kinder</div>
-<div class="option" onclick="select('topping','Oreo')">Oreo</div>
-<div class="option" onclick="select('topping','Biscoff')">Biscoff</div>
-<div class="option" onclick="select('topping','None')">None</div>
-<button class="btn" onclick="next(2)">Next</button>
-</div><div class="step" id="step3">
-<h3>Syrup</h3>
-<div class="option" onclick="select('syrup','Milk Choc')">Milk Choc</div>
-<div class="option" onclick="select('syrup','White Choc')">White Choc</div>
-<div class="option" onclick="select('syrup','Biscoff')">Biscoff</div>
-<div class="option" onclick="select('syrup','None')">None</div>
-<button class="btn" onclick="next(3)">Next</button>
-</div><div class="step" id="step4">
-<h3>Extras (+£0.75)</h3>
-<div class="option" onclick="toggleExtra('Extra Sauce')">Extra Sauce</div>
-<div class="option" onclick="toggleExtra('Extra Oreos')">Extra Oreos</div>
-<div class="option" onclick="toggleExtra('None')">None</div>
-<button class="btn" onclick="next(4)">Next</button>
-</div><div class="step" id="step5">
+  <h2>Build Your Waffles</h2>
+  <button class="btn" onclick="startOrder()">Start Order</button>
+</section><section class="container"><div class="box"><!-- STEP 1 --><div class="step active" id="step1">
+<h3>Select Amount</h3>
+<div class="option" onclick="setAmount(1,'1/4 - £2',2)">1 waffle - £2</div>
+<div class="option" onclick="setAmount(2,'2 waffles - £9',9)">2 waffles - £9</div>
+<div class="option" onclick="setAmount(5,'5 Family - £20',20)">5 Family - £20</div>
+</div><!-- STEP 2 dynamic waffle builder --><div class="step" id="step2">
+<h3 id="waffleTitle">Waffle 1</h3>
+<div class="option" onclick="set('topping','Kinder')">Kinder</div>
+<div class="option" onclick="set('topping','Oreo')">Oreo</div>
+<div class="option" onclick="set('topping','Biscoff')">Biscoff</div>
+<div class="option" onclick="set('topping','None')">None</div><div class="option" onclick="set('syrup','Milk Choc')">Milk Choc</div>
+<div class="option" onclick="set('syrup','White Choc')">White Choc</div>
+<div class="option" onclick="set('syrup','Biscoff')">Biscoff</div>
+<div class="option" onclick="set('syrup','None')">None</div><button class="btn" onclick="nextWaffle()">Next Waffle</button>
+
+</div><!-- STEP 3 details --><div class="step" id="step3">
 <h3>Your Details</h3>
 <input id="name" placeholder="Name" style="width:100%;padding:10px;margin:10px 0;">
 <input id="phone" placeholder="Phone" style="width:100%;padding:10px;margin:10px 0;">
-<button class="btn" onclick="showConfirm()">Send Order</button>
+<button class="btn" onclick="confirm()">Confirm Order</button>
 </div></div><div class="tracker">
-<h3>Live Tracker</h3>
-<p><b>Amount:</b> <span id="t_amount">-</span></p>
-<p><b>Topping:</b> <span id="t_topping">-</span></p>
-<p><b>Syrup:</b> <span id="t_syrup">-</span></p>
-<p><b>Extras:</b> <span id="t_extra">-</span></p>
-<p><b>Total:</b> £<span id="t_total">0.00</span></p>
-</div></div>
-</section><div class="modal" id="modal">
+<h3>Live Order</h3>
+<div id="live"></div>
+<p><b>Total:</b> £<span id="total">0</span></p>
+</div></section><div class="modal" id="modal">
   <div class="modal-content">
     <h3>Confirm Order</h3>
-    <p id="c_summary"></p>
-    <p><b>Total:</b> £<span id="c_total"></span></p>
-    <button class="btn" onclick="confirmSend()">Confirm</button>
-    <button class="btn" onclick="closeModal()">Cancel</button>
-  </div>
-</div><div class="modal" id="admin">
-  <div class="modal-content">
-    <h3>Admin Dashboard</h3>
-    <div class="admin-list" id="ordersList"></div>
-    <button class="btn" onclick="closeAdmin()">Close</button>
+    <div id="summary"></div>
+    <button class="btn" onclick="send()">Send</button>
+    <button class="btn" onclick="closeM()">Cancel</button>
   </div>
 </div><script>
-let order={amount:null,topping:null,syrup:null,extras:[]};
-const priceMap={"1/4 - £2":2,"1 - £5":5,"2 - £9":9,"5 Family - £20":20};
+let waffles=[];
+let current=0;
+let amount=0;
+let basePrice=0;
 
-function beep(){const ctx=new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();o.frequency.value=600;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),100);}
+let temp={topping:"",syrup:""};
 
-function saveOrder(o){let arr=JSON.parse(localStorage.getItem("orders")||"[]");arr.push(o);localStorage.setItem("orders",JSON.stringify(arr));}
+function startOrder(){
+  document.getElementById('step1').classList.add('active');
+}
 
-function select(t,v){order[t]=v;document.getElementById("t_"+t).innerText=v;update();}
+function setAmount(n,label,price){
+  amount=n;
+  basePrice=price;
 
-function toggleExtra(v){if(v=="None"){order.extras=[];}else{order.extras.includes(v)?order.extras=order.extras.filter(x=>x!=v):order.extras.push(v);}document.getElementById("t_extra").innerText=order.extras.join(", ")||"-";update();}
+  for(let i=0;i<n;i++) waffles.push({topping:"",syrup:""});
 
-function update(){let b=priceMap[order.amount]||0;let e=order.extras.length*0.75;document.getElementById("t_total").innerText=(b+e).toFixed(2);}
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step2').classList.add('active');
+  updateTitle();
+}
 
-function next(n){document.getElementById("step"+n).classList.remove("active");document.getElementById("step"+(n+1)).classList.add("active");}
+function updateTitle(){
+  document.getElementById('waffleTitle').innerText="Waffle "+(current+1);
+}
 
-function showConfirm(){document.getElementById("c_summary").innerText=`${order.amount}, ${order.topping}, ${order.syrup}, ${order.extras.join(", ")}`;document.getElementById("c_total").innerText=document.getElementById("t_total").innerText;document.getElementById("modal").style.display="flex";}
+function set(type,val){
+  waffles[current][type]=val;
+  render();
+}
 
-function closeModal(){document.getElementById("modal").style.display="none";}
+function nextWaffle(){
+  current++;
+  if(current>=amount){
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.add('active');
+    return;
+  }
+  updateTitle();
+  render();
+}
 
-function confirmSend(){
-  beep();
+function render(){
+  let html="";
+  waffles.forEach((w,i)=>{
+    html+=`Waffle ${i+1}: ${w.topping||"-"} / ${w.syrup||"-"}<br>`;
+  });
+  document.getElementById('live').innerHTML=html;
+}
 
-  let name=document.getElementById("name").value;
-  let phone=document.getElementById("phone").value;
-  let total=document.getElementById("t_total").innerText;
+function confirm(){
+  let summary="";
+  waffles.forEach((w,i)=>{
+    summary+=`Waffle ${i+1}: ${w.topping}, ${w.syrup}<br>`;
+  });
+  document.getElementById('summary').innerHTML=summary;
+  document.getElementById('modal').style.display='flex';
+}
 
-  let data={name,phone,...order,total};
-  saveOrder(data);
+function closeM(){document.getElementById('modal').style.display='none';}
 
-  let msg=`New Waffle Order:\nName:${name}\nPhone:${phone}\nAmount:${order.amount}\nTopping:${order.topping}\nSyrup:${order.syrup}\nExtras:${order.extras.join(", ")}\nTotal:£${total}`;
+function send(){
+  let name=document.getElementById('name').value;
+  let phone=document.getElementById('phone').value;
+
+  let msg=`Waffle Order:\nName:${name}\nPhone:${phone}\n`;
+
+  waffles.forEach((w,i)=>{
+    msg+=`W${i+1}: ${w.topping}, ${w.syrup}\n`;
+  });
 
   window.open(`https://wa.me/447364135785?text=${encodeURIComponent(msg)}`);
-  closeModal();
+  closeM();
 }
-
-function openAdmin(){
-  let pass=prompt("Admin password?");
-  if(pass!="admin")return;
-  let orders=JSON.parse(localStorage.getItem("orders")||"[]");
-  document.getElementById("ordersList").innerHTML=orders.map(o=>`<div class='admin-item'><b>${o.name}</b> - £${o.total}<br>${o.amount}, ${o.topping}</div>`).join("");
-  document.getElementById("admin").style.display="flex";
-}
-
-function closeAdmin(){document.getElementById("admin").style.display="none";}
 </script></body>
 </html>
