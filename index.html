@@ -15,21 +15,26 @@ body{background:linear-gradient(180deg,var(--bg),#fff);color:var(--dark);}
 
 nav{
   position:sticky;top:0;
-  background:rgba(255,250,243,0.9);
+  background:rgba(255,250,243,0.95);
   backdrop-filter:blur(10px);
-  display:flex;justify-content:space-between;align-items:center;
-  padding:10px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 20px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);
 }
 
 .logo{width:45px;height:45px;border-radius:50%;animation:spin 7s linear infinite;border:2px solid var(--primary);}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+.nav-links a{margin-left:15px;text-decoration:none;color:var(--dark);font-weight:500;cursor:pointer;}
 
 .hero{text-align:center;padding:60px 20px;}
 .btn{background:var(--primary);color:white;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;}
 
 .container{display:flex;gap:20px;max-width:1100px;margin:auto;}
 .box{flex:2;background:var(--card);padding:20px;border-radius:16px;}
-.tracker{flex:1;background:white;padding:20px;border-radius:16px;}
+.tracker{flex:1;background:white;padding:20px;border-radius:16px;position:sticky;top:100px;}
 
 .step{display:none;}
 .step.active{display:block;}
@@ -39,18 +44,26 @@ nav{
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
 .modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:420px;}
 
+.admin-list{max-height:250px;overflow:auto;font-size:0.9rem;}
+.admin-item{border-bottom:1px solid #eee;padding:8px 0;}
+
 </style></head>
 <body><nav>
   <img src="logo.png" class="logo">
   <h1>Waffle Lab</h1>
+  <div class="nav-links">
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+    <a onclick="openAdmin()">Info</a>
+  </div>
 </nav><section class="hero">
-  <h2>Build Your Waffles</h2>
+  <h2>Fresh Custom Waffles</h2>
   <button class="btn" onclick="startOrder()">Start Order</button>
-</section><section class="container"><div class="box"><div class="step active" id="step1">
+</section><section class="container" id="menu"><div class="box"><div class="step active" id="step1">
 <h3>Select Amount</h3>
-<div class="option" onclick="setAmount(1)">1 waffle - £2</div>
-<div class="option" onclick="setAmount(2)">2 waffles - £9</div>
-<div class="option" onclick="setAmount(5)">5 waffles - £20</div>
+<div class="option" onclick="setAmount(1,2)">1 waffle - £2</div>
+<div class="option" onclick="setAmount(2,9)">2 waffles - £9</div>
+<div class="option" onclick="setAmount(5,20)">5 waffles - £20</div>
 </div><div class="step" id="step2">
 <h3 id="title">Waffle 1 - Sauce</h3>
 <div id="options"></div>
@@ -59,12 +72,19 @@ nav{
 <h3>Your Details</h3>
 <input id="name" placeholder="Name" style="width:100%;padding:10px;margin:10px 0;">
 <input id="phone" placeholder="Phone" style="width:100%;padding:10px;margin:10px 0;">
-<button class="btn" onclick="confirm()">Confirm</button>
+<button class="btn" onclick="confirm()">Confirm Order</button>
 </div></div><div class="tracker">
 <h3>Live Order</h3>
 <div id="live"></div>
 <p><b>Total:</b> £<span id="total">0</span></p>
-</div></section><div class="modal" id="modal">
+</div></section><div class="modal" id="admin">
+  <div class="modal-content">
+    <h3>Admin Dashboard</h3>
+    <p id="stats"></p>
+    <div id="orders"></div>
+    <button class="btn" onclick="closeAdmin()">Close</button>
+  </div>
+</div><div class="modal" id="modal">
   <div class="modal-content">
     <h3>Confirm Order</h3>
     <div id="summary"></div>
@@ -76,23 +96,28 @@ let waffles=[];
 let amount=0;
 let current=0;
 let step=0;
+let basePrice=0;
 
 function startOrder(){
   document.getElementById('step1').classList.add('active');
 }
 
-function setAmount(n){
+function setAmount(n,p){
   amount=n;
+  basePrice=p;
+  waffles=[];
   for(let i=0;i<n;i++) waffles.push({sauce:"",topping:"",extras:[]});
+
   document.getElementById('step1').classList.remove('active');
   document.getElementById('step2').classList.add('active');
+
   renderOptions();
-  updateTitle();
+  render();
 }
 
 function updateTitle(){
-  const titles=["Sauce","Topping","Extras"];
-  document.getElementById('title').innerText=`Waffle ${current+1} - ${titles[step]}`;
+  let t=["Sauce","Topping","Extras"];
+  document.getElementById('title').innerText=`Waffle ${current+1} - ${t[step]}`;
 }
 
 function renderOptions(){
@@ -124,11 +149,11 @@ function select(type,val){
   render();
 }
 
-function toggle(val){
-  if(val==='None') waffles[current].extras=[];
-  else {
+function toggle(v){
+  if(v==='None') waffles[current].extras=[];
+  else{
     let e=waffles[current].extras;
-    e.includes(val)?e.splice(e.indexOf(val),1):e.push(val);
+    e.includes(v)?e.splice(e.indexOf(v),1):e.push(v);
   }
   render();
 }
@@ -152,24 +177,37 @@ function nextStep(){
   render();
 }
 
+function calcTotal(){
+  let extras=0;
+  waffles.forEach(w=>extras+=w.extras.length*0.75);
+  return basePrice+extras;
+}
+
 function render(){
   let html="";
   waffles.forEach((w,i)=>{
     html+=`W${i+1}: ${w.sauce||"-"} / ${w.topping||"-"} / ${w.extras.join(',')||"-"}<br>`;
   });
   document.getElementById('live').innerHTML=html;
+  document.getElementById('total').innerText=calcTotal().toFixed(2);
 }
 
 function confirm(){
   let sum="";
   waffles.forEach((w,i)=>{
-    sum+=`Waffle ${i+1}: ${w.sauce}, ${w.topping}, ${w.extras.join(', ')}<br>`;
+    sum+=`W${i+1}: ${w.sauce}, ${w.topping}, ${w.extras.join(', ')}<br>`;
   });
   document.getElementById('summary').innerHTML=sum;
   document.getElementById('modal').style.display='flex';
 }
 
 function closeM(){document.getElementById('modal').style.display='none';}
+
+function save(o){
+  let a=JSON.parse(localStorage.getItem('orders')||'[]');
+  a.push({...o,time:new Date().toLocaleString()});
+  localStorage.setItem('orders',JSON.stringify(a));
+}
 
 function send(){
   let name=document.getElementById('name').value;
@@ -181,8 +219,25 @@ function send(){
     msg+=`W${i+1}: ${w.sauce}, ${w.topping}, ${w.extras.join(', ')}\n`;
   });
 
+  save({name,phone,waffles,total:calcTotal().toFixed(2)});
+
   window.open(`https://wa.me/447364135785?text=${encodeURIComponent(msg)}`);
   closeM();
 }
+
+function openAdmin(){
+  let orders=JSON.parse(localStorage.getItem('orders')||'[]');
+  let total=orders.reduce((s,o)=>s+parseFloat(o.total||0),0);
+
+  document.getElementById('stats').innerHTML=`Orders: ${orders.length} | Revenue: £${total.toFixed(2)}`;
+
+  document.getElementById('orders').innerHTML=orders.map(o=>
+    `<div class='admin-item'><b>${o.name}</b> £${o.total}<br>${o.waffles?.length||0} waffles</div>`
+  ).join('');
+
+  document.getElementById('admin').style.display='flex';
+}
+
+function closeAdmin(){document.getElementById('admin').style.display='none';}
 </script></body>
 </html>
