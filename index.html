@@ -8,7 +8,6 @@
   --bg:#fff3e3;
   --card:#fffaf3;
   --dark:#2b1b10;
-  --accent:#8b4a1a;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
@@ -47,26 +46,20 @@ nav{
 </nav><section class="hero">
   <h2>Build Your Waffles</h2>
   <button class="btn" onclick="startOrder()">Start Order</button>
-</section><section class="container"><div class="box"><!-- STEP 1 --><div class="step active" id="step1">
+</section><section class="container"><div class="box"><div class="step active" id="step1">
 <h3>Select Amount</h3>
-<div class="option" onclick="setAmount(1,'1/4 - £2',2)">1 waffle - £2</div>
-<div class="option" onclick="setAmount(2,'2 waffles - £9',9)">2 waffles - £9</div>
-<div class="option" onclick="setAmount(5,'5 Family - £20',20)">5 Family - £20</div>
-</div><!-- STEP 2 dynamic waffle builder --><div class="step" id="step2">
-<h3 id="waffleTitle">Waffle 1</h3>
-<div class="option" onclick="set('topping','Kinder')">Kinder</div>
-<div class="option" onclick="set('topping','Oreo')">Oreo</div>
-<div class="option" onclick="set('topping','Biscoff')">Biscoff</div>
-<div class="option" onclick="set('topping','None')">None</div><div class="option" onclick="set('syrup','Milk Choc')">Milk Choc</div>
-<div class="option" onclick="set('syrup','White Choc')">White Choc</div>
-<div class="option" onclick="set('syrup','Biscoff')">Biscoff</div>
-<div class="option" onclick="set('syrup','None')">None</div><button class="btn" onclick="nextWaffle()">Next Waffle</button>
-
-</div><!-- STEP 3 details --><div class="step" id="step3">
+<div class="option" onclick="setAmount(1)">1 waffle - £2</div>
+<div class="option" onclick="setAmount(2)">2 waffles - £9</div>
+<div class="option" onclick="setAmount(5)">5 waffles - £20</div>
+</div><div class="step" id="step2">
+<h3 id="title">Waffle 1 - Sauce</h3>
+<div id="options"></div>
+<button class="btn" onclick="nextStep()">Next</button>
+</div><div class="step" id="step3">
 <h3>Your Details</h3>
 <input id="name" placeholder="Name" style="width:100%;padding:10px;margin:10px 0;">
 <input id="phone" placeholder="Phone" style="width:100%;padding:10px;margin:10px 0;">
-<button class="btn" onclick="confirm()">Confirm Order</button>
+<button class="btn" onclick="confirm()">Confirm</button>
 </div></div><div class="tracker">
 <h3>Live Order</h3>
 <div id="live"></div>
@@ -80,61 +73,99 @@ nav{
   </div>
 </div><script>
 let waffles=[];
-let current=0;
 let amount=0;
-let basePrice=0;
-
-let temp={topping:"",syrup:""};
+let current=0;
+let step=0;
 
 function startOrder(){
   document.getElementById('step1').classList.add('active');
 }
 
-function setAmount(n,label,price){
+function setAmount(n){
   amount=n;
-  basePrice=price;
-
-  for(let i=0;i<n;i++) waffles.push({topping:"",syrup:""});
-
+  for(let i=0;i<n;i++) waffles.push({sauce:"",topping:"",extras:[]});
   document.getElementById('step1').classList.remove('active');
   document.getElementById('step2').classList.add('active');
+  renderOptions();
   updateTitle();
 }
 
 function updateTitle(){
-  document.getElementById('waffleTitle').innerText="Waffle "+(current+1);
+  const titles=["Sauce","Topping","Extras"];
+  document.getElementById('title').innerText=`Waffle ${current+1} - ${titles[step]}`;
 }
 
-function set(type,val){
+function renderOptions(){
+  let html="";
+
+  if(step===0){
+    html+=`<div class='option' onclick="select('sauce','Milk Choc')">Milk Choc</div>
+            <div class='option' onclick="select('sauce','White Choc')">White Choc</div>
+            <div class='option' onclick="select('sauce','Biscoff')">Biscoff</div>`;
+  }
+
+  if(step===1){
+    html+=`<div class='option' onclick="select('topping','Oreo')">Oreo</div>
+            <div class='option' onclick="select('topping','Kinder')">Kinder</div>
+            <div class='option' onclick="select('topping','Biscoff')">Biscoff</div>`;
+  }
+
+  if(step===2){
+    html+=`<div class='option' onclick="toggle('Extra Oreo')">Extra Oreo</div>
+            <div class='option' onclick="toggle('Extra Biscoff')">Extra Biscoff</div>
+            <div class='option' onclick="toggle('None')">None</div>`;
+  }
+
+  document.getElementById('options').innerHTML=html;
+}
+
+function select(type,val){
   waffles[current][type]=val;
   render();
 }
 
-function nextWaffle(){
-  current++;
-  if(current>=amount){
-    document.getElementById('step2').classList.remove('active');
-    document.getElementById('step3').classList.add('active');
-    return;
+function toggle(val){
+  if(val==='None') waffles[current].extras=[];
+  else {
+    let e=waffles[current].extras;
+    e.includes(val)?e.splice(e.indexOf(val),1):e.push(val);
   }
+  render();
+}
+
+function nextStep(){
+  step++;
+
+  if(step>2){
+    step=0;
+    current++;
+
+    if(current>=amount){
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step3').classList.add('active');
+      return;
+    }
+  }
+
   updateTitle();
+  renderOptions();
   render();
 }
 
 function render(){
   let html="";
   waffles.forEach((w,i)=>{
-    html+=`Waffle ${i+1}: ${w.topping||"-"} / ${w.syrup||"-"}<br>`;
+    html+=`W${i+1}: ${w.sauce||"-"} / ${w.topping||"-"} / ${w.extras.join(',')||"-"}<br>`;
   });
   document.getElementById('live').innerHTML=html;
 }
 
 function confirm(){
-  let summary="";
+  let sum="";
   waffles.forEach((w,i)=>{
-    summary+=`Waffle ${i+1}: ${w.topping}, ${w.syrup}<br>`;
+    sum+=`Waffle ${i+1}: ${w.sauce}, ${w.topping}, ${w.extras.join(', ')}<br>`;
   });
-  document.getElementById('summary').innerHTML=summary;
+  document.getElementById('summary').innerHTML=sum;
   document.getElementById('modal').style.display='flex';
 }
 
@@ -147,7 +178,7 @@ function send(){
   let msg=`Waffle Order:\nName:${name}\nPhone:${phone}\n`;
 
   waffles.forEach((w,i)=>{
-    msg+=`W${i+1}: ${w.topping}, ${w.syrup}\n`;
+    msg+=`W${i+1}: ${w.sauce}, ${w.topping}, ${w.extras.join(', ')}\n`;
   });
 
   window.open(`https://wa.me/447364135785?text=${encodeURIComponent(msg)}`);
