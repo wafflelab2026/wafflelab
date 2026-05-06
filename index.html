@@ -24,42 +24,121 @@ nav{
   box-shadow:0 2px 12px rgba(0,0,0,0.08);
 }
 
-.logo{width:45px;height:45px;border-radius:50%;animation:spin 7s linear infinite;border:2px solid var(--primary);}
+.logo{
+  width:45px;height:45px;border-radius:50%;
+  animation:spin 7s linear infinite;
+  border:2px solid var(--primary);
+}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-.nav-links a{margin-left:15px;text-decoration:none;color:var(--dark);font-weight:500;cursor:pointer;}
+.nav-links a{
+  margin-left:15px;
+  text-decoration:none;
+  color:var(--dark);
+  font-weight:500;
+  cursor:pointer;
+}
 
-.hero{text-align:center;padding:60px 20px;}
-.btn{background:var(--primary);color:white;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;}
+.hero{
+  text-align:center;
+  padding:70px 20px;
+}
+.hero h2{font-size:2.3rem;}
+.hero p{opacity:0.7;margin-top:10px;}
 
-.container{display:flex;gap:20px;max-width:1100px;margin:auto;}
-.box{flex:2;background:var(--card);padding:20px;border-radius:16px;}
-.tracker{flex:1;background:white;padding:20px;border-radius:16px;position:sticky;top:100px;}
+.btn{
+  background:var(--primary);
+  color:white;
+  border:none;
+  padding:12px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  margin-top:10px;
+}
+.btn:active{transform:scale(0.97);}
+
+.container{
+  display:flex;
+  gap:20px;
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.box{
+  flex:2;
+  background:var(--card);
+  padding:20px;
+  border-radius:16px;
+}
+
+.tracker{
+  flex:1;
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  position:sticky;
+  top:100px;
+}
 
 .step{display:none;}
 .step.active{display:block;}
-.option{padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:10px;cursor:pointer;}
+
+.option{
+  padding:10px;
+  margin:8px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
+  cursor:pointer;
+}
 .option:hover{border-color:var(--primary);}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
-.modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:420px;}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  width:90%;
+  max-width:420px;
+}
 
 .admin-list{max-height:250px;overflow:auto;font-size:0.9rem;}
 .admin-item{border-bottom:1px solid #eee;padding:8px 0;}
 
+section.info, section.contact{
+  padding:60px 20px;
+  text-align:center;
+}
+
+input{
+  width:100%;padding:10px;margin:10px 0;
+  border-radius:10px;border:1px solid #ddd;
+}
 </style></head>
 <body><nav>
-  <img src="logo.png" class="logo">
-  <h1>Waffle Lab</h1>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <img src="logo.png" class="logo">
+    <h1>Waffle Lab</h1>
+  </div>
   <div class="nav-links">
     <a href="#menu">Menu</a>
     <a href="#contact">Contact</a>
-    <a onclick="openAdmin()">Info</a>
+    <a href="#info">Info</a>
+    <a onclick="openAdmin()"><b>Admin</b></a>
   </div>
 </nav><section class="hero">
   <h2>Fresh Custom Waffles</h2>
-  <button class="btn" onclick="startOrder()">Start Order</button>
-</section><section class="container" id="menu"><div class="box"><div class="step active" id="step1">
+  <p>Build your perfect waffle and order instantly</p>
+  <button class="btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Start Order</button>
+</section><section id="menu" class="container"><div class="box"><div class="step active" id="step1">
 <h3>Select Amount</h3>
 <div class="option" onclick="setAmount(1,2)">1 waffle - £2</div>
 <div class="option" onclick="setAmount(2,9)">2 waffles - £9</div>
@@ -70,21 +149,27 @@ nav{
 <button class="btn" onclick="nextStep()">Next</button>
 </div><div class="step" id="step3">
 <h3>Your Details</h3>
-<input id="name" placeholder="Name" style="width:100%;padding:10px;margin:10px 0;">
-<input id="phone" placeholder="Phone" style="width:100%;padding:10px;margin:10px 0;">
+<input id="name" placeholder="Name">
+<input id="phone" placeholder="Phone">
 <button class="btn" onclick="confirm()">Confirm Order</button>
 </div></div><div class="tracker">
 <h3>Live Order</h3>
 <div id="live"></div>
 <p><b>Total:</b> £<span id="total">0</span></p>
-</div></section><div class="modal" id="admin">
+</div></section><section id="info" class="info">
+<h2>About Waffle Lab</h2>
+<p>We make fresh custom waffles with premium toppings and sauces. Order instantly via WhatsApp.</p>
+</section><section id="contact" class="contact">
+<h2>Contact</h2>
+<p>WhatsApp Orders: 07364 135785</p>
+</section><!-- ADMIN --><div class="modal" id="admin">
   <div class="modal-content">
     <h3>Admin Dashboard</h3>
     <p id="stats"></p>
     <div id="orders"></div>
     <button class="btn" onclick="closeAdmin()">Close</button>
   </div>
-</div><div class="modal" id="modal">
+</div><!-- CONFIRM --><div class="modal" id="modal">
   <div class="modal-content">
     <h3>Confirm Order</h3>
     <div id="summary"></div>
@@ -98,10 +183,6 @@ let current=0;
 let step=0;
 let basePrice=0;
 
-function startOrder(){
-  document.getElementById('step1').classList.add('active');
-}
-
 function setAmount(n,p){
   amount=n;
   basePrice=p;
@@ -111,8 +192,8 @@ function setAmount(n,p){
   document.getElementById('step1').classList.remove('active');
   document.getElementById('step2').classList.add('active');
 
-  renderOptions();
   render();
+  renderOptions();
 }
 
 function updateTitle(){
@@ -226,6 +307,9 @@ function send(){
 }
 
 function openAdmin(){
+  let pass=prompt("Admin password?");
+  if(pass!="admin123") return;
+
   let orders=JSON.parse(localStorage.getItem('orders')||'[]');
   let total=orders.reduce((s,o)=>s+parseFloat(o.total||0),0);
 
