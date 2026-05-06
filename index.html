@@ -30,152 +30,66 @@ nav{
   box-shadow:0 2px 12px rgba(0,0,0,0.06);
 }
 
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+.nav-left{display:flex;align-items:center;gap:10px;}
 
 .logo{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  object-fit:cover;
+  width:45px;height:45px;border-radius:50%;object-fit:cover;
   animation:spin 7s linear infinite;
   border:2px solid var(--primary);
 }
 
-@keyframes spin{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-nav h1{
-  color:var(--primary);
-  font-size:1.3rem;
-}
+nav h1{color:var(--primary);font-size:1.3rem;}
+nav a{margin-left:15px;text-decoration:none;color:var(--dark);font-weight:500;cursor:pointer;}
 
-nav a{
-  margin-left:15px;
-  text-decoration:none;
-  color:var(--dark);
-  font-weight:500;
-}
-
-.hero{
-  text-align:center;
-  padding:80px 20px;
-  background:radial-gradient(circle at top,#ffe3c2,#fff3e3);
-}
-
+.hero{text-align:center;padding:80px 20px;background:radial-gradient(circle at top,#ffe3c2,#fff3e3);}
 .hero h2{font-size:2.6rem;}
 .hero p{opacity:0.8;margin-top:10px;}
 
-.btn{
-  background:var(--primary);
-  color:white;
-  border:none;
-  padding:12px 18px;
-  border-radius:30px;
-  cursor:pointer;
-  margin-top:15px;
-  transition:all 0.15s ease;
-  position:relative;
-  overflow:hidden;
-}
-
+.btn{background:var(--primary);color:white;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;margin-top:15px;transition:all 0.15s ease;}
 .btn:active{transform:scale(0.96);background:var(--accent);}
 
-.section{
-  padding:40px 20px;
-  text-align:center;
-}
+.section{padding:40px 20px;text-align:center;}
 
-/* LAYOUT */
-.container{
-  display:flex;
-  gap:20px;
-  max-width:1100px;
-  margin:auto;
-  align-items:flex-start;
-}
+.container{display:flex;gap:20px;max-width:1100px;margin:auto;align-items:flex-start;}
 
-.box{
-  flex:2;
-  background:var(--card);
-  padding:22px;
-  border-radius:18px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.08);
-  border:1px solid rgba(196,122,58,0.15);
-}
+.box{flex:2;background:var(--card);padding:22px;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,0.08);border:1px solid rgba(196,122,58,0.15);}
 
-.tracker{
-  flex:1;
-  background:#fff;
-  padding:20px;
-  border-radius:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  position:sticky;
-  top:100px;
-  text-align:left;
-}
-
-.tracker h3{
-  margin-bottom:10px;
-  color:var(--primary);
-}
-
-.tracker p{
-  margin:6px 0;
-  font-size:0.95rem;
-}
+.tracker{flex:1;background:#fff;padding:20px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,0.08);position:sticky;top:100px;text-align:left;}
 
 .step{display:none;}
 .step.active{display:block;}
 
-.option{
-  display:block;
-  margin:10px 0;
-  padding:12px;
-  border:1px solid rgba(196,122,58,0.2);
-  border-radius:12px;
-  cursor:pointer;
-  transition:0.15s;
-  background:#fff;
-}
-
-.option:hover{border-color:var(--primary);transform:translateY(-2px);}
+.option{display:block;margin:10px 0;padding:12px;border:1px solid rgba(196,122,58,0.2);border-radius:12px;cursor:pointer;background:#fff;}
+.option:hover{transform:translateY(-2px);border-color:var(--primary);}
 .option:active{transform:scale(0.98);background:#fff1e3;}
 
-input{
-  border:1px solid rgba(0,0,0,0.1);
-  border-radius:10px;
-}
-
-@media(max-width:900px){
-  .container{flex-direction:column;}
-  .tracker{position:relative;top:0;}
-}
-
-</style></head><body><nav>
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
+.modal-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:420px;}
+.admin-list{max-height:300px;overflow:auto;font-size:0.9rem;margin-top:10px;}
+.admin-item{border-bottom:1px solid #eee;padding:8px 0;}
+</style></head>
+<body><nav>
   <div class="nav-left">
-    <img src="logo.png" class="logo" alt="Waffle Lab Logo">
+    <img src="logo.png" class="logo">
     <h1>Waffle Lab</h1>
   </div>
-  <div><a href="#order">Order</a></div>
+  <div>
+    <a href="#order">Order</a>
+    <a onclick="openAdmin()">Admin</a>
+  </div>
 </nav><section class="hero">
 <h2>Warm, Fresh Waffles</h2>
-<p>Custom caramel-style waffles made to order</p>
-<button class="btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">
-Start Order
-</button>
+<p>Custom caramel waffles made to order</p>
+<button class="btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Start Order</button>
 </section><section class="section" id="order">
-<h2>Order Builder</h2><div class="container"><!-- ORDER --><div class="box"><div class="step active" id="step1">
+<h2>Order Builder</h2><div class="container"><div class="box"><div class="step active" id="step1">
 <h3>Amount</h3>
 <div class="option" onclick="select('amount','1/4 - £2')">1/4 - £2</div>
 <div class="option" onclick="select('amount','1 - £5')">1 - £5</div>
 <div class="option" onclick="select('amount','2 - £9')">2 - £9</div>
-<div class="option" onclick="select('amount','5 Family - £50')">5 Family - £50</div>
+<div class="option" onclick="select('amount','5 Family - £20')">5 Family - £20</div>
 <button class="btn" onclick="next(1)">Next</button>
 </div><div class="step" id="step2">
 <h3>Topping</h3>
@@ -192,45 +106,82 @@ Start Order
 <div class="option" onclick="select('syrup','None')">None</div>
 <button class="btn" onclick="next(3)">Next</button>
 </div><div class="step" id="step4">
-<h3>Extras</h3>
-<div class="option" onclick="select('extra','Sauce')">Sauce</div>
-<div class="option" onclick="select('extra','None')">None</div>
+<h3>Extras (+£0.75)</h3>
+<div class="option" onclick="toggleExtra('Extra Sauce')">Extra Sauce</div>
+<div class="option" onclick="toggleExtra('Extra Oreos')">Extra Oreos</div>
+<div class="option" onclick="toggleExtra('None')">None</div>
 <button class="btn" onclick="next(4)">Next</button>
 </div><div class="step" id="step5">
 <h3>Your Details</h3>
 <input id="name" placeholder="Name" style="width:100%;padding:10px;margin:10px 0;">
 <input id="phone" placeholder="Phone" style="width:100%;padding:10px;margin:10px 0;">
-<button class="btn" onclick="send()">Send Order</button>
-</div></div><!-- LIVE TRACKER --><div class="tracker">
-<h3>Live Order Tracker</h3>
+<button class="btn" onclick="showConfirm()">Send Order</button>
+</div></div><div class="tracker">
+<h3>Live Tracker</h3>
 <p><b>Amount:</b> <span id="t_amount">-</span></p>
 <p><b>Topping:</b> <span id="t_topping">-</span></p>
 <p><b>Syrup:</b> <span id="t_syrup">-</span></p>
-<p><b>Extra:</b> <span id="t_extra">-</span></p>
+<p><b>Extras:</b> <span id="t_extra">-</span></p>
+<p><b>Total:</b> £<span id="t_total">0.00</span></p>
 </div></div>
-</section><script>
-let order={};
+</section><div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>Confirm Order</h3>
+    <p id="c_summary"></p>
+    <p><b>Total:</b> £<span id="c_total"></span></p>
+    <button class="btn" onclick="confirmSend()">Confirm</button>
+    <button class="btn" onclick="closeModal()">Cancel</button>
+  </div>
+</div><div class="modal" id="admin">
+  <div class="modal-content">
+    <h3>Admin Dashboard</h3>
+    <div class="admin-list" id="ordersList"></div>
+    <button class="btn" onclick="closeAdmin()">Close</button>
+  </div>
+</div><script>
+let order={amount:null,topping:null,syrup:null,extras:[]};
+const priceMap={"1/4 - £2":2,"1 - £5":5,"2 - £9":9,"5 Family - £20":20};
 
-function select(type,value){
-  order[type]=value;
-  document.getElementById("t_"+type).innerText=value;
-}
+function beep(){const ctx=new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();o.frequency.value=600;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),100);}
 
-function next(n){
-  document.getElementById("step"+n).classList.remove("active");
-  document.getElementById("step"+(n+1)).classList.add("active");
-}
+function saveOrder(o){let arr=JSON.parse(localStorage.getItem("orders")||"[]");arr.push(o);localStorage.setItem("orders",JSON.stringify(arr));}
 
-function send(){
+function select(t,v){order[t]=v;document.getElementById("t_"+t).innerText=v;update();}
+
+function toggleExtra(v){if(v=="None"){order.extras=[];}else{order.extras.includes(v)?order.extras=order.extras.filter(x=>x!=v):order.extras.push(v);}document.getElementById("t_extra").innerText=order.extras.join(", ")||"-";update();}
+
+function update(){let b=priceMap[order.amount]||0;let e=order.extras.length*0.75;document.getElementById("t_total").innerText=(b+e).toFixed(2);}
+
+function next(n){document.getElementById("step"+n).classList.remove("active");document.getElementById("step"+(n+1)).classList.add("active");}
+
+function showConfirm(){document.getElementById("c_summary").innerText=`${order.amount}, ${order.topping}, ${order.syrup}, ${order.extras.join(", ")}`;document.getElementById("c_total").innerText=document.getElementById("t_total").innerText;document.getElementById("modal").style.display="flex";}
+
+function closeModal(){document.getElementById("modal").style.display="none";}
+
+function confirmSend(){
+  beep();
+
   let name=document.getElementById("name").value;
   let phone=document.getElementById("phone").value;
+  let total=document.getElementById("t_total").innerText;
 
-  let msg=`New Waffle Order:\nName: ${name}\nPhone: ${phone}\nAmount: ${order.amount}\nTopping: ${order.topping}\nSyrup: ${order.syrup}\nExtra: ${order.extra}`;
+  let data={name,phone,...order,total};
+  saveOrder(data);
 
-  let number="";
-  let url=`https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+  let msg=`New Waffle Order:\nName:${name}\nPhone:${phone}\nAmount:${order.amount}\nTopping:${order.topping}\nSyrup:${order.syrup}\nExtras:${order.extras.join(", ")}\nTotal:£${total}`;
 
-  window.open(url,"_blank");
+  window.open(`https://wa.me/447364135785?text=${encodeURIComponent(msg)}`);
+  closeModal();
 }
+
+function openAdmin(){
+  let pass=prompt("Admin password?");
+  if(pass!="admin")return;
+  let orders=JSON.parse(localStorage.getItem("orders")||"[]");
+  document.getElementById("ordersList").innerHTML=orders.map(o=>`<div class='admin-item'><b>${o.name}</b> - £${o.total}<br>${o.amount}, ${o.topping}</div>`).join("");
+  document.getElementById("admin").style.display="flex";
+}
+
+function closeAdmin(){document.getElementById("admin").style.display="none";}
 </script></body>
 </html>
