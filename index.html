@@ -29,7 +29,7 @@ nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;a
 .box{flex:2;background:var(--card);padding:20px;border-radius:16px;}
 .tracker{flex:1;background:#1f130c;padding:20px;border-radius:16px;position:sticky;top:100px;height:fit-content;}
 
-.option{padding:12px;margin:8px 0;background:#4b2e1e;border-radius:12px;cursor:pointer;}
+.option{padding:12px;margin:8px 0;background:#4b2e1e;border-radius:12px;cursor:pointer;transition:.2s;}
 .option.selected{outline:2px solid var(--primary);} 
 
 .btn{background:var(--primary);border:none;padding:10px 15px;border-radius:20px;margin-top:10px;cursor:pointer;}
@@ -39,6 +39,14 @@ nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;a
 
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:2000;}
 .modal-content{background:#3a2418;padding:20px;border-radius:15px;width:90%;max-width:400px;}
+
+.version{
+  position:fixed;
+  bottom:10px;
+  right:12px;
+  font-size:12px;
+  opacity:0.6;
+}
 </style></head>
 <body><nav>
   <div class="logo-wrap">
@@ -55,8 +63,10 @@ nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;a
 </div><div class="main" id="main">
 <div class="layout"><div class="box"><div class="step active" id="step1">
 <h3>Choose Size</h3>
+<div class="option" onclick="chooseSize(this,'1/4 waffle',2)">1/4 waffle - £2</div>
 <div class="option" onclick="chooseSize(this,'1 waffle',5)">1 waffle - £5</div>
 <div class="option" onclick="chooseSize(this,'2 waffles',9)">2 waffles - £9</div>
+<div class="option" onclick="chooseSize(this,'5 waffles',20)">5 waffles - £20</div>
 </div><div class="step" id="step2">
 <h3>Choose Sauce</h3>
 <div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate',0.75)">Milk Chocolate</div>
@@ -76,35 +86,76 @@ nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;a
 <div id="live"></div>
 <p><b>Total:</b> £<span id="total">0</span></p>
 </div></div>
-</div><!-- CONFIRM MODAL --><div class="modal" id="confirm">
+</div><!-- CONFIRM --><div class="modal" id="confirm">
   <div class="modal-content">
     <h3>Confirm Order</h3>
     <div id="summary"></div>
     <button class="btn" onclick="sendOrder()">Send to WhatsApp</button>
     <button class="btn" onclick="closeConfirm()" style="background:#777">Cancel</button>
   </div>
-</div><!-- SOUND --><audio id="ding" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+</div><audio id="ding" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
 
-<script>
+<div class="version">V2.2</div><script>
 let order={size:"",sauce:"",topping:"",extras:[]};
 let total=0;
 let prices={sauce:0,topping:0};
 let step=1;
 
 function goHome(){location.reload();}
-function startOrder(){document.getElementById('start').style.display='none';document.getElementById('main').style.display='block';}
-function showStep(n){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.getElementById('step'+n).classList.add('active');}
-function clearSelected(parent){parent.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));}
 
-function chooseSize(el,name,price){clearSelected(el.parentElement);el.classList.add('selected');order.size=name;total=price;update();showStep(2);} 
+function startOrder(){
+  document.getElementById('start').style.display='none';
+  document.getElementById('main').style.display='block';
+}
 
-function chooseSingle(el,type,val,price){clearSelected(el.parentElement);el.classList.add('selected');total-=prices[type]||0;prices[type]=price;total+=price;order[type]=val;update();}
+function showStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
 
-function toggleExtra(el,name,price){let exists=order.extras.find(e=>e.name===name);if(exists){order.extras=order.extras.filter(e=>e.name!==name);total-=price;el.classList.remove('selected');}else{order.extras.push({name,price});total+=price;el.classList.add('selected');}update();}
+function clearSelected(parent){
+  parent.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+}
+
+function chooseSize(el,name,price){
+  clearSelected(el.parentElement);
+  el.classList.add('selected');
+  order.size=name;
+  total=price;
+  update();
+  showStep(2);
+}
+
+function chooseSingle(el,type,val,price){
+  clearSelected(el.parentElement);
+  el.classList.add('selected');
+  total-=prices[type]||0;
+  prices[type]=price;
+  total+=price;
+  order[type]=val;
+  update();
+}
+
+function toggleExtra(el,name,price){
+  let exists=order.extras.find(e=>e.name===name);
+  if(exists){
+    order.extras=order.extras.filter(e=>e.name!==name);
+    total-=price;
+    el.classList.remove('selected');
+  }else{
+    order.extras.push({name,price});
+    total+=price;
+    el.classList.add('selected');
+  }
+  update();
+}
 
 function next(){step++;showStep(step);} 
 
-function update(){document.getElementById('live').innerHTML=`Size: ${order.size||'-'}<br>Sauce: ${order.sauce||'-'}<br>Topping: ${order.topping||'-'}<br>Extras: ${order.extras.map(e=>e.name).join(', ')||'-'}`;document.getElementById('total').innerText=total.toFixed(2);} 
+function update(){
+  document.getElementById('live').innerHTML=`Size: ${order.size||'-'}<br>Sauce: ${order.sauce||'-'}<br>Topping: ${order.topping||'-'}<br>Extras: ${order.extras.map(e=>e.name).join(', ')||'-'}`;
+  document.getElementById('total').innerText=total.toFixed(2);
+}
 
 function openConfirm(){
   let s=`Size: ${order.size}<br>Sauce: ${order.sauce}<br>Topping: ${order.topping}<br>Extras: ${order.extras.map(e=>e.name).join(', ')||'-'}<br><br>Total: £${total.toFixed(2)}`;
@@ -117,17 +168,15 @@ function closeConfirm(){document.getElementById('confirm').style.display='none';
 function sendOrder(){
   document.getElementById('ding').play();
 
-  let msg = "🍫 Waffle Lab Order 🍫\n\n";
-  msg += "Size: " + order.size + "\n";
-  msg += "Sauce: " + order.sauce + "\n";
-  msg += "Topping: " + order.topping + "\n";
-  msg += "Extras: " + (order.extras.map(e=>e.name).join(', ')||'-') + "\n";
-  msg += "Total: £" + total.toFixed(2);
+  let msg="🍫 Waffle Lab Order 🍫\n\n";
+  msg+="Size: "+order.size+"\n";
+  msg+="Sauce: "+order.sauce+"\n";
+  msg+="Topping: "+order.topping+"\n";
+  msg+="Extras: "+(order.extras.map(e=>e.name).join(', ')||'-')+"\n";
+  msg+="Total: £"+total.toFixed(2);
 
-  let url = "https://wa.me/447364135785?text=" + encodeURIComponent(msg);
-  window.open(url, '_blank');
+  let url="https://wa.me/447364135785?text="+encodeURIComponent(msg);
+  window.open(url,'_blank');
 }
-</script><!-- VERSION --><div style="position:fixed;bottom:10px;right:15px;font-size:12px;opacity:0.6;">
-  V2.1
-</div></body>
+</script></body>
 </html>
