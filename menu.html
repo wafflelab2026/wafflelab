@@ -1,99 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Menu - Waffle Lab Luton</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .menu-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 15px; 
-            width: 100%; 
-            max-width: 450px; 
-            margin-top: 10px; 
-        }
-        .menu-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 5px; 
-        }
-        .price { 
-            background: var(--waffle-yellow); 
-            padding: 5px 10px; 
-            border-radius: 5px; 
-            font-weight: bold; 
-            color: var(--chocolate-brown); 
-        }
-        .opening-box { 
-            background: var(--chocolate-brown); 
-            color: white; 
-            padding: 15px; 
-            border-radius: 15px; 
-            margin-top: 10px; 
-            font-size: 0.9em; 
-            width: 100%; 
-            max-width: 450px; 
-        }
-    </style>
+<title>Menu</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <nav class="main-nav">
-        <a href="index.html">Order</a>
-        <a href="menu.html" style="border-bottom: 2px solid #ffeba1;">Menu</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+<nav class="main-nav">
+<a href="index.html">Order</a>
+<a href="menu.html">Menu</a>
+<a href="contact.html">Contact</a>
+</nav>
 
-    <div class="waffle-container">
-        <img src="logo.png" alt="Waffle Lab Logo" class="waffle-icon">
-        <h1 style="margin-top: 5px;">The Lab Menu</h1>
+<div class="waffle-container">
 
-        <div class="menu-grid">
-            <div class="menu-card">
-                <div class="menu-header">
-                    <h3>1/4 Waffle Snack</h3>
-                    <span class="price">£2.00</span>
-                </div>
-                <p>Quick chocolatey bite.</p>
-            </div>
+<h1>Menu</h1>
 
-            <div class="menu-card">
-                <div class="menu-header">
-                    <h3>Single Waffle</h3>
-                    <span class="price">£5.00</span>
-                </div>
-                <p>1 Sauce & 1 Topping included.</p>
-            </div>
+<div class="menu-card">1/4 Waffle - £2</div>
+<div class="menu-card">Single - £5</div>
+<div class="menu-card">2 Waffles - £9</div>
 
-            <div class="menu-card">
-                <div class="menu-header">
-                    <h3>2 Waffles</h3>
-                    <span class="price">£9.00</span>
-                </div>
-                <p>Perfect for sharing (2 of everything).</p>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-header">
-                    <h3>5 Family Waffle</h3>
-                    <span class="price">£20.00</span>
-                </div>
-                <p>The ultimate lab box for the whole family.</p>
-            </div>
-        </div>
-
-        <div class="opening-box">
-            <strong>🕒 Lab Opening Hours</strong><br>
-            Weekdays: 4pm - 9pm | Weekends: 3pm - 10pm
-        </div>
-
-        <button class="btn" onclick="location.href='index.html'" style="max-width: 450px; margin-bottom: 40px;">
-            Go to Order Page →
-        </button>
-    </div>
+</div>
 
 </body>
 </html>
