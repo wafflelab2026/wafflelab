@@ -3,173 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waffle Lab</title>
+<title>WaffleLab</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
-  --bg:#4a2d1d;
-  --card:#5b3824;
-  --primary:#e09a52;
+  --bg:#141421;
+  --card:#23233a;
+  --primary:#ffb347;
+  --accent:#ffd699;
   --text:#ffffff;
-  --accent:#ffd19b;
 }
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Poppins,sans-serif;
 }
 
 body{
-  background:var(--bg);
-  color:var(--text);
+  font-family:Poppins,sans-serif;
+  background:
+  radial-gradient(circle at top right, rgba(255,179,71,0.10), transparent 350px),
+  radial-gradient(circle at bottom left, rgba(255,255,255,0.04), transparent 350px),
+  #141421;
+  color:white;
+  overflow-x:hidden;
 }
 
-/* NAV */
+/* SCIENCE BACKGROUND */
+
+body::before{
+  content:"🧪 ⚗️ 🧫 🧪 ⚗️";
+  position:fixed;
+  top:6%;
+  left:2%;
+  font-size:80px;
+  opacity:0.08;
+  rotate:-8deg;
+  pointer-events:none;
+}
+
+body::after{
+  content:"⚗️ 🧪 🧫 ⚗️ 🧪";
+  position:fixed;
+  bottom:8%;
+  right:3%;
+  font-size:85px;
+  opacity:0.08;
+  rotate:8deg;
+  pointer-events:none;
+}
+
+/* NAVBAR */
 
 nav{
   position:fixed;
   top:0;
   width:100%;
+  padding:14px 20px;
+  background:rgba(10,10,20,0.92);
+  backdrop-filter:blur(10px);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:15px 20px;
-  background:#3a2418;
   z-index:1000;
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo-wrap{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
 }
 
 .logo{
-  width:60px;
-  height:60px;
+  width:62px;
+  height:62px;
   border-radius:50%;
-  border:2px solid var(--primary);
-  animation:spin 12s linear infinite;
+  animation:spin 14s linear infinite;
 }
 
 @keyframes spin{
-  from{transform:rotate(0)}
-  to{transform:rotate(360deg)}
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+.brand{
+  font-family:cursive;
+  font-size:2.2rem;
+  color:white;
+  font-weight:bold;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
 }
 
 .nav-links a{
-  margin-left:15px;
   color:white;
   text-decoration:none;
+  font-weight:700;
   cursor:pointer;
+  transition:0.2s;
+  white-space:nowrap;
+}
+
+.nav-links a:hover{
+  color:var(--primary);
 }
 
 /* PAGES */
 
-.page{display:none;}
-.page.active{display:block;}
+.page{
+  display:none;
+}
 
-/* HOME */
+.page.active{
+  display:block;
+}
 
-.start{
-  height:100vh;
+/* HERO */
+
+.hero{
+  min-height:100vh;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
   text-align:center;
+  padding:120px 20px 40px;
 }
 
-.start h1{
-  font-size:3.5rem;
+.hero-content{
+  max-width:850px;
 }
 
-.start p{
-  margin-top:10px;
-  opacity:0.8;
-}
-
-.start button{
-  margin-top:25px;
-  padding:15px 30px;
-  border:none;
-  border-radius:30px;
-  background:var(--primary);
+.hero h1{
+  font-family:cursive;
+  font-size:clamp(4.5rem,10vw,8rem);
   color:white;
-  font-size:1.1rem;
+  margin-bottom:15px;
+  line-height:1.05;
+  text-shadow:0 0 20px rgba(255,255,255,0.1);
+}
+
+.hero p{
+  font-size:clamp(1.4rem,3vw,2.3rem);
+  color:#ffe1b5;
+  font-weight:600;
+  margin-bottom:35px;
+}
+
+.hero button{
+  background:linear-gradient(135deg,#ffb347,#ffd27f);
+  color:#111;
+  border:none;
+  padding:20px 44px;
+  border-radius:40px;
+  font-size:1.25rem;
+  font-weight:900;
   cursor:pointer;
+  transition:0.25s;
+  box-shadow:0 10px 35px rgba(255,179,71,0.25);
+}
+
+.hero button:hover{
+  transform:scale(1.06);
 }
 
 /* MAIN */
 
 .main{
-  padding:110px 20px 30px;
   max-width:1200px;
   margin:auto;
+  padding:120px 20px 40px;
 }
 
 .layout{
   display:flex;
   gap:20px;
+  align-items:flex-start;
 }
+
+/* BOXES */
 
 .box{
   flex:2;
-  background:var(--card);
-  padding:20px;
-  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  border-radius:25px;
+  padding:25px;
 }
 
 .tracker{
   flex:1;
-  background:#2d1c13;
-  padding:20px;
-  border-radius:18px;
   position:sticky;
   top:100px;
-  height:fit-content;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  border-radius:25px;
+  padding:25px;
 }
 
 /* OPTIONS */
 
 .option{
-  background:#6a4530;
-  padding:14px;
-  margin-top:10px;
-  border-radius:14px;
+  background:rgba(255,255,255,0.06);
+  padding:16px;
+  border-radius:18px;
+  margin-top:12px;
   cursor:pointer;
   transition:0.2s;
+  font-weight:700;
 }
 
-.option:hover{transform:scale(1.02);}
-.option.selected{outline:3px solid var(--accent);}
+.option:hover{
+  transform:translateY(-2px);
+  background:rgba(255,179,71,0.15);
+}
+
+.option.selected{
+  border:2px solid var(--primary);
+}
 
 /* BUTTONS */
 
 .btn{
   margin-top:20px;
-  padding:12px 20px;
+  padding:13px 24px;
   border:none;
-  border-radius:25px;
+  border-radius:30px;
   background:var(--primary);
-  color:white;
+  color:#111;
+  font-weight:800;
   cursor:pointer;
   margin-right:10px;
 }
 
 .back-btn{
-  background:#777;
+  background:#666;
+  color:white;
 }
 
 /* STEPS */
 
-.step{display:none;}
-.step.active{display:block;}
+.step{
+  display:none;
+}
+
+.step.active{
+  display:block;
+}
 
 /* MODAL */
 
@@ -177,18 +270,18 @@ nav{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.65);
   justify-content:center;
   align-items:center;
   z-index:2000;
 }
 
 .modal-content{
-  background:#4a2d1d;
-  padding:25px;
-  border-radius:20px;
   width:90%;
-  max-width:420px;
+  max-width:450px;
+  background:#202034;
+  border-radius:25px;
+  padding:30px;
 }
 
 /* VERSION */
@@ -196,9 +289,34 @@ nav{
 .version{
   position:fixed;
   bottom:10px;
-  right:10px;
+  right:12px;
+  opacity:0.5;
   font-size:12px;
-  opacity:0.6;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .layout{
+    flex-direction:column;
+  }
+
+  .tracker{
+    width:100%;
+    position:relative;
+    top:0;
+  }
+
+  nav{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .nav-links{
+    justify-content:center;
+  }
+
 }
 
 </style>
@@ -207,10 +325,12 @@ nav{
 <body>
 
 <!-- NAV -->
+
 <nav>
+
   <div class="logo-wrap">
     <img src="logo.png" class="logo">
-    <h1>Waffle Lab</h1>
+    <div class="brand">WaffleLab</div>
   </div>
 
   <div class="nav-links">
@@ -219,28 +339,45 @@ nav{
     <a onclick="showPage('contact')">Contact</a>
     <a onclick="showPage('hire')">Hire</a>
   </div>
+
 </nav>
 
 <!-- HOME -->
+
 <div class="page active" id="home">
-  <div class="start">
-    <h1>WAFFLE LAB</h1>
-    <p>Fresh Dessert Waffles 🍫</p>
-    <button onclick="startOrder()">START ORDER</button>
-  </div>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>WaffleLab</h1>
+
+<p>Fresh Dessert Waffles</p>
+
+<button onclick="startOrder()">
+START ORDER
+</button>
+
+</div>
+
+</section>
+
 </div>
 
 <!-- MENU -->
+
 <div class="page" id="menu">
 
 <div class="main">
+
 <div class="layout">
 
-<!-- ORDER -->
 <div class="box">
 
 <!-- STEP 1 -->
+
 <div class="step active" id="step1">
+
 <h2>Choose Size</h2>
 
 <div class="option" onclick="chooseSize(this,'1/4 waffle',2)">
@@ -262,33 +399,65 @@ nav{
 </div>
 
 <!-- STEP 2 -->
+
 <div class="step" id="step2">
+
 <h2>Choose Sauce</h2>
 
-<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate')">Milk Chocolate</div>
-<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate')">White Chocolate</div>
-<div class="option" onclick="chooseSingle(this,'sauce','Pistachio')">Pistachio</div>
-<div class="option" onclick="chooseSingle(this,'sauce','None')">None</div>
+<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate')">
+Milk Chocolate
+</div>
+
+<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate')">
+White Chocolate
+</div>
+
+<div class="option" onclick="chooseSingle(this,'sauce','Pistachio')">
+Pistachio
+</div>
+
+<div class="option" onclick="chooseSingle(this,'sauce','None')">
+None
+</div>
 
 <button class="btn back-btn" onclick="backStep()">Back</button>
 <button class="btn" onclick="next()">Next</button>
+
 </div>
 
 <!-- STEP 3 -->
+
 <div class="step" id="step3">
+
 <h2>Choose Topping</h2>
 
-<div class="option" onclick="chooseSingle(this,'topping','Kinder')">Kinder</div>
-<div class="option" onclick="chooseSingle(this,'topping','Oreo')">Oreo</div>
-<div class="option" onclick="chooseSingle(this,'topping','Biscoff')">Biscoff</div>
-<div class="option" onclick="chooseSingle(this,'topping','Marshmallow')">Marshmallow</div>
-<div class="option" onclick="chooseSingle(this,'topping','None')">None</div>
+<div class="option" onclick="chooseSingle(this,'topping','Kinder')">
+Kinder
+</div>
+
+<div class="option" onclick="chooseSingle(this,'topping','Oreo')">
+Oreo
+</div>
+
+<div class="option" onclick="chooseSingle(this,'topping','Biscoff')">
+Biscoff
+</div>
+
+<div class="option" onclick="chooseSingle(this,'topping','Marshmallow')">
+Marshmallow
+</div>
+
+<div class="option" onclick="chooseSingle(this,'topping','None')">
+None
+</div>
 
 <button class="btn back-btn" onclick="backStep()">Back</button>
 <button class="btn" onclick="next()">Next</button>
+
 </div>
 
 <!-- STEP 4 -->
+
 <div class="step" id="step4">
 
 <h2>Extras</h2>
@@ -297,18 +466,41 @@ nav{
 Whipped Cream (+£0.50)
 </div>
 
-<h3 style="margin-top:20px;">Extra Toppings (+£0.50)</h3>
+<h3 style="margin-top:20px;">
+Extra Toppings (+£0.50)
+</h3>
 
-<div class="option" onclick="toggleExtra(this,'Extra Kinder',0.5)">Extra Kinder</div>
-<div class="option" onclick="toggleExtra(this,'Extra Oreo',0.5)">Extra Oreo</div>
-<div class="option" onclick="toggleExtra(this,'Extra Biscoff',0.5)">Extra Biscoff</div>
-<div class="option" onclick="toggleExtra(this,'Extra Marshmallow',0.5)">Extra Marshmallow</div>
+<div class="option" onclick="toggleExtra(this,'Extra Kinder',0.5)">
+Extra Kinder
+</div>
 
-<h3 style="margin-top:20px;">Extra Sauces (+£0.75)</h3>
+<div class="option" onclick="toggleExtra(this,'Extra Oreo',0.5)">
+Extra Oreo
+</div>
 
-<div class="option" onclick="toggleExtra(this,'Extra Milk Chocolate',0.75)">Extra Milk Chocolate</div>
-<div class="option" onclick="toggleExtra(this,'Extra White Chocolate',0.75)">Extra White Chocolate</div>
-<div class="option" onclick="toggleExtra(this,'Extra Pistachio',0.75)">Extra Pistachio</div>
+<div class="option" onclick="toggleExtra(this,'Extra Biscoff',0.5)">
+Extra Biscoff
+</div>
+
+<div class="option" onclick="toggleExtra(this,'Extra Marshmallow',0.5)">
+Extra Marshmallow
+</div>
+
+<h3 style="margin-top:20px;">
+Extra Sauces (+£0.75)
+</h3>
+
+<div class="option" onclick="toggleExtra(this,'Extra Milk Chocolate',0.75)">
+Extra Milk Chocolate
+</div>
+
+<div class="option" onclick="toggleExtra(this,'Extra White Chocolate',0.75)">
+Extra White Chocolate
+</div>
+
+<div class="option" onclick="toggleExtra(this,'Extra Pistachio',0.75)">
+Extra Pistachio
+</div>
 
 <button class="btn back-btn" onclick="backStep()">Back</button>
 <button class="btn" onclick="openConfirm()">Finish Order</button>
@@ -317,140 +509,293 @@ Whipped Cream (+£0.50)
 
 </div>
 
-<!-- TRACKER -->
+<!-- LIVE ORDER -->
+
 <div class="tracker">
 
 <h2>Live Order</h2>
-<div id="live"></div>
 
 <br>
-<h3>Total: £<span id="total">0.00</span></h3>
+
+<div id="live"></div>
+
+<br><br>
+
+<h2>
+£<span id="total">0.00</span>
+</h2>
 
 </div>
 
 </div>
+
 </div>
 
 </div>
 
 <!-- CONTACT -->
+
 <div class="page" id="contact">
+
 <div class="main">
+
 <h1>Contact</h1>
+
+<br>
+
 <p>📞 07364 135785</p>
+
 </div>
+
 </div>
 
 <!-- HIRE -->
+
 <div class="page" id="hire">
+
 <div class="main">
+
 <h1>Hire / Weddings</h1>
-<p>Pricing coming soon.</p>
+
+<br>
+
+<p>Perfect for weddings, birthdays & events.</p>
+
 </div>
+
 </div>
 
 <!-- CONFIRM -->
+
 <div class="modal" id="confirm">
+
 <div class="modal-content">
 
 <h2>Confirm Order</h2>
+
+<br>
+
 <div id="summary"></div>
 
-<button class="btn" onclick="sendOrder()">Send WhatsApp</button>
-<button class="btn back-btn" onclick="closeConfirm()">Cancel</button>
+<button class="btn" onclick="sendOrder()">
+Send WhatsApp
+</button>
+
+<button class="btn back-btn" onclick="closeConfirm()">
+Cancel
+</button>
 
 </div>
+
 </div>
 
-<div class="version">V2.9</div>
+<div class="version">
+V3.1
+</div>
 
 <script>
 
-let order={size:"",sauce:"",topping:"",extras:[]};
+let order={
+size:"",
+sauce:"",
+topping:"",
+extras:[]
+};
+
 let basePrice=0;
 let total=0;
 let step=1;
 
-function showPage(p){
-document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-document.getElementById(p).classList.add('active');
+function showPage(page){
+
+document.querySelectorAll('.page').forEach(p=>{
+p.classList.remove('active');
+});
+
+document.getElementById(page).classList.add('active');
 }
 
-function startOrder(){showPage('menu');}
+function startOrder(){
+
+showPage('menu');
+}
 
 function showStep(n){
-document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));
+
+document.querySelectorAll('.step').forEach(s=>{
+s.classList.remove('active');
+});
+
 document.getElementById('step'+n).classList.add('active');
 }
 
-function next(){step++;showStep(step);}
-function backStep(){if(step>1){step--;showStep(step)}}
+function next(){
 
-function clearSelected(p){
-p.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+step++;
+showStep(step);
+}
+
+function backStep(){
+
+if(step>1){
+step--;
+showStep(step);
+}
+}
+
+function clearSelected(parent){
+
+parent.querySelectorAll('.option').forEach(o=>{
+o.classList.remove('selected');
+});
 }
 
 function chooseSize(el,name,price){
+
 clearSelected(el.parentElement);
+
 el.classList.add('selected');
+
 order.size=name;
+
 basePrice=price;
+
 calculateTotal();
+
 next();
 }
 
 function chooseSingle(el,type,value){
+
 clearSelected(el.parentElement);
+
 el.classList.add('selected');
+
 order[type]=value;
+
 update();
 }
 
 function toggleExtra(el,name,price){
-let e=order.extras.find(x=>x.name===name);
-if(e){
-order.extras=order.extras.filter(x=>x.name!==name);
+
+let exists=order.extras.find(x=>x.name===name);
+
+if(exists){
+
+order.extras=
+order.extras.filter(x=>x.name!==name);
+
 el.classList.remove('selected');
+
 }else{
-order.extras.push({name,price});
+
+order.extras.push({
+name:name,
+price:price
+});
+
 el.classList.add('selected');
 }
+
 calculateTotal();
 }
 
 function calculateTotal(){
+
 total=basePrice;
-order.extras.forEach(e=>total+=e.price);
+
+order.extras.forEach(extra=>{
+total+=extra.price;
+});
+
 update();
 }
 
 function update(){
-document.getElementById('live').innerHTML=
-`Size: ${order.size||'-'}<br>
-Sauce: ${order.sauce||'-'}<br>
-Topping: ${order.topping||'-'}<br>
-Extras: ${order.extras.map(e=>e.name).join(', ')||'-'}`;
-document.getElementById('total').innerText=total.toFixed(2);
+
+document.getElementById('live').innerHTML=`
+
+<b>Size:</b> ${order.size||'-'}
+
+<br><br>
+
+<b>Sauce:</b> ${order.sauce||'-'}
+
+<br><br>
+
+<b>Topping:</b> ${order.topping||'-'}
+
+<br><br>
+
+<b>Extras:</b>
+
+${order.extras.map(e=>e.name).join(', ')||'-'}
+
+`;
+
+document.getElementById('total').innerText=
+total.toFixed(2);
 }
 
 function openConfirm(){
+
 calculateTotal();
-document.getElementById('summary').innerHTML=
-`<b>${order.size}</b><br>
-${order.sauce}<br>
-${order.topping}<br>
-${order.extras.map(e=>e.name).join(', ')||'-'}<br><br>
-<b>Total: £${total.toFixed(2)}</b>`;
+
+document.getElementById('summary').innerHTML=`
+
+<p><b>Size:</b> ${order.size}</p>
+
+<br>
+
+<p><b>Sauce:</b> ${order.sauce}</p>
+
+<br>
+
+<p><b>Topping:</b> ${order.topping}</p>
+
+<br>
+
+<p><b>Extras:</b>
+
+${order.extras.map(e=>e.name).join(', ')||'-'}
+
+</p>
+
+<br>
+
+<h2>Total: £${total.toFixed(2)}</h2>
+
+`;
+
 document.getElementById('confirm').style.display='flex';
 }
 
 function closeConfirm(){
+
 document.getElementById('confirm').style.display='none';
 }
 
 function sendOrder(){
-let msg=`Waffle Order\n${order.size}\n${order.sauce}\n${order.topping}\nExtras:${order.extras.map(e=>e.name).join(', ')}`;
-window.open("https://wa.me/447364135785?text="+encodeURIComponent(msg));
+
+let msg=`🍫 WaffleLab Order 🍫
+
+Size: ${order.size}
+
+Sauce: ${order.sauce}
+
+Topping: ${order.topping}
+
+Extras:
+${order.extras.map(e=>e.name).join(', ')||'-'}
+
+Total: £${total.toFixed(2)}
+`;
+
+window.open(
+"https://wa.me/447364135785?text="+
+encodeURIComponent(msg)
+);
+
 }
 
 </script>
