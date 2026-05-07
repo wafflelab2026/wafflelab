@@ -29,6 +29,8 @@ body{
   color:var(--text);
 }
 
+/* NAV */
+
 nav{
   position:fixed;
   top:0;
@@ -67,13 +69,12 @@ nav{
   cursor:pointer;
 }
 
-.page{
-  display:none;
-}
+/* PAGES */
 
-.page.active{
-  display:block;
-}
+.page{display:none;}
+.page.active{display:block;}
+
+/* HOME */
 
 .start{
   height:100vh;
@@ -104,6 +105,8 @@ nav{
   cursor:pointer;
 }
 
+/* MAIN */
+
 .main{
   padding:110px 20px 30px;
   max-width:1200px;
@@ -132,6 +135,8 @@ nav{
   height:fit-content;
 }
 
+/* OPTIONS */
+
 .option{
   background:#6a4530;
   padding:14px;
@@ -141,13 +146,10 @@ nav{
   transition:0.2s;
 }
 
-.option:hover{
-  transform:scale(1.02);
-}
+.option:hover{transform:scale(1.02);}
+.option.selected{outline:3px solid var(--accent);}
 
-.option.selected{
-  outline:3px solid var(--accent);
-}
+/* BUTTONS */
 
 .btn{
   margin-top:20px;
@@ -164,13 +166,12 @@ nav{
   background:#777;
 }
 
-.step{
-  display:none;
-}
+/* STEPS */
 
-.step.active{
-  display:block;
-}
+.step{display:none;}
+.step.active{display:block;}
+
+/* MODAL */
 
 .modal{
   display:none;
@@ -190,6 +191,8 @@ nav{
   max-width:420px;
 }
 
+/* VERSION */
+
 .version{
   position:fixed;
   bottom:10px;
@@ -203,8 +206,8 @@ nav{
 
 <body>
 
+<!-- NAV -->
 <nav>
-
   <div class="logo-wrap">
     <img src="logo.png" class="logo">
     <h1>Waffle Lab</h1>
@@ -216,49 +219,36 @@ nav{
     <a onclick="showPage('contact')">Contact</a>
     <a onclick="showPage('hire')">Hire</a>
   </div>
-
 </nav>
 
 <!-- HOME -->
-
 <div class="page active" id="home">
-
   <div class="start">
-
     <h1>WAFFLE LAB</h1>
-
     <p>Fresh Dessert Waffles 🍫</p>
-
-    <button onclick="startOrder()">
-      START ORDER
-    </button>
-
+    <button onclick="startOrder()">START ORDER</button>
   </div>
-
 </div>
 
 <!-- MENU -->
-
 <div class="page" id="menu">
 
 <div class="main">
-
 <div class="layout">
 
+<!-- ORDER -->
 <div class="box">
 
 <!-- STEP 1 -->
-
 <div class="step active" id="step1">
-
 <h2>Choose Size</h2>
 
 <div class="option" onclick="chooseSize(this,'1/4 waffle',2)">
 1/4 waffle — £2
 </div>
 
-<div class="option" onclick="chooseSize(this,'1 waffle',5)">
-1 waffle — £5
+<div class="option" onclick="chooseSize(this,'1 waffle',4.5)">
+1 waffle — £4.50
 </div>
 
 <div class="option" onclick="chooseSize(this,'2 waffles',9)">
@@ -272,75 +262,33 @@ nav{
 </div>
 
 <!-- STEP 2 -->
-
 <div class="step" id="step2">
-
 <h2>Choose Sauce</h2>
 
-<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate')">
-Milk Chocolate
-</div>
+<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate')">Milk Chocolate</div>
+<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate')">White Chocolate</div>
+<div class="option" onclick="chooseSingle(this,'sauce','Pistachio')">Pistachio</div>
+<div class="option" onclick="chooseSingle(this,'sauce','None')">None</div>
 
-<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate')">
-White Chocolate
-</div>
-
-<div class="option" onclick="chooseSingle(this,'sauce','Pistachio')">
-Pistachio
-</div>
-
-<div class="option" onclick="chooseSingle(this,'sauce','None')">
-None
-</div>
-
-<button class="btn back-btn" onclick="backStep()">
-Back
-</button>
-
-<button class="btn" onclick="next()">
-Next
-</button>
-
+<button class="btn back-btn" onclick="backStep()">Back</button>
+<button class="btn" onclick="next()">Next</button>
 </div>
 
 <!-- STEP 3 -->
-
 <div class="step" id="step3">
-
 <h2>Choose Topping</h2>
 
-<div class="option" onclick="chooseSingle(this,'topping','Kinder')">
-Kinder
-</div>
+<div class="option" onclick="chooseSingle(this,'topping','Kinder')">Kinder</div>
+<div class="option" onclick="chooseSingle(this,'topping','Oreo')">Oreo</div>
+<div class="option" onclick="chooseSingle(this,'topping','Biscoff')">Biscoff</div>
+<div class="option" onclick="chooseSingle(this,'topping','Marshmallow')">Marshmallow</div>
+<div class="option" onclick="chooseSingle(this,'topping','None')">None</div>
 
-<div class="option" onclick="chooseSingle(this,'topping','Oreo')">
-Oreo
-</div>
-
-<div class="option" onclick="chooseSingle(this,'topping','Biscoff')">
-Biscoff
-</div>
-
-<div class="option" onclick="chooseSingle(this,'topping','Marshmallow')">
-Marshmallow
-</div>
-
-<div class="option" onclick="chooseSingle(this,'topping','None')">
-None
-</div>
-
-<button class="btn back-btn" onclick="backStep()">
-Back
-</button>
-
-<button class="btn" onclick="next()">
-Next
-</button>
-
+<button class="btn back-btn" onclick="backStep()">Back</button>
+<button class="btn" onclick="next()">Next</button>
 </div>
 
 <!-- STEP 4 -->
-
 <div class="step" id="step4">
 
 <h2>Extras</h2>
@@ -349,364 +297,160 @@ Next
 Whipped Cream (+£0.50)
 </div>
 
-<!-- EXTRA TOPPINGS -->
+<h3 style="margin-top:20px;">Extra Toppings (+£0.50)</h3>
 
-<h2 style="margin-top:25px;">
-Extra Toppings (+£0.50)
-</h2>
+<div class="option" onclick="toggleExtra(this,'Extra Kinder',0.5)">Extra Kinder</div>
+<div class="option" onclick="toggleExtra(this,'Extra Oreo',0.5)">Extra Oreo</div>
+<div class="option" onclick="toggleExtra(this,'Extra Biscoff',0.5)">Extra Biscoff</div>
+<div class="option" onclick="toggleExtra(this,'Extra Marshmallow',0.5)">Extra Marshmallow</div>
 
-<div class="option" onclick="toggleExtra(this,'Extra Kinder',0.5)">
-Extra Kinder (+£0.50)
-</div>
+<h3 style="margin-top:20px;">Extra Sauces (+£0.75)</h3>
 
-<div class="option" onclick="toggleExtra(this,'Extra Oreo',0.5)">
-Extra Oreo (+£0.50)
-</div>
+<div class="option" onclick="toggleExtra(this,'Extra Milk Chocolate',0.75)">Extra Milk Chocolate</div>
+<div class="option" onclick="toggleExtra(this,'Extra White Chocolate',0.75)">Extra White Chocolate</div>
+<div class="option" onclick="toggleExtra(this,'Extra Pistachio',0.75)">Extra Pistachio</div>
 
-<div class="option" onclick="toggleExtra(this,'Extra Biscoff',0.5)">
-Extra Biscoff (+£0.50)
-</div>
-
-<div class="option" onclick="toggleExtra(this,'Extra Marshmallow',0.5)">
-Extra Marshmallow (+£0.50)
-</div>
-
-<!-- EXTRA SAUCES -->
-
-<h2 style="margin-top:25px;">
-Extra Sauces (+£0.75)
-</h2>
-
-<div class="option" onclick="toggleExtra(this,'Extra Milk Chocolate',0.75)">
-Extra Milk Chocolate (+£0.75)
-</div>
-
-<div class="option" onclick="toggleExtra(this,'Extra White Chocolate',0.75)">
-Extra White Chocolate (+£0.75)
-</div>
-
-<div class="option" onclick="toggleExtra(this,'Extra Pistachio',0.75)">
-Extra Pistachio (+£0.75)
-</div>
-
-<button class="btn back-btn" onclick="backStep()">
-Back
-</button>
-
-<button class="btn" onclick="openConfirm()">
-Finish Order
-</button>
+<button class="btn back-btn" onclick="backStep()">Back</button>
+<button class="btn" onclick="openConfirm()">Finish Order</button>
 
 </div>
 
 </div>
 
-<!-- LIVE ORDER -->
-
+<!-- TRACKER -->
 <div class="tracker">
 
 <h2>Live Order</h2>
-
 <div id="live"></div>
 
 <br>
-
-<h3>
-Total: £<span id="total">0.00</span>
-</h3>
+<h3>Total: £<span id="total">0.00</span></h3>
 
 </div>
 
 </div>
-
 </div>
 
 </div>
 
 <!-- CONTACT -->
-
 <div class="page" id="contact">
-
 <div class="main">
-
 <h1>Contact</h1>
-
-<br>
-
-<p>Wedding bookings, events & business enquiries.</p>
-
-<br>
-
 <p>📞 07364 135785</p>
-
-<p>📍 Location coming soon</p>
-
 </div>
-
 </div>
 
 <!-- HIRE -->
-
 <div class="page" id="hire">
-
 <div class="main">
-
 <h1>Hire / Weddings</h1>
-
-<br>
-
-<ul>
-<li>Weddings</li>
-<li>Birthday Parties</li>
-<li>School Events</li>
-<li>Corporate Events</li>
-</ul>
-
-<br>
-
 <p>Pricing coming soon.</p>
-
 </div>
-
 </div>
 
 <!-- CONFIRM -->
-
 <div class="modal" id="confirm">
-
 <div class="modal-content">
 
 <h2>Confirm Order</h2>
-
-<br>
-
 <div id="summary"></div>
 
-<button class="btn" onclick="sendOrder()">
-Send to WhatsApp
-</button>
-
-<button class="btn back-btn" onclick="closeConfirm()">
-Cancel
-</button>
+<button class="btn" onclick="sendOrder()">Send WhatsApp</button>
+<button class="btn back-btn" onclick="closeConfirm()">Cancel</button>
 
 </div>
-
 </div>
 
-<!-- SOUND -->
-
-<audio id="ding" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
-
-<!-- VERSION -->
-
-<div class="version">
-V2.8
-</div>
+<div class="version">V2.9</div>
 
 <script>
 
-let order = {
-  size:"",
-  sauce:"",
-  topping:"",
-  extras:[]
-};
+let order={size:"",sauce:"",topping:"",extras:[]};
+let basePrice=0;
+let total=0;
+let step=1;
 
-let basePrice = 0;
-
-let total = 0;
-
-let step = 1;
-
-/* PAGE */
-
-function showPage(page){
-
-  document.querySelectorAll('.page').forEach(p=>{
-    p.classList.remove('active');
-  });
-
-  document.getElementById(page).classList.add('active');
+function showPage(p){
+document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+document.getElementById(p).classList.add('active');
 }
 
-function startOrder(){
-
-  showPage('menu');
-}
-
-/* STEPS */
+function startOrder(){showPage('menu');}
 
 function showStep(n){
-
-  document.querySelectorAll('.step').forEach(step=>{
-    step.classList.remove('active');
-  });
-
-  document.getElementById('step'+n).classList.add('active');
+document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));
+document.getElementById('step'+n).classList.add('active');
 }
 
-function next(){
+function next(){step++;showStep(step);}
+function backStep(){if(step>1){step--;showStep(step)}}
 
-  step++;
-
-  showStep(step);
-}
-
-function backStep(){
-
-  if(step > 1){
-
-    step--;
-
-    showStep(step);
-  }
-}
-
-/* OPTIONS */
-
-function clearSelected(parent){
-
-  parent.querySelectorAll('.option').forEach(option=>{
-    option.classList.remove('selected');
-  });
+function clearSelected(p){
+p.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
 }
 
 function chooseSize(el,name,price){
-
-  clearSelected(el.parentElement);
-
-  el.classList.add('selected');
-
-  order.size = name;
-
-  basePrice = price;
-
-  calculateTotal();
-
-  next();
+clearSelected(el.parentElement);
+el.classList.add('selected');
+order.size=name;
+basePrice=price;
+calculateTotal();
+next();
 }
 
 function chooseSingle(el,type,value){
-
-  clearSelected(el.parentElement);
-
-  el.classList.add('selected');
-
-  order[type] = value;
-
-  update();
+clearSelected(el.parentElement);
+el.classList.add('selected');
+order[type]=value;
+update();
 }
 
 function toggleExtra(el,name,price){
-
-  let exists = order.extras.find(x=>x.name===name);
-
-  if(exists){
-
-    order.extras = order.extras.filter(x=>x.name!==name);
-
-    el.classList.remove('selected');
-
-  }else{
-
-    order.extras.push({
-      name:name,
-      price:price
-    });
-
-    el.classList.add('selected');
-  }
-
-  calculateTotal();
+let e=order.extras.find(x=>x.name===name);
+if(e){
+order.extras=order.extras.filter(x=>x.name!==name);
+el.classList.remove('selected');
+}else{
+order.extras.push({name,price});
+el.classList.add('selected');
 }
-
-/* TOTAL */
+calculateTotal();
+}
 
 function calculateTotal(){
-
-  total = basePrice;
-
-  order.extras.forEach(extra=>{
-    total += extra.price;
-  });
-
-  update();
+total=basePrice;
+order.extras.forEach(e=>total+=e.price);
+update();
 }
-
-/* LIVE ORDER */
 
 function update(){
-
-  document.getElementById('live').innerHTML = `
-    Size: ${order.size || '-'}<br><br>
-
-    Sauce: ${order.sauce || '-'}<br><br>
-
-    Topping: ${order.topping || '-'}<br><br>
-
-    Extras: ${order.extras.map(e=>e.name).join(', ') || '-'}
-  `;
-
-  document.getElementById('total').innerText =
-    total.toFixed(2);
+document.getElementById('live').innerHTML=
+`Size: ${order.size||'-'}<br>
+Sauce: ${order.sauce||'-'}<br>
+Topping: ${order.topping||'-'}<br>
+Extras: ${order.extras.map(e=>e.name).join(', ')||'-'}`;
+document.getElementById('total').innerText=total.toFixed(2);
 }
 
-/* CONFIRM */
-
 function openConfirm(){
-
-  calculateTotal();
-
-  document.getElementById('summary').innerHTML = `
-    <p><b>Size:</b> ${order.size}</p><br>
-
-    <p><b>Sauce:</b> ${order.sauce}</p><br>
-
-    <p><b>Topping:</b> ${order.topping}</p><br>
-
-    <p><b>Extras:</b>
-    ${order.extras.map(e=>e.name).join(', ') || '-'}</p>
-
-    <br>
-
-    <h3>Total: £${total.toFixed(2)}</h3>
-  `;
-
-  document.getElementById('confirm').style.display =
-    'flex';
+calculateTotal();
+document.getElementById('summary').innerHTML=
+`<b>${order.size}</b><br>
+${order.sauce}<br>
+${order.topping}<br>
+${order.extras.map(e=>e.name).join(', ')||'-'}<br><br>
+<b>Total: £${total.toFixed(2)}</b>`;
+document.getElementById('confirm').style.display='flex';
 }
 
 function closeConfirm(){
-
-  document.getElementById('confirm').style.display =
-    'none';
+document.getElementById('confirm').style.display='none';
 }
 
-/* SEND */
-
 function sendOrder(){
-
-  document.getElementById('ding').play();
-
-  let msg = `🍫 Waffle Lab Order 🍫
-
-Size: ${order.size}
-
-Sauce: ${order.sauce}
-
-Topping: ${order.topping}
-
-Extras: ${order.extras.map(e=>e.name).join(', ') || '-'}
-
-Total: £${total.toFixed(2)}
-`;
-
-  let url =
-    "https://wa.me/447364135785?text=" +
-    encodeURIComponent(msg);
-
-  window.open(url,'_blank');
+let msg=`Waffle Order\n${order.size}\n${order.sauce}\n${order.topping}\nExtras:${order.extras.map(e=>e.name).join(', ')}`;
+window.open("https://wa.me/447364135785?text="+encodeURIComponent(msg));
 }
 
 </script>
