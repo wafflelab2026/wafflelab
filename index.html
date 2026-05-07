@@ -157,6 +157,11 @@ nav{
   background:var(--primary);
   color:white;
   cursor:pointer;
+  margin-right:10px;
+}
+
+.back-btn{
+  background:#777;
 }
 
 .step{
@@ -270,23 +275,27 @@ nav{
 
 <div class="step" id="step2">
 
-<h2>Choose Sauce (+£0.75)</h2>
+<h2>Choose Sauce</h2>
 
-<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate',0.75)">
+<div class="option" onclick="chooseSingle(this,'sauce','Milk Chocolate')">
 Milk Chocolate
 </div>
 
-<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate',0.75)">
+<div class="option" onclick="chooseSingle(this,'sauce','White Chocolate')">
 White Chocolate
 </div>
 
-<div class="option" onclick="chooseSingle(this,'sauce','Pistachio',0.75)">
+<div class="option" onclick="chooseSingle(this,'sauce','Pistachio')">
 Pistachio
 </div>
 
-<div class="option" onclick="chooseSingle(this,'sauce','None',0)">
+<div class="option" onclick="chooseSingle(this,'sauce','None')">
 None
 </div>
+
+<button class="btn back-btn" onclick="backStep()">
+Back
+</button>
 
 <button class="btn" onclick="next()">
 Next
@@ -298,27 +307,31 @@ Next
 
 <div class="step" id="step3">
 
-<h2>Choose Topping (+£0.50)</h2>
+<h2>Choose Topping</h2>
 
-<div class="option" onclick="chooseSingle(this,'topping','Kinder',0.5)">
+<div class="option" onclick="chooseSingle(this,'topping','Kinder')">
 Kinder
 </div>
 
-<div class="option" onclick="chooseSingle(this,'topping','Oreo',0.5)">
+<div class="option" onclick="chooseSingle(this,'topping','Oreo')">
 Oreo
 </div>
 
-<div class="option" onclick="chooseSingle(this,'topping','Biscoff',0.5)">
+<div class="option" onclick="chooseSingle(this,'topping','Biscoff')">
 Biscoff
 </div>
 
-<div class="option" onclick="chooseSingle(this,'topping','Marshmallow',0.5)">
+<div class="option" onclick="chooseSingle(this,'topping','Marshmallow')">
 Marshmallow
 </div>
 
-<div class="option" onclick="chooseSingle(this,'topping','None',0)">
+<div class="option" onclick="chooseSingle(this,'topping','None')">
 None
 </div>
+
+<button class="btn back-btn" onclick="backStep()">
+Back
+</button>
 
 <button class="btn" onclick="next()">
 Next
@@ -335,6 +348,10 @@ Next
 <div class="option" onclick="toggleExtra(this,'Whipped Cream',0.5)">
 Whipped Cream (+£0.50)
 </div>
+
+<button class="btn back-btn" onclick="backStep()">
+Back
+</button>
 
 <button class="btn" onclick="openConfirm()">
 Finish Order
@@ -398,17 +415,11 @@ Total: £<span id="total">0.00</span>
 
 <br>
 
-<p>
-Perfect for:
-</p>
-
-<br>
-
 <ul>
 <li>Weddings</li>
-<li>Birthday parties</li>
-<li>School events</li>
-<li>Corporate events</li>
+<li>Birthday Parties</li>
+<li>School Events</li>
+<li>Corporate Events</li>
 </ul>
 
 <br>
@@ -435,7 +446,7 @@ Perfect for:
 Send to WhatsApp
 </button>
 
-<button class="btn" onclick="closeConfirm()" style="background:#777;">
+<button class="btn back-btn" onclick="closeConfirm()">
 Cancel
 </button>
 
@@ -450,7 +461,7 @@ Cancel
 <!-- VERSION -->
 
 <div class="version">
-V2.5
+V2.7
 </div>
 
 <script>
@@ -463,14 +474,12 @@ let order = {
 };
 
 let basePrice = 0;
+
 let total = 0;
 
-let prices = {
-  sauce:0,
-  topping:0
-};
-
 let step = 1;
+
+/* PAGE */
 
 function showPage(page){
 
@@ -486,6 +495,8 @@ function startOrder(){
   showPage('menu');
 }
 
+/* STEPS */
+
 function showStep(n){
 
   document.querySelectorAll('.step').forEach(step=>{
@@ -495,14 +506,31 @@ function showStep(n){
   document.getElementById('step'+n).classList.add('active');
 }
 
+function next(){
+
+  step++;
+
+  showStep(step);
+}
+
+function backStep(){
+
+  if(step > 1){
+
+    step--;
+
+    showStep(step);
+  }
+}
+
+/* OPTIONS */
+
 function clearSelected(parent){
 
   parent.querySelectorAll('.option').forEach(option=>{
     option.classList.remove('selected');
   });
 }
-
-/* SIZE */
 
 function chooseSize(el,name,price){
 
@@ -516,25 +544,19 @@ function chooseSize(el,name,price){
 
   calculateTotal();
 
-  showStep(2);
+  next();
 }
 
-/* SAUCE + TOPPING */
-
-function chooseSingle(el,type,value,price){
+function chooseSingle(el,type,value){
 
   clearSelected(el.parentElement);
 
   el.classList.add('selected');
 
-  prices[type] = price;
-
   order[type] = value;
 
-  calculateTotal();
+  update();
 }
-
-/* EXTRAS */
 
 function toggleExtra(el,name,price){
 
@@ -565,22 +587,11 @@ function calculateTotal(){
 
   total = basePrice;
 
-  total += prices.sauce || 0;
-
-  total += prices.topping || 0;
-
   order.extras.forEach(extra=>{
     total += extra.price;
   });
 
   update();
-}
-
-function next(){
-
-  step++;
-
-  showStep(step);
 }
 
 /* LIVE ORDER */
@@ -589,8 +600,11 @@ function update(){
 
   document.getElementById('live').innerHTML = `
     Size: ${order.size || '-'}<br><br>
+
     Sauce: ${order.sauce || '-'}<br><br>
+
     Topping: ${order.topping || '-'}<br><br>
+
     Extras: ${order.extras.map(e=>e.name).join(', ') || '-'}
   `;
 
@@ -601,6 +615,8 @@ function update(){
 /* CONFIRM */
 
 function openConfirm(){
+
+  calculateTotal();
 
   document.getElementById('summary').innerHTML = `
     <p><b>Size:</b> ${order.size}</p><br>
